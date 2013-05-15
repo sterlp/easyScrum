@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:cc="http://java.sun.com/jsf/composite">
+
+    <h:form id="createDayForm">
+        <p:dialog id="createTeamDialog" header="#{bundle.team_create_dialog_header}" 
+                  widgetVar="createDayDialog" hideEffect="fade"
+                  resizable="false">  
+                <h:panelGrid columns="3">
+                    #{bundle.sprintDay_sprint}:
+                    <p:selectOneMenu id="sprintSelect" binding="#{sprintInput}" required="true"  value="#{dailyController.sprintDays.newElement.sprint}"  style="width: 99%">
+                        <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
+                        <f:selectItems value="#{dailyController.teamSprints.elements}" 
+                                       var="sprint" itemLabel="#{sprint.name}" />
+                    </p:selectOneMenu>
+                    <p:message for="sprintSelect" />
+                    
+                    #{bundle.sprintDay_day}:
+                    <p:calendar id="sprintDay" value="#{dailyController.sprintDays.newElement.day}" pattern="#{bundle.date_format}">
+                        <f:validator validatorId="SprintDayJsfValidator" />
+                        <f:attribute name="sprintSelect" value="#{sprintInput}" />
+                    </p:calendar>
+                    <p:message for="sprintDay" />
+                    
+                    #{bundle.sprintDay_burnDown}:
+                    <p:spinner id="burnDown" value="#{dailyController.sprintDays.newElement.burnDown}" min="0" />
+                    <p:message for="burnDown" /> 
+                    #{bundle.sprintDay_comment}:
+                    <p:inputTextarea id="comment" value="#{dailyController.sprintDays.newElement.comment}" />
+                    <p:message for="comment" /> 
+                    
+                    #{bundle.sprintDay_upscalling}:
+                    <p:spinner id="upscalling" value="#{dailyController.sprintDays.newElement.upscalling}" min="0" />
+                    <p:message for="upscalling" /> 
+                    #{bundle.sprintDay_upscalling_reason}:
+                    <p:inputTextarea id="reasonForUpscalling" value="#{dailyController.sprintDays.newElement.reasonForUpscalling}" />
+                    <p:message for="reasonForUpscalling" /> 
+                </h:panelGrid>
+
+                <p:commandButton
+                    value="#{bundle.Save}"
+                    actionListener="#{dailyController.sprintDays.add}" 
+                    update=":createDayForm,#{update}"
+                    oncomplete="if (!args.validationFailed) createDayDialog.hide(); else createDayDialog.show();"
+                />
+        </p:dialog>
+    </h:form>
+</ui:composition>
+            

@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:param name="activeIndex" value="2" />
+        <ui:define name="body">
+            <p:layoutUnit position="west" header="Left" collapsible="true" collapsed="false" minSize="250">
+                <h:form id="menuForm">
+                    <h:panelGrid columns="1" width="100%">
+                        <p:selectOneMenu value="#{sprintController.sprintModel.team}" style="width: 100%" required="false">
+                            <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
+                            <f:selectItems value="#{teamController.teamModel.elements}" 
+                                           var="team" itemLabel="#{team.name}"/>
+                            <p:ajax update=":tableForm"
+                                    listener="#{sprintController.selectedTeamChanged}" /> 
+                        </p:selectOneMenu>
+                        <p:commandButton partialSubmit="true" 
+                                         process="@none"
+                                         value="#{bundle.sprint_add}" onclick="createSprintDialog.show();" />
+                    </h:panelGrid>
+                </h:form>
+            </p:layoutUnit>
+            
+            <ui:include src="/sprint/createSprintDialog.xhtml"> 
+                <ui:param name="update" value=":tableForm" />
+            </ui:include>
+        </ui:define>
+
+        <ui:define name="center">
+            <h:form id="tableForm">
+                <p:dataTable value="#{sprintController.sprintModel.elements}" id="spintList" editable="true" var="sprint">
+                    
+                    <p:ajax event="rowEdit" listener="#{sprintController.sprintModel.onEditRow}" update="spintList" />  
+                    <p:ajax event="rowEditCancel" oncomplete="hideTableDelete();"
+                            listener="#{sprintController.sprintModel.onCancelEditRow}" update="spintList" />  
+                    
+                    <p:column headerText="#{bundle.sprint_name}">  
+                        <p:cellEditor>  
+                            <f:facet name="output">  
+                                <h:outputText value="#{sprint.name}" />  
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:inputText id="name" value="#{sprint.name}" label="#{bundle.sprint_name}" style="width:95%"/>  
+                                <p:message for="name" /> 
+                            </f:facet>  
+                        </p:cellEditor>
+                    </p:column> 
+                    <p:column headerText="#{bundle.sprint_start}">  
+                        <p:cellEditor>  
+                            <f:facet name="output">  
+                                <h:outputText value="#{sprint.start}">  
+                                    <f:convertDateTime pattern="#{bundle.date_format}"/>  
+                                </h:outputText>
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:calendar id="startDate" value="#{sprint.start}" pattern="#{bundle.date_format}"  />
+                                <p:message for="startDate" /> 
+                            </f:facet>  
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{bundle.sprint_end}">  
+                        <p:cellEditor>  
+                            <f:facet name="output">  
+                                <h:outputText value="#{sprint.end}">  
+                                    <f:convertDateTime pattern="#{bundle.date_format}"/>  
+                                </h:outputText>
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:calendar id="endDate" value="#{sprint.end}" pattern="#{bundle.date_format}"  />
+                                <p:message for="endDate" /> 
+                            </f:facet>  
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{bundle.sprint_planned_hours}">
+                        <p:cellEditor>
+                            <f:facet name="output">  
+                                <h:outputText value="#{sprint.plannedHours}" />  
+                            </f:facet> 
+                            <f:facet name="input">
+                                <p:spinner value="#{sprint.plannedHours}" min="1"></p:spinner>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column style="width: 6%" >  
+                        <f:facet name="header">
+                            <p:commandLink styleClass="easy-reload" title="#{bundle.Reload}" 
+                                           actionListener="#{sprintController.sprintModel.realod}" update="spintList" />
+                        </f:facet>
+                        <p:rowEditor />  
+                        <p:commandLink styleClass="easy-remove"
+                            actionListener="#{sprintController.sprintModel.delete(sprint)}" 
+                            title="#{bundle.Delete}" update=":tableForm" />
+                    </p:column>
+                </p:dataTable>
+                <script>
+                    hideTableDelete();
+                </script>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

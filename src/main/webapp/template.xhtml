@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title><ui:insert name="title">#{bundle.name}</ui:insert></title>
+        <h:outputStylesheet name="css/base.css" />
+        <h:outputScript library="script" name="custom.js" />
+    </h:head>
+
+    <h:body styleClass="easy-scrum-body">
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" styleClass="easy-head">
+                <h:form id="topMenuForm">
+                    <p:tabMenu style="overflow: hidden;" activeIndex="#{activeIndex}">  
+                        <p:menuitem value="Home" url="/faces/index.xhtml" />
+                        <p:menuitem value="Daily" url="/faces/day/overview.xhtml" />
+                        <p:menuitem value="#{bundle.nav_sprint}" url="/faces/sprint/manage.xhtml" />
+                        <p:menuitem value="#{bundle.nav_team}" url="/faces/team/listTeams.xhtml" />
+                    </p:tabMenu>
+                    <p:ajaxStatus styleClass="easy-ajax-status" style="width:26px;height:26px;position:fixed;top:10px;right:31px">
+                        <f:facet name="error">
+                            <h:graphicImage library="ajaxstatus" name="connect_disconnected_1.gif"/>  
+                        </f:facet>
+                        <f:facet name="default">
+                            <h:graphicImage library="ajaxstatus" name="connect_idle_1.gif"/>
+                        </f:facet>
+                        <f:facet name="start">
+                            <h:graphicImage library="ajaxstatus" name="connect_active_1.gif"/>
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:graphicImage library="ajaxstatus" name="connect_idle_1.gif"/>
+                        </f:facet>
+                    </p:ajaxStatus>
+                </h:form>
+            </p:layoutUnit>
+
+            
+            <ui:insert name="body" />
+
+            <p:layoutUnit position="center">
+                <ui:insert name="center">
+                </ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+        <h:form>
+            <p:growl id="growlMessages" autoUpdate="true" sticky="true" />
+        </h:form>
+    </h:body>
+
+</html>

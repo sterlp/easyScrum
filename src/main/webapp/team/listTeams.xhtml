@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:param name="activeIndex" value="3" />
+        <ui:define name="center">
+            <ui:include src="/team/createTeamDialog.xhtml">
+                <ui:param name="update" value=":teamListForm" />
+            </ui:include>
+
+            <h:form id="teamListForm">
+                <p:dataTable value="#{teamController.teamModel.elements}" id="teamList" editable="true" var="team">
+                    <p:ajax event="rowEdit" oncomplete="hideTableDelete();"
+                            listener="#{teamController.teamModel.onEditRow}" update="teamList" />
+                    <p:ajax event="rowEditCancel" oncomplete="hideTableDelete();"
+                            listener="#{teamController.teamModel.onCancelEditRow}" update="teamList" />  
+                    
+                    <p:column headerText="#{bundle.team_table_columns_name}">  
+                        <p:cellEditor>  
+                            <f:facet name="output">  
+                                <h:outputText value="#{team.name}" />  
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:inputText id="tableTeamName" value="#{team.name}" label="#{bundle.team_table_columns_name}" style="width:99%"/>  
+                                <p:message for="tableTeamName" /> 
+                            </f:facet>  
+                        </p:cellEditor>  
+                    </p:column> 
+                    <p:column style="width:6%">  
+                        <f:facet name="header">
+                            <p:commandLink styleClass="easy-reload" title="#{bundle.Reload}" 
+                                           action="#{teamController.teamModel.realod}" update=":teamListForm">
+                                <!-- <div class="easy-reload"></div> -->
+                            </p:commandLink>
+                            <a onclick="createTeamDialog.show();" class="easy-add" title="#{bundle.team_add}"></a>
+                        </f:facet>
+                        
+                        <p:rowEditor>
+                        </p:rowEditor>
+                        <p:commandLink id="cmdDeleteTeam"
+                            styleClass="easy-remove" title="#{bundle.Delete}" 
+                            actionListener="#{teamController.teamModel.delete(team)}" update=":teamListForm">
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <script>
+                    hideTableDelete();
+                </script>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

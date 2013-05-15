@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:panelGrid columns="3">
+        <h:outputLabel value="#{bundle.sprint_team}:" for="team"/>
+        <p:selectOneMenu id="team" value="#{sprintController.sprintModel.newElement.team}" style="width: 100%" required="true">
+            <f:selectItems value="#{teamController.teamModel.elements}" 
+                           var="team" itemLabel="#{team.name}"/>
+        </p:selectOneMenu>
+        <p:message for="team" /> 
+        
+        <h:outputLabel value="#{bundle.sprint_name}:" for="name"/>
+        <p:inputText id="name" value="#{sprintController.sprintModel.newElement.name}" label="#{bundle.sprint_name}" style="width:100%"/>  
+        <p:message for="name" /> 
+        
+        <h:outputLabel value="#{bundle.sprint_start}:" for="startDate" />
+        <p:calendar id="startDate" effect="#{applicationController.calendarAnimation}" style="width:100%"
+                    value="#{sprintController.sprintModel.newElement.start}" pattern="#{bundle.date_format}"
+                    mindate="#{applicationController.minDate}" maxdate="01/01/9999" />
+        <p:message for="startDate" /> 
+        
+        <h:outputLabel value="#{bundle.sprint_end}:" for="endDate" />
+        <p:calendar id="endDate" effect="#{applicationController.calendarAnimation}"
+                    value="#{sprintController.sprintModel.newElement.end}" pattern="#{bundle.date_format}" 
+                    mindate="#{applicationController.minDate}" maxdate="#{applicationController.maxDate}" />
+        <p:message for="endDate" /> 
+        
+        <h:outputLabel value="#{bundle.sprint_planned_hours}:" for="hours" />
+        <p:spinner id="hours" value="#{sprintController.sprintModel.newElement.plannedHours}" min="1" ></p:spinner>
+        <p:message for="hours" /> 
+    </h:panelGrid>
+</ui:fragment>
