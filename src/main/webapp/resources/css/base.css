@@ -346,3 +346,40 @@ img.right {
 .easy-number-column {
     text-align: right;
 }
+
+.easy-scrum-menu .ui-menuitem-text {
+    line-height: 32px;
+    margin-left: 5px;
+}
+
+.easy-scrum-menu .easy-user {
+    background: url("#{resource['images/menu/Users-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.easy-scrum-menu .easy-sprint {
+    background: url("#{resource['images/menu/Sport-Activities-Running-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.easy-scrum-menu .easy-daily {
+    background: url("#{resource['images/menu/Task-List-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.easy-scrum-menu .easy-overview {
+    background: url("#{resource['images/menu/Status-user-away-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.ui-confirm-dialog .ui-icon-question {
+    background: url("#{resource['images/actions/Alarm-Help-and-Support-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+    background-position: 0px 0px;
+}
+

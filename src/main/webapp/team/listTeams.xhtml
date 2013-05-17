@@ -12,6 +12,21 @@
             <ui:include src="/team/createTeamDialog.xhtml">
                 <ui:param name="update" value=":teamListForm" />
             </ui:include>
+            
+            <p:confirmDialog id="confirmDeleteTeamDialog" appendToBody="true"
+                             header="Delete Team" widgetVar="confirmDialog" severity="question">
+                <f:facet name="message">
+                    <h:form id="confirmDialogForm" styleClass="easy-dailog-body">
+                        Are you sure about deleting the #{teamController.teamModel.selected.name} team?
+                    </h:form>
+                </f:facet>
+                <h:form>
+                    <p:commandButton id="confirm" 
+                         value="Yes Sure" update=":teamListForm" oncomplete="confirmDialog.hide();"  
+                         action="#{teamController.teamModel.deleteSelected()}" />  
+                    <p:commandButton id="decline" value="Not Yet" onclick="confirmDialog.hide();" type="button" />
+                </h:form>
+            </p:confirmDialog>
 
             <h:form id="teamListForm">
                 <p:dataTable value="#{teamController.teamModel.elements}" id="teamList" editable="true" var="team">
@@ -34,7 +49,7 @@
                     <p:column style="width:6%">  
                         <f:facet name="header">
                             <p:commandLink styleClass="easy-reload" title="#{bundle.Reload}" 
-                                           action="#{teamController.teamModel.realod}" update=":teamListForm">
+                                           action="#{teamController.teamModel.realod}" update=":confirmDialogForm">
                                 <!-- <div class="easy-reload"></div> -->
                             </p:commandLink>
                             <a onclick="createTeamDialog.show();" class="easy-add" title="#{bundle.team_add}"></a>
@@ -43,8 +58,9 @@
                         <p:rowEditor>
                         </p:rowEditor>
                         <p:commandLink id="cmdDeleteTeam"
-                            styleClass="easy-remove" title="#{bundle.Delete}" 
-                            actionListener="#{teamController.teamModel.delete(team)}" update=":teamListForm">
+                                       styleClass="easy-remove" title="#{bundle.Delete}" oncomplete="confirmDialog.show();"
+                                       action="#{teamController.teamModel.setSelected(team)}" 
+                                       update=":confirmDialogForm">
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>

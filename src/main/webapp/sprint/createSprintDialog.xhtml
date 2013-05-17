@@ -9,7 +9,8 @@
     <h:form id="createSprintForm">
         <p:dialog id="createSprint" header="#{bundle.sprint_create_sprint}" 
                   widgetVar="createSprintDialog" 
-                  visible="false">
+                  visible="false"
+                  resizable="false">
             <ui:include src="/sprint/createSprint.xhtml" />
             <p:commandButton action="#{sprintController.sprintModel.add}" 
                 value="#{bundle.Add}"

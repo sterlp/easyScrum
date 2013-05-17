@@ -42,7 +42,6 @@ public abstract class AbstractTableModel<T extends ModelClass, FacadeType extend
     
     /** method called on each update */
     protected void updateHook() {
-        
     }
     
     /**
@@ -129,6 +128,17 @@ public abstract class AbstractTableModel<T extends ModelClass, FacadeType extend
         context.addMessage(null, new FacesMessage("'" + element.getName() + "' deleted."));
         updateHook();
     }
+    
+    public void deleteSelected() {
+        if (selected != null) {
+            this.delete(selected);
+            this.selected = null;
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance(); 
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Nothing selected."));
+        }
+    }
+    
     @Override
     public void add() {
         logger.debug("*** add: {} ***", this.newElement);

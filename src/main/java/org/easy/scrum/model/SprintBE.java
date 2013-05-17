@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.easy.validation.date.InDateRange;
-import org.hibernate.annotations.Sort;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadablePeriod;
@@ -52,6 +51,10 @@ public class SprintBE extends AbstractEntity {
     @Column(name = "planned_hours")
     @Min(value = 1)
     private int plannedHours = 1;
+    
+    @Column(name = "story_points")
+    @Min(value = 1)
+    private int storyPoints = 1;
     
     @ManyToOne(cascade = {}, optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id")
@@ -135,6 +138,14 @@ public class SprintBE extends AbstractEntity {
         this.days = days;
     }
 
+    public int getStoryPoints() {
+        return storyPoints;
+    }
+
+    public void setStoryPoints(int storyPoints) {
+        this.storyPoints = storyPoints;
+    }
+    
     @Override
     public String toString() {
         ToStringBuilder result = new ToStringBuilder(this);
@@ -144,6 +155,7 @@ public class SprintBE extends AbstractEntity {
         result.append("start", start);
         result.append("end", end);
         result.append("plannedHours", this.plannedHours);
+        result.append("storyPoints", this.storyPoints);
         return result.toString();
     }
 }
