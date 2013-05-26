@@ -1,5 +1,6 @@
 package org.easy.jsf.table;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -11,13 +12,22 @@ import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractTableModel<T extends ModelClass, FacadeType extends AbstractFacade<T>> implements ITableModel<T> {
+public abstract class AbstractTableModel<T extends ModelClass, FacadeType extends AbstractFacade<T>> implements Serializable {
     protected final Logger logger;
 
     protected T newElement;
-    /** The selected element */
+    /** The current selected element */
     protected T selected;
+    /** All current elements which can be displayed in a table */
     protected List<T> elements = new ArrayList<T>();
+    /** All current elements which can be displayed in a table */
+    protected List<T> filteredElements = new ArrayList<T>();
+    /** 
+     * Flag if currently a new object is in "construction" 
+     * set to true if beforeNew is called and set to false if add was called
+     * cancelAdd switches the flag always to false. Call it onHide
+     */
+    private boolean inCreateNew = false;
 
     public AbstractTableModel() {
         super();
@@ -35,53 +45,41 @@ public abstract class AbstractTableModel<T extends ModelClass, FacadeType extend
         logger.debug("Initilized {} and ready. {} elements found.", this.getClass().getSimpleName(), elements.size());
     }
 
-    @Override
-    public void clearNew() {
-        this.newElement = null;
-    }
     
-    /** method called on each update */
-    protected void updateHook() {
-    }
-    
-    /**
-     * @return the first element from the list or null if list is empty
-     */
+    /** The element which is currently added. */
     public T getFirstElement() {
         if (elements.isEmpty()) return null;
         return elements.get(0);
     }
 
-    @Override
+    /** The element which is currently added. */
     public T getNewElement() {
         if (newElement == null) newElement = newModel();
         return newElement;
     }
-
-    @Override
+    /** The element which is currently added. */
     public void setNewElement(T newElement) {
         this.newElement = newElement;
     }
     protected List<T> findAll() {
         return getFacade().findAll();
     }
-    @Override
+    /** All current elements which can be displayed in a table */
     public List<T> getElements() {
         return elements;
     }
-    @Override
+    /** All current elements which can be displayed in a table */
     public void setElements(List<T> elements) {
         this.elements = elements;
     }
-    @Override
+    /** The current selected element */
     public T getSelected() {
         return selected;
     }
-    @Override
+    /** The current selected element */
     public void setSelected(T selected) {
         this.selected = selected;
     }
-    @Override
     public void onEditRow(RowEditEvent event) {
         T editElement = (T)event.getObject();
         if (editElement != null) {
@@ -91,7 +89,6 @@ public abstract class AbstractTableModel<T extends ModelClass, FacadeType extend
         }
     }
     
-    @Override
     public void edit(final T element) {
         T result = getFacade().edit(element);
         
@@ -116,17 +113,14 @@ public abstract class AbstractTableModel<T extends ModelClass, FacadeType extend
             System.err.println("*** Reload ***");
             elements = findAll();
         }
-        updateHook();
     }
     
-    @Override
     public void delete(T element) {
         logger.debug("delete -> {}", element);
         elements.remove(element);
         getFacade().remove(element);
         FacesContext context = FacesContext.getCurrentInstance(); 
         context.addMessage(null, new FacesMessage("'" + element.getName() + "' deleted."));
-        updateHook();
     }
     
     public void deleteSelected() {
@@ -139,7 +133,15 @@ public abstract class AbstractTableModel<T extends ModelClass, FacadeType extend
         }
     }
     
-    @Override
+    public void beforeAdd() {
+        this.newElement = this.newModel();
+        this.inCreateNew = true;
+    }
+    
+    public void cancelAdd() {
+        this.inCreateNew = false;
+    }
+    
     public void add() {
         logger.debug("*** add: {} ***", this.newElement);
         FacesContext context = FacesContext.getCurrentInstance(); 
@@ -147,16 +149,36 @@ public abstract class AbstractTableModel<T extends ModelClass, FacadeType extend
         this.newElement = null;
         context.addMessage(null, new FacesMessage("'" + selected.getName() + "' created."));
         setElements(findAll());
-        updateHook();
+        this.inCreateNew = false;
     }
     
-    @Override
     public void onCancelEditRow(RowEditEvent event) {
         this.realod();
     }
-    @Override
     public void realod() {
         setElements(findAll());
-        updateHook();
+    }
+
+    /** 
+     * Flag if currently a new object is in "construction" 
+     * set to true if beforeNew is called and set to false if add was called
+     */
+    public boolean isInCreateNew() {
+        return inCreateNew;
+    }
+    /** 
+     * Flag if currently a new object is in "construction" 
+     * set to true if beforeNew is called and set to false if add was called
+     */
+    public void setInCreateNew(boolean inCreateNew) {
+        this.inCreateNew = inCreateNew;
+    }
+
+    public List<T> getFilteredElements() {
+        return filteredElements;
+    }
+
+    public void setFilteredElements(List<T> filteredElements) {
+        this.filteredElements = filteredElements;
     }
 }

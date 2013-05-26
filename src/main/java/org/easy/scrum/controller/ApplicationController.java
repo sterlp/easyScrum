@@ -11,7 +11,6 @@ import org.joda.time.LocalDate;
 @Named
 @ApplicationScoped
 public class ApplicationController {
-    
     public Date getMinDate() {
         return new LocalDate(1900, 1, 1).toDate();
     }

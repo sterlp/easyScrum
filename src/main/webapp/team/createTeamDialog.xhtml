@@ -7,23 +7,28 @@
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:p="http://primefaces.org/ui"
   xmlns:cc="http://java.sun.com/jsf/composite">
-
-    <h:form id="createTeamForm">
-        <p:dialog id="createTeamDialog" header="#{bundle.team_create_dialog_header}" 
-                  widgetVar="createTeamDialog" hideEffect="fade"
-                  resizable="false">  
-                <h:panelGrid columns="3">
-                    <h:outputLabel value="#{bundle.team_table_columns_name}:" for="teamName" />
-                    <p:inputText id="teamName" value="#{teamController.teamModel.newElement.name}" label="#{bundle.team_table_columns_name}" />
-                    <p:message for="teamName" /> 
-                </h:panelGrid>
-                <p:commandButton
-                    value="#{bundle.Save}"
-                    actionListener="#{teamController.teamModel.add}" 
-                    update=":createTeamForm,#{update}"
-                    oncomplete="if (!args.validationFailed) createTeamDialog.hide(); else createTeamDialog.show();"
-                />
-        </p:dialog>
-    </h:form>
+    
+    <!--
+    parameters:
+    * update
+    -->
+    <p:dialog header="#{bundle.team_create_dialog_header}" 
+          widgetVar="createTeamDialog" 
+          hideEffect="fade"
+          resizable="false"
+          modal="true"
+          closeOnEscape="true">
+        <h:panelGrid columns="3">
+            <h:outputLabel value="#{bundle.team_table_columns_name}:" for="teamName" />
+            <p:inputText id="teamName" value="#{teamController.teamModel.newElement.name}" label="#{bundle.team_table_columns_name}" />
+            <p:message for="teamName" /> 
+        </h:panelGrid>
+        <p:commandButton
+            value="#{bundle.Save}"
+            actionListener="#{teamController.teamModel.add}" 
+            update="#{update}"
+            oncomplete="hideDialog(args, createTeamDialog);"
+        />
+    </p:dialog>
 </ui:composition>
             

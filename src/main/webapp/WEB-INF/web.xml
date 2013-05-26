@@ -8,7 +8,11 @@
         <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
         <param-value>true</param-value>
     </context-param>
-
+    <!-- do not render comments -->
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -23,10 +27,34 @@
             30
         </session-timeout>
     </session-config>
+    <!-- time to cache resources which are in the "resource" folder 
+    http://stackoverflow.com/questions/15057932/jsf-cache-static-resources-filter/
+    -->
+    <context-param>
+        <param-name>com.sun.faces.defaultResourceMaxAge</param-name>
+        <param-value>2592000000</param-value> <!-- 30 days -->  
+    </context-param>
+    <!--
+    http://stackoverflow.com/questions/15331073/jsf-page-flashes-during-load-while-in-project-stage-development/
+    -->
+    <context-param>
+        <param-name>javax.faces.FACELETS_BUFFER_SIZE</param-name>
+        <param-value>65535</param-value> <!-- 64KB -->
+    </context-param>
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    <!--
     <error-page>
         <location>/error.xhtml</location>
     </error-page>
+    -->
+    
+    <resource-ref>
+        <description>Resource reference to my database</description>
+        <res-ref-name>jdbc/easyScrum</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
 </web-app>

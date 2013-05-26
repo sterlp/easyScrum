@@ -13,14 +13,17 @@
         <f:metadata>
             <f:event listener="#{dailyController.pageRender}" type="preRenderView" />
         </f:metadata>
-        <ui:define name="body">
-            <ui:include src="/team/createTeamDialog.xhtml">
-                <ui:param name="update" value=":menuForm,:burnDown,:tableForm" />
-            </ui:include>
+        <ui:define name="noLayout">
+            <h:form id="createTeamForm">
+                <ui:include src="/team/createTeamDialog.xhtml">
+                    <ui:param name="update" value=":menuForm,:burnDown,:tableForm,:createTeamForm" />
+                </ui:include>
+            </h:form>
             <ui:include src="/sprint/createSprintDialog.xhtml">
                 <ui:param name="update" value=":menuForm,:burnDown,:tableForm" />
             </ui:include>
-
+        </ui:define>
+        <ui:define name="body">
             <p:layoutUnit position="west" header="Left" collapsible="true" collapsed="false" minSize="250">
                 <h:form id="menuForm">
                     <p:accordionPanel>
@@ -46,7 +49,7 @@
                                             listener="#{dailyController.onSelectedSprintChange}" />
                                 </p:selectOneMenu>
                                 <p:commandLink update=":createSprintForm"
-                                               action="#{dailyController.teamSprints.clearNew}"
+                                               action="#{dailyController.teamSprints.beforeAdd}"
                                                oncomplete="createSprintDialog.show();"
                                                styleClass="easy-add" 
                                                title="#{bundle.sprint_add}" />
@@ -151,7 +154,7 @@
                                                actionListener="#{dailyController.reload}" update=":burnDown,:tableForm,:menuForm">
                                 </p:commandLink>
                                 <p:commandLink rendered="#{dailyController.sprintDays.sprint != null}"
-                                               action="#{dailyController.sprintDays.clearNew}"
+                                               action="#{dailyController.sprintDays.beforeAdd}"
                                                update=":createDayForm"
                                                oncomplete="createDayDialog.show();"
                                                styleClass="easy-add" title="#{bundle.sprintDay_add}"/>

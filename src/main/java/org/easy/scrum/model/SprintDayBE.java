@@ -17,6 +17,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.easy.scrum.model.validation.DayInSprint;
 import org.easy.validation.date.InDateRange;
+import org.easy.validation.html.NoHtml;
 
 @Entity
 @Table(name = "SPRINT_DAY")
@@ -38,6 +39,7 @@ public class SprintDayBE extends AbstractEntity {
     
     @Column(name = "reason_for_upscalling", length = 255)
     @Size(max = 255)
+    @NoHtml
     private String reasonForUpscalling = null;
     
     @Column(name = "hours_left")
@@ -45,6 +47,7 @@ public class SprintDayBE extends AbstractEntity {
     
     @Size(max = 255)
     @Column(length = 255)
+    @NoHtml
     private String comment = null;
     
     @ManyToOne(cascade = {}, optional = false, fetch = FetchType.EAGER)

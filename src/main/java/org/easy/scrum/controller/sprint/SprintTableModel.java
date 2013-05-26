@@ -33,6 +33,7 @@ public class SprintTableModel extends AbstractTableModel<SprintBE, SprintBF> {
     protected SprintBE newModel() {
         SprintBE result = new SprintBE();
         result.setTeam(team);
+        System.out.println("new sprint with team " + team);
         if (!this.elements.isEmpty()) {
             result.setStart(
                 new LocalDate(this.elements.get(0).getEnd()).plusDays(1).toDate());

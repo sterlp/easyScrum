@@ -5,3 +5,9 @@ function hideTableDelete() {
     });
     console.log('hideTableDelete attached ...')
 }
+
+function hideDialog(args, dialog) {
+    console.log("hideDialog... " + dialog)
+    if (!args.validationFailed) dialog.hide(); else dialog.show();
+}
+// if (!args.validationFailed) createTeamDialog.hide(); else createTeamDialog.show();

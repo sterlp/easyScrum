@@ -8,34 +8,41 @@
 
     <ui:composition template="/template.xhtml">
         <ui:param name="activeIndex" value="3" />
-        <ui:define name="center">
-            <ui:include src="/team/createTeamDialog.xhtml">
-                <ui:param name="update" value=":teamListForm" />
-            </ui:include>
+        
+        <ui:define name="noLayout">
+            <h:form id="createTeamForm" >
+                <ui:include src="/team/createTeamDialog.xhtml">
+                    <ui:param name="update" value=":teamListForm,:createTeamForm" />
+                </ui:include>
+            </h:form>
             
-            <p:confirmDialog id="confirmDeleteTeamDialog" appendToBody="true"
-                             header="Delete Team" widgetVar="confirmDialog" severity="question">
-                <f:facet name="message">
-                    <h:form id="confirmDialogForm" styleClass="easy-dailog-body">
-                        Are you sure about deleting the #{teamController.teamModel.selected.name} team?
-                    </h:form>
-                </f:facet>
-                <h:form>
-                    <p:commandButton id="confirm" 
-                         value="Yes Sure" update=":teamListForm" oncomplete="confirmDialog.hide();"  
-                         action="#{teamController.teamModel.deleteSelected()}" />  
-                    <p:commandButton id="decline" value="Not Yet" onclick="confirmDialog.hide();" type="button" />
-                </h:form>
-            </p:confirmDialog>
+            <h:form id="confirmDialogForm">
+                <p:confirmDialog id="confirmDeleteTeamDialog"
+                                 header="#{bundle.team_delete_caption}" widgetVar="confirmDialog" severity="question" >
+                    <f:facet name="message">
+                        <h:outputFormat value="#{bundle.team_delete_text}" escape="false">
+                            <f:param value="#{teamController.teamModel.selected.name}" />
+                        </h:outputFormat>
+                    </f:facet>
+                    <p:commandButton value="#{bundle.yes}" update=":teamListForm" oncomplete="hideDialog(args, confirmDialog);"  
+                                     action="#{teamController.teamModel.deleteSelected()}" />  
+                    <p:commandButton value="#{bundle.no}" onclick="confirmDialog.hide();" />
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+
+        <ui:define name="center">
 
             <h:form id="teamListForm">
-                <p:dataTable value="#{teamController.teamModel.elements}" id="teamList" editable="true" var="team">
+                <p:dataTable id="teamList"
+                             value="#{teamController.teamModel.elements}"  editable="true" var="team" 
+                             sortBy="#{team.name}" filteredValue="#{teamController.teamModel.filteredElements}">
                     <p:ajax event="rowEdit" oncomplete="hideTableDelete();"
                             listener="#{teamController.teamModel.onEditRow}" update="teamList" />
                     <p:ajax event="rowEditCancel" oncomplete="hideTableDelete();"
                             listener="#{teamController.teamModel.onCancelEditRow}" update="teamList" />  
                     
-                    <p:column headerText="#{bundle.team_table_columns_name}">  
+                    <p:column headerText="#{bundle.team_table_columns_name}" sortBy="#{team.name}" filterBy="#{team.name}" filterMatchMode="contains">  
                         <p:cellEditor>  
                             <f:facet name="output">  
                                 <h:outputText value="#{team.name}" />  

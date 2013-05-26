@@ -24,7 +24,7 @@
                         <p:menuitem value="#{bundle.nav_sprint}" url="/faces/sprint/manage.xhtml" icon="easy-sprint" />
                         <p:menuitem value="#{bundle.nav_team}" url="/faces/team/listTeams.xhtml" icon="easy-user" />
                     </p:tabMenu>
-                    <p:ajaxStatus styleClass="easy-ajax-status" style="width:26px;height:26px;position:fixed;top:10px;right:31px">
+                    <p:ajaxStatus styleClass="easy-ajax-status" style="width:26px;height:26px;position:fixed;top:20px;right:31px">
                         <f:facet name="error">
                             <h:graphicImage library="ajaxstatus" name="connect_disconnected_1.gif"/>  
                         </f:facet>
@@ -49,6 +49,8 @@
                 </ui:insert>
             </p:layoutUnit>
         </p:layout>
+        <ui:insert name="noLayout">
+        </ui:insert>
         <h:form>
             <p:growl id="growlMessages" autoUpdate="true" sticky="true" />
         </h:form>

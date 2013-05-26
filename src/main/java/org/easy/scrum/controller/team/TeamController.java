@@ -10,6 +10,7 @@ import javax.inject.Named;
 import org.easy.jsf.converter.AbstractConverter;
 import org.easy.scrum.model.TeamBE;
 import org.easy.scrum.service.TeamBF;
+import org.jsoup.Jsoup;
 
 @Named
 @SessionScoped

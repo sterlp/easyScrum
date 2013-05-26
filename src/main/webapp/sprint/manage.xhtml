@@ -8,27 +8,32 @@
 
     <ui:composition template="/template.xhtml">
         <ui:param name="activeIndex" value="2" />
+
+        <ui:define name="noLayout">
+            <ui:include src="/sprint/createSprintDialog.xhtml"> 
+                <ui:param name="update" value=":tableForm" />
+            </ui:include>
+        </ui:define>
+
         <ui:define name="body">
             <p:layoutUnit position="west" header="Left" collapsible="true" collapsed="false" minSize="250">
                 <h:form id="menuForm">
                     <h:panelGrid columns="1" width="100%">
-                        <p:selectOneMenu value="#{sprintController.sprintModel.team}" style="width: 100%" required="false">
+                        <p:selectOneMenu id="selectTeam" value="#{sprintController.sprintModel.team}" style="width: 100%" required="false">
                             <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
                             <f:selectItems value="#{teamController.teamModel.elements}" 
                                            var="team" itemLabel="#{team.name}"/>
                             <p:ajax update=":tableForm"
                                     listener="#{sprintController.selectedTeamChanged}" /> 
                         </p:selectOneMenu>
-                        <p:commandButton partialSubmit="true" 
-                                         process="@none"
-                                         value="#{bundle.sprint_add}" onclick="createSprintDialog.show();" />
+                        <p:commandButton update=":createSprintForm"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         value="#{bundle.sprint_add}" oncomplete="createSprintDialog.show();"
+                                         action="#{sprintController.sprintModel.beforeAdd}" />
                     </h:panelGrid>
                 </h:form>
             </p:layoutUnit>
-            
-            <ui:include src="/sprint/createSprintDialog.xhtml"> 
-                <ui:param name="update" value=":tableForm" />
-            </ui:include>
         </ui:define>
 
         <ui:define name="center">
@@ -90,6 +95,14 @@
                         <f:facet name="header">
                             <p:commandLink styleClass="easy-reload" title="#{bundle.Reload}" 
                                            actionListener="#{sprintController.sprintModel.realod}" update="spintList" />
+                            
+                            <p:commandLink styleClass="easy-add"
+                                update=":createSprintForm"
+                                partialSubmit="true"
+                                process="@this"
+                                oncomplete="createSprintDialog.show();"
+                                action="#{sprintController.sprintModel.beforeAdd}"
+                                title="#{bundle.team_add}"/>
                         </f:facet>
                         <p:rowEditor />  
                         <p:commandLink styleClass="easy-remove"

@@ -12,4 +12,7 @@
             <var>bundle</var>
         </resource-bundle>
     </application>
+    <lifecycle>
+        <phase-listener>org.easy.jsf.phaselistener.MessagePhaseListener</phase-listener>
+    </lifecycle>
 </faces-config>
