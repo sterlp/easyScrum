@@ -9,9 +9,9 @@
   xmlns:cc="http://java.sun.com/jsf/composite">
 
     <h:form id="createDayForm">
-        <p:dialog id="createTeamDialog" header="#{bundle.team_create_dialog_header}" 
+        <p:dialog id="createTeamDialog" header="#{bundle.sprintDay_create_dialog_header}" 
                   widgetVar="createDayDialog" hideEffect="fade"
-                  resizable="false">  
+                  resizable="false" modal="true">  
                 <h:panelGrid columns="3">
                     #{bundle.sprintDay_sprint}:
                     <p:selectOneMenu id="sprintSelect" binding="#{sprintInput}" required="true"  value="#{dailyController.sprintDays.newElement.sprint}"  style="width: 99%">
@@ -35,12 +35,12 @@
                     <p:inputTextarea id="comment" value="#{dailyController.sprintDays.newElement.comment}" />
                     <p:message for="comment" /> 
                     
-                    #{bundle.sprintDay_upscalling}:
-                    <p:spinner id="upscalling" value="#{dailyController.sprintDays.newElement.upscalling}" min="0" />
-                    <p:message for="upscalling" /> 
-                    #{bundle.sprintDay_upscalling_reason}:
-                    <p:inputTextarea id="reasonForUpscalling" value="#{dailyController.sprintDays.newElement.reasonForUpscalling}" />
-                    <p:message for="reasonForUpscalling" /> 
+                    #{bundle.sprintDay_upscaling}:
+                    <p:spinner id="upscaling" value="#{dailyController.sprintDays.newElement.upscaling}" min="0" />
+                    <p:message for="upscaling" /> 
+                    #{bundle.sprintDay_upscaling_reason}:
+                    <p:inputTextarea id="reasonForUpscaling" value="#{dailyController.sprintDays.newElement.reasonForUpscaling}" />
+                    <p:message for="reasonForUpscaling" /> 
                 </h:panelGrid>
 
                 <p:commandButton

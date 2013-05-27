@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.easy.jsf.model.ModelClass;
 
 @MappedSuperclass
-public abstract class AbstractEntity implements Serializable, ModelClass {
+public abstract class AbstractEntity implements Serializable, ModelClass<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;

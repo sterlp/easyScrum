@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.easy.scrum.controller.config.ConfigModel;
 import org.easy.scrum.controller.sprint.SprintOverview;
 import org.easy.scrum.controller.sprint.SprintTableModel;
 import org.easy.scrum.controller.team.TeamModel;
@@ -27,6 +28,8 @@ public class DailyController implements Serializable {
     private SprintDayTableModel sprintDays;
     @Inject 
     private TeamModel teamModel;
+    @Inject
+    private ConfigModel configModel;
 
     private SprintOverview overview;
     
@@ -39,9 +42,8 @@ public class DailyController implements Serializable {
     }
     
     public void pageRender(ComponentSystemEvent event) {
-        recalcualteBurndown(teamSprints.getTeam(), sprintDays.getSprint(), sprintDays.getElements());
-
         sprintDays.updateSprint(teamSprints.getElements());
+        recalcualteBurndown(teamSprints.getTeam(), sprintDays.getSprint(), sprintDays.getElements());
     }
     public void onSelectedTeamChange() {
         LOG.debug("*** onSelectedTeamChange ***");
@@ -73,7 +75,7 @@ public class DailyController implements Serializable {
     private void recalcualteBurndown(TeamBE team, SprintBE sprint, List<SprintDayBE> days) {
         if (sprint != null && days != null) {
             sprint.setDays(days);
-            overview = new SprintOverview(team, sprint);
+            overview = new SprintOverview(team, sprint, configModel.getUserConfig().getBurnDownType());
         } else {
             overview = null;
         }

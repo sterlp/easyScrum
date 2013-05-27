@@ -13,6 +13,20 @@
             <ui:include src="/sprint/createSprintDialog.xhtml"> 
                 <ui:param name="update" value=":tableForm" />
             </ui:include>
+            
+            <h:form id="confirmSprintDeleteForm">
+                <p:confirmDialog header="#{bundle.sprint_delete_dialog_caption}" widgetVar="confirmSprintDelete" severity="question">
+                    <f:facet name="message">
+                        <h:outputFormat value="#{bundle.sprint_delete_text}" escape="false">
+                            <f:param value="#{sprintController.sprintModel.selected.name}" />
+                            <f:param value="#{sprintController.sprintModel.team.name}" />
+                        </h:outputFormat>
+                    </f:facet>
+                    <p:commandButton value="#{bundle.yes}"  update=":tableForm" oncomplete="hideDialog(args, confirmSprintDelete);"  
+                                     action="#{sprintController.sprintModel.deleteSelected()}" />  
+                    <p:commandButton partialSubmit="true" process="@none" value="#{bundle.no}" onclick="confirmSprintDelete.hide();" />
+                </p:confirmDialog>
+            </h:form>
         </ui:define>
 
         <ui:define name="body">
@@ -38,7 +52,7 @@
 
         <ui:define name="center">
             <h:form id="tableForm">
-                <p:dataTable value="#{sprintController.sprintModel.elements}" id="spintList" editable="true" var="sprint">
+                <p:dataTable binding="#{table}" value="#{sprintController.sprintModel.elements}" id="spintList" editable="true" var="sprint">
                     
                     <p:ajax event="rowEdit" listener="#{sprintController.sprintModel.onEditRow}" update="spintList" />  
                     <p:ajax event="rowEditCancel" oncomplete="hideTableDelete();"
@@ -91,7 +105,17 @@
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column style="width: 6%" >  
+                    <p:column headerText="#{bundle.sprint_available_hours}">
+                        <p:cellEditor>
+                            <f:facet name="output">  
+                                <h:outputText value="#{sprint.availableHours}" />  
+                            </f:facet> 
+                            <f:facet name="input">
+                                <p:spinner value="#{sprint.availableHours}" min="1"></p:spinner>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column style="width: 6%" exportable="false">  
                         <f:facet name="header">
                             <p:commandLink styleClass="easy-reload" title="#{bundle.Reload}" 
                                            actionListener="#{sprintController.sprintModel.realod}" update="spintList" />
@@ -105,10 +129,20 @@
                                 title="#{bundle.team_add}"/>
                         </f:facet>
                         <p:rowEditor />  
-                        <p:commandLink styleClass="easy-remove"
-                            actionListener="#{sprintController.sprintModel.delete(sprint)}" 
-                            title="#{bundle.Delete}" update=":tableForm" />
+                        <p:commandLink 
+                            update=":confirmSprintDeleteForm"
+                            partialSubmit="true"
+                            process="@this"
+                            styleClass="easy-remove" oncomplete="confirmSprintDelete.show();"
+                            actionListener="#{sprintController.sprintModel.setSelected(sprint)}" 
+                            title="#{bundle.Delete}" />
                     </p:column>
+                    <f:facet name="footer">
+                        <ui:include src="/WEB-INF/fragments/exportButtons.xhtml">
+                            <ui:param name="table" value="#{table}" />
+                            <ui:param name="fileName" value="#{bundle.sprint_export_file_name}" />
+                        </ui:include>
+                    </f:facet>
                 </p:dataTable>
                 <script>
                     hideTableDelete();

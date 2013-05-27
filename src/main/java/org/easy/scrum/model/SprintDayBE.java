@@ -35,12 +35,12 @@ public class SprintDayBE extends AbstractEntity {
     private int burnDown = 0;
     
     @Min(0)
-    private int upscalling = 0;
+    private int upscaling = 0;
     
-    @Column(name = "reason_for_upscalling", length = 255)
+    @Column(name = "reason_for_upscaling", length = 255)
     @Size(max = 255)
     @NoHtml
-    private String reasonForUpscalling = null;
+    private String reasonForUpscaling = null;
     
     @Column(name = "hours_left")
     private long hoursLeft = 0;
@@ -77,20 +77,20 @@ public class SprintDayBE extends AbstractEntity {
         this.burnDown = burnDown;
     }
 
-    public int getUpscalling() {
-        return upscalling;
+    public int getUpscaling() {
+        return upscaling;
     }
 
-    public void setUpscalling(int upscalling) {
-        this.upscalling = upscalling;
+    public void setUpscaling(int upscaling) {
+        this.upscaling = upscaling;
     }
 
-    public String getReasonForUpscalling() {
-        return reasonForUpscalling;
+    public String getReasonForUpscaling() {
+        return reasonForUpscaling;
     }
 
-    public void setReasonForUpscalling(String reasonForUpscalling) {
-        this.reasonForUpscalling = reasonForUpscalling;
+    public void setReasonForUpscaling(String reasonForUpscaling) {
+        this.reasonForUpscaling = reasonForUpscaling;
     }
 
     public long getHoursLeft() {

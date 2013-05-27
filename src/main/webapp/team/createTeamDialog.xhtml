@@ -27,7 +27,7 @@
             value="#{bundle.Save}"
             actionListener="#{teamController.teamModel.add}" 
             update="#{update}"
-            oncomplete="hideDialog(args, createTeamDialog);"
+            oncomplete="hideDialog(args, createTeamDialog); #{oncomplete}"
         />
     </p:dialog>
 </ui:composition>

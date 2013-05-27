@@ -1,8 +1,7 @@
 package org.easy.jsf.model;
 
-import java.io.Serializable;
+import org.easy.scrum.model.IEntity;
 
-public interface ModelClass extends Serializable {
-    Long getId();
+public interface ModelClass<IdType> extends IEntity<IdType> {
     String getName();
 }

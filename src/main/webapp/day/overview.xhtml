@@ -22,6 +22,11 @@
             <ui:include src="/sprint/createSprintDialog.xhtml">
                 <ui:param name="update" value=":menuForm,:burnDown,:tableForm" />
             </ui:include>
+            
+            <ui:include src="/day/createDayDialog.xhtml">
+                <ui:param name="update" value=":burnDown,:tableForm" />
+            </ui:include>
+            
         </ui:define>
         <ui:define name="body">
             <p:layoutUnit position="west" header="Left" collapsible="true" collapsed="false" minSize="250">
@@ -33,7 +38,7 @@
                                     <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
                                     <f:selectItems value="#{teamController.teamModel.elements}" 
                                            var="team" itemLabel="#{team.name}"/>
-                                    <p:ajax update="sprintSelect,:tableForm,:burnDown"
+                                    <p:ajax update=":menuForm,:tableForm,:burnDown"
                                             listener="#{dailyController.onSelectedTeamChange}" /> 
                                 </p:selectOneMenu>
                                 <p:commandLink update=":createTeamForm"
@@ -48,13 +53,18 @@
                                     <p:ajax update=":tableForm,:burnDown"
                                             listener="#{dailyController.onSelectedSprintChange}" />
                                 </p:selectOneMenu>
-                                <p:commandLink update=":createSprintForm"
+                                <p:commandLink update=":createSprintForm,cmdAddDay"
                                                action="#{dailyController.teamSprints.beforeAdd}"
                                                oncomplete="createSprintDialog.show();"
                                                styleClass="easy-add" 
                                                title="#{bundle.sprint_add}" />
 
                             </h:panelGrid>
+                            <p:commandButton id="cmdAddDay" rendered="#{dailyController.sprintDays.sprint != null}"
+                                             action="#{dailyController.sprintDays.beforeAdd}"
+                                             update=":createDayForm"
+                                             oncomplete="createDayDialog.show();"
+                                             value="#{bundle.sprintDay_add}"/>
                         </p:tab>
                     </p:accordionPanel>
                 </h:form>
@@ -66,7 +76,9 @@
                 <h:panelGrid columns="2" rendered="#{dailyController.overview != null}">
                     <p:fieldset legend="Burndown  #{dailyController.overview.burnDown.hoursRemaining} / #{dailyController.overview.sprint.plannedHours} #{bundle.hours_short}" 
                                 toggleable="true">
-                        <easy3djs:burndown graphData="#{dailyController.overview.burnDown}" height="500">
+                        <easy3djs:burndown graphData="#{dailyController.overview.burnDown}" 
+                                           height="#{configController.userConfig.burnDownHeight}"
+                                           width="#{configController.userConfig.burnDownWidth}">
                         </easy3djs:burndown>
                     </p:fieldset>
 
@@ -79,7 +91,7 @@
             </h:form>
             <h:form id="tableForm" styleClass="easy-edit-table" >
                 <p:fieldset legend="#{bundle.team}: #{dailyController.teamSprints.team.name},  #{bundle.sprint}: #{dailyController.sprintDays.sprint.name}" toggleable="true" rendered="#{dailyController.sprintDays.sprint != null}">
-                    <p:dataTable editable="true" value="#{dailyController.sprintDays.elements}" 
+                    <p:dataTable editable="true" value="#{dailyController.sprintDays.elements}" binding="#{table}" 
                                  draggableColumns="true" var="day" 
                                  widgetVar="dailyTable" id="burnDownTable">
                         <f:facet name="header">
@@ -106,7 +118,7 @@
                         <p:column headerText="Burn Down">
                             <p:cellEditor>  
                                 <f:facet name="output">  
-                                    #{day.burnDown}
+                                    <h:outputText value="#{day.burnDown}" />
                                 </f:facet>  
                                 <f:facet name="input">  
                                     <p:spinner id="burnDown" value="#{day.burnDown}" min="0" />
@@ -117,7 +129,7 @@
                         <p:column headerText="#{bundle.sprintDay_comment}">
                             <p:cellEditor>  
                                 <f:facet name="output">  
-                                    #{day.comment}
+                                    <h:outputText value="#{day.comment}" />
                                 </f:facet>  
                                 <f:facet name="input">
                                     <p:inputText id="comment" value="#{day.comment}" />
@@ -125,29 +137,29 @@
                                 </f:facet>  
                             </p:cellEditor>
                         </p:column>
-                        <p:column headerText="Upscalling">
+                        <p:column headerText="Upscaling">
                             <p:cellEditor>  
                                 <f:facet name="output">  
-                                    #{day.upscalling}
+                                    <h:outputText value="#{day.upscaling}" />
                                 </f:facet>  
                                 <f:facet name="input">  
-                                    <p:spinner id="upscalling" value="#{day.upscalling}" min="0" />
-                                    <p:message for="upscalling" /> 
+                                    <p:spinner id="upscaling" value="#{day.upscaling}" min="0" />
+                                    <p:message for="upscaling" /> 
                                 </f:facet>  
                             </p:cellEditor>
                         </p:column>
-                        <p:column headerText="Upscalling Reason">
+                        <p:column headerText="Upscaling Reason">
                             <p:cellEditor>  
                                 <f:facet name="output">  
-                                    #{day.reasonForUpscalling}
+                                    <h:outputText value="#{day.reasonForUpscaling}" />
                                 </f:facet>  
                                 <f:facet name="input">
-                                    <p:inputText id="reasonForUpscalling" value="#{day.reasonForUpscalling}" />
-                                    <p:message for="reasonForUpscalling" /> 
+                                    <p:inputText id="reasonForUpscaling" value="#{day.reasonForUpscaling}" />
+                                    <p:message for="reasonForUpscaling" /> 
                                 </f:facet>  
                             </p:cellEditor>
                         </p:column>
-                        <p:column styleClass="easy-table-action">
+                        <p:column styleClass="easy-table-action" exportable="false">
                             <f:facet name="header">
                                 <p:commandLink styleClass="easy-reload" 
                                                title="#{bundle.Reload}" 
@@ -165,16 +177,18 @@
                                 actionListener="#{dailyController.sprintDays.delete(day)}" update=":tableForm,:burnDown">
                             </p:commandLink>
                         </p:column>
+                        <f:facet name="footer">
+                        <ui:include src="/WEB-INF/fragments/exportButtons.xhtml">
+                            <ui:param name="table" value="#{table}" />
+                            <ui:param name="fileName" value="#{bundle.sprintDay_export_file_name}" />
+                        </ui:include>
+                    </f:facet>
                     </p:dataTable>
                 </p:fieldset>
                 <script>
                     hideTableDelete();
                 </script>
             </h:form>
-            
-            <ui:include src="/day/createDayDialog.xhtml">
-                <ui:param name="update" value=":burnDown,:tableForm" />
-            </ui:include>
         </ui:define>
     </ui:composition>
 </html>

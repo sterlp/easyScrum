@@ -8,6 +8,10 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:composition template="/template.xhtml">
+        <f:metadata>
+            <f:event listener="#{indexController.buildBurndown}" type="preRenderView" />
+        </f:metadata>
+        
         <ui:define name="center">
             <h:form>
                 <h:graphicImage library="images" name="scrumlargelabelled1.png" rendered="#{indexController.overviews.size() == 0}" />

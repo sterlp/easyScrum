@@ -12,7 +12,7 @@ import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractTableModel<T extends ModelClass, FacadeType extends AbstractFacade<T>> implements Serializable {
+public abstract class AbstractTableModel<T extends ModelClass<Long>, FacadeType extends AbstractFacade<T, Long>> implements Serializable {
     protected final Logger logger;
 
     protected T newElement;

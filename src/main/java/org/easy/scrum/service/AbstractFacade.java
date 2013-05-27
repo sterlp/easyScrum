@@ -5,10 +5,11 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.validation.Valid;
+import org.easy.scrum.model.IEntity;
 import org.easy.util.logging.LoggingInterceptor;
 
 @Interceptors(LoggingInterceptor.class)
-public abstract class AbstractFacade<T> {
+public abstract class AbstractFacade<T extends IEntity<IdType>, IdType> {
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -30,7 +31,7 @@ public abstract class AbstractFacade<T> {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
-    public T find(Object id) {
+    public T find(IdType id) {
         return getEntityManager().find(entityClass, id);
     }
 

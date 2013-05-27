@@ -46,8 +46,8 @@ public class LoggingInterceptor {
         String result = "";
         if (in != null) {
             result = (in.getClass().isArray() ? Arrays.toString((Object[])in) : in.toString());
-            if (result.length() > 60) {
-                result = result.substring(0, 57) + "...";
+            if (result.length() > 90) {
+                result = result.substring(0, 87) + "...";
             }
         }
         return result;

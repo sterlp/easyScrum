@@ -8,7 +8,7 @@ import org.easy.scrum.model.TeamBE;
 
 @Stateless
 @TransactionAttribute
-public class TeamBF extends AbstractFacade<TeamBE> {
+public class TeamBF extends AbstractFacade<TeamBE, Long> {
 
     @PersistenceContext
     private EntityManager em;

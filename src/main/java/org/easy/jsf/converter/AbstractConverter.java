@@ -4,7 +4,7 @@ import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import org.easy.jsf.model.ModelClass;
+import org.easy.scrum.model.IEntity;
 import org.easy.scrum.service.AbstractFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * @param <ModelType>
  * @param <ModelFacade> 
  */
-public abstract class AbstractConverter<ModelType extends ModelClass, ModelFacade extends AbstractFacade<ModelType>> implements Converter {
+public abstract class AbstractConverter<ModelType extends IEntity<Long>, ModelFacade extends AbstractFacade<ModelType, Long>> implements Converter {
     protected Logger logger = LoggerFactory.getLogger(AbstractConverter.class);
     protected final Class<ModelType> clazz;
     
@@ -35,14 +35,14 @@ public abstract class AbstractConverter<ModelType extends ModelClass, ModelFacad
         return find(facesContext, Long.valueOf(value));
     }
     
-    protected ModelClass find(FacesContext facesContext, Long id) {
+    protected ModelType find(FacesContext facesContext, Long id) {
         logger.debug("find: {}", id);
         ModelType result = null;
         if (id != null) {
             List<ModelType> localCache = getLocalCache(facesContext);
             if (localCache != null && !localCache.isEmpty()) {
                 for (ModelType modeltype : localCache) {
-                    if (modeltype.getId().longValue() == id.longValue()) {
+                    if (modeltype.getId() != null && modeltype.getId().equals(id)) {
                         result = modeltype;
                         break;
                     }
@@ -66,7 +66,7 @@ public abstract class AbstractConverter<ModelType extends ModelClass, ModelFacad
             return null;
         }
         if (clazz.isAssignableFrom(object.getClass())) {
-            return getStringKey(((ModelClass) object).getId());
+            return getStringKey(((ModelType)object).getId());
         } else {
             throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + clazz.getName());
         }

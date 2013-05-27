@@ -3,6 +3,7 @@ package org.easy.scrum.controller.sprint;
 import java.io.Serializable;
 import org.easy.jsf.d3js.burndown.IterationBurndown;
 import org.easy.scrum.controller.day.GraphHelper;
+import org.easy.scrum.model.BurnDownType;
 import org.easy.scrum.model.SprintBE;
 import org.easy.scrum.model.TeamBE;
 
@@ -11,15 +12,15 @@ public class SprintOverview implements Serializable {
     private IterationBurndown burnDown;
     private TeamBE team;
     private SprintBE sprint;
-
+    
     public SprintOverview() {
         super();
     }
-    public SprintOverview(TeamBE team, SprintBE sprint) {
+    public SprintOverview(TeamBE team, SprintBE sprint, BurnDownType burnDownType) {
         this();
         this.team = team;
         this.sprint = sprint;
-        burnDown = GH.recalcualteBurndown(sprint, sprint.getDays());
+        burnDown = GH.recalcualteBurndown(sprint, sprint.getDays(), burnDownType);
     }
 
     public IterationBurndown getBurnDown() {

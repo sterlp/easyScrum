@@ -49,6 +49,10 @@ public class SprintBE extends AbstractEntity {
     @Column(nullable = false, name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date end;
+    
+    @Column(name = "available_hours")
+    @Min(value = 1)
+    private int availableHours = 1;
 
     @Column(name = "planned_hours")
     @Min(value = 1)
@@ -147,6 +151,14 @@ public class SprintBE extends AbstractEntity {
     public void setStoryPoints(int storyPoints) {
         this.storyPoints = storyPoints;
     }
+
+    public int getAvailableHours() {
+        return availableHours;
+    }
+
+    public void setAvailableHours(int availableHours) {
+        this.availableHours = availableHours;
+    }
     
     @Override
     public String toString() {
@@ -156,6 +168,7 @@ public class SprintBE extends AbstractEntity {
         result.append("team", team);
         result.append("start", start);
         result.append("end", end);
+        result.append("availableHours", this.availableHours);
         result.append("plannedHours", this.plannedHours);
         result.append("storyPoints", this.storyPoints);
         return result.toString();

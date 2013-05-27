@@ -15,7 +15,7 @@ import org.easy.scrum.model.SprintDayBE;
 
 @Stateless
 @TransactionAttribute
-public class SprintDayBF extends AbstractFacade<SprintDayBE>{
+public class SprintDayBF extends AbstractFacade<SprintDayBE, Long> {
 
     @PersistenceContext
     private EntityManager em;
@@ -40,5 +40,4 @@ public class SprintDayBF extends AbstractFacade<SprintDayBE>{
         TypedQuery<SprintDayBE> createQuery = em.createQuery(cq);
         return createQuery.getResultList();
     }
-
 }

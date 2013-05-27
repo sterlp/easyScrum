@@ -328,6 +328,14 @@ img.right {
     cursor: pointer;
 }
 
+.easy-app-excel {
+    background-image: url("#{resource['images/apps/Excel-icon-24.png']}");
+    height: 24px;
+    width:  24px;
+    cursor: pointer;
+    display: block;
+}
+
 .easy-add:hover, .easy-reload:hover, .easy-remove:hover,
 .ui-datatable .ui-row-editor .ui-icon-close:hover,
 .ui-datatable .ui-row-editor .ui-icon-check:hover,
@@ -372,6 +380,12 @@ img.right {
 
 .easy-scrum-menu .easy-overview {
     background: url("#{resource['images/menu/Status-user-away-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.easy-scrum-menu .easy-config {
+    background: url("#{resource['images/menu/run-icon32.png']}") no-repeat;
     height: 32px;
     width:  32px;
 }

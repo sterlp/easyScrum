@@ -10,15 +10,19 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.easy.jsf.table.AbstractTableModel;
+import org.easy.scrum.controller.day.DailyController;
 import org.easy.scrum.model.SprintBE;
 import org.easy.scrum.model.TeamBE;
 import org.easy.scrum.service.SprintBF;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Named("sprintTableModel")
 @SessionScoped
 public class SprintTableModel extends AbstractTableModel<SprintBE, SprintBF> {
+    private static final Logger LOG = LoggerFactory.getLogger(SprintTableModel.class);
     
     @Inject
     private SprintBF sprintBF;
@@ -33,7 +37,7 @@ public class SprintTableModel extends AbstractTableModel<SprintBE, SprintBF> {
     protected SprintBE newModel() {
         SprintBE result = new SprintBE();
         result.setTeam(team);
-        System.out.println("new sprint with team " + team);
+        LOG.debug("new sprint with team {]", team);
         if (!this.elements.isEmpty()) {
             result.setStart(
                 new LocalDate(this.elements.get(0).getEnd()).plusDays(1).toDate());
