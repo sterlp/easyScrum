@@ -40,7 +40,7 @@ public class SprintController implements Serializable {
     public void setTeamModel(TeamModel teamModel) {
         this.teamModel = teamModel;
     }
-    
+
     @FacesConverter(forClass = SprintBE.class)
     public static final class SprintConverter extends AbstractConverter<SprintBE, SprintBF> {
         private transient SprintTableModel sprintTableModel;

@@ -31,42 +31,38 @@
         <ui:define name="body">
             <p:layoutUnit position="west" header="Left" collapsible="true" collapsed="false" minSize="250">
                 <h:form id="menuForm">
-                    <p:accordionPanel>
-                        <p:tab title="Daily work">
-                            <h:panelGrid columns="2" width="100%">
-                                <p:selectOneMenu id="teamSelect" value="#{dailyController.teamSprints.team}" style="width: 99%">
-                                    <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
-                                    <f:selectItems value="#{teamController.teamModel.elements}" 
-                                           var="team" itemLabel="#{team.name}"/>
-                                    <p:ajax update=":menuForm,:tableForm,:burnDown"
-                                            listener="#{dailyController.onSelectedTeamChange}" /> 
-                                </p:selectOneMenu>
-                                <p:commandLink update=":createTeamForm"
-                                               oncomplete="createTeamDialog.show();"
-                                               styleClass="easy-add" 
-                                               title="#{bundle.team_add}" />
-                                
-                                <p:selectOneMenu id="sprintSelect" value="#{dailyController.sprintDays.sprint}"  style="width: 99%">
-                                    <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
-                                    <f:selectItems value="#{dailyController.teamSprints.elements}" 
-                                                   var="sprint" itemLabel="#{sprint.name}" />
-                                    <p:ajax update=":tableForm,:burnDown"
-                                            listener="#{dailyController.onSelectedSprintChange}" />
-                                </p:selectOneMenu>
-                                <p:commandLink update=":createSprintForm,cmdAddDay"
-                                               action="#{dailyController.teamSprints.beforeAdd}"
-                                               oncomplete="createSprintDialog.show();"
-                                               styleClass="easy-add" 
-                                               title="#{bundle.sprint_add}" />
+                    <h:panelGrid columns="2" width="100%">
+                        <p:selectOneMenu id="teamSelect" value="#{dailyController.teamSprints.team}" style="width: 99%">
+                            <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
+                            <f:selectItems value="#{teamController.teamModel.elements}" 
+                                   var="team" itemLabel="#{team.name}"/>
+                            <p:ajax update=":menuForm,:tableForm,:burnDown" process="@this" partialSubmit="true"
+                                    listener="#{dailyController.onSelectedTeamChange}" /> 
+                        </p:selectOneMenu>
+                        <p:commandLink update=":createTeamForm"
+                                       oncomplete="createTeamDialog.show();"
+                                       styleClass="easy-add" 
+                                       title="#{bundle.team_add}" />
 
-                            </h:panelGrid>
-                            <p:commandButton id="cmdAddDay" rendered="#{dailyController.sprintDays.sprint != null}"
-                                             action="#{dailyController.sprintDays.beforeAdd}"
-                                             update=":createDayForm"
-                                             oncomplete="createDayDialog.show();"
-                                             value="#{bundle.sprintDay_add}"/>
-                        </p:tab>
-                    </p:accordionPanel>
+                        <p:selectOneMenu id="sprintSelect" value="#{dailyController.sprintDays.sprint}"  style="width: 99%">
+                            <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
+                            <f:selectItems value="#{dailyController.teamSprints.elements}" 
+                                           var="sprint" itemLabel="#{sprint.name}" />
+                            <p:ajax update=":tableForm,:burnDown,:menuForm" process="@this" partialSubmit="true"
+                                    listener="#{dailyController.onSelectedSprintChange}" />
+                        </p:selectOneMenu>
+                        <p:commandLink update=":createSprintForm"
+                                       action="#{dailyController.teamSprints.beforeAdd}"
+                                       oncomplete="createSprintDialog.show();"
+                                       styleClass="easy-add" 
+                                       title="#{bundle.sprint_add}" />
+
+                    </h:panelGrid>
+                    <p:commandButton id="cmdAddDay" rendered="#{dailyController.sprintDays.sprint != null}"
+                                     action="#{dailyController.sprintDays.beforeAdd}"
+                                     update=":createDayForm"
+                                     oncomplete="createDayDialog.show();"
+                                     value="#{bundle.sprintDay_add}"/>
                 </h:form>
             </p:layoutUnit>
         </ui:define>

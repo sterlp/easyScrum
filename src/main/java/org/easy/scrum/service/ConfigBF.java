@@ -9,7 +9,7 @@ import org.easy.scrum.model.ConfigBE;
 
 @Stateless
 @TransactionAttribute
-public class ConfigBF extends AbstractFacade<ConfigBE, Long> {
+public class ConfigBF extends AbstractFacade<ConfigBE, String> {
 
     @PersistenceContext
     private EntityManager em;
@@ -30,9 +30,9 @@ public class ConfigBF extends AbstractFacade<ConfigBE, Long> {
      * @return the user configuration, never null
      */
     @Override
-    public ConfigBE find(Long id) {
+    public ConfigBE find(String id) {
         ConfigBE find = super.find(id);
-        if (find == null && id != null) {
+        if (find == null) {
             find = new ConfigBE();
             find.setId(id);
         } else {

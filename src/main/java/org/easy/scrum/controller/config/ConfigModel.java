@@ -44,31 +44,23 @@ public class ConfigModel implements Serializable {
         configBF.edit(userConfig);
     }
     
-    private Long getUserId() {
+    private String getUserId() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Object cookieUser = externalContext.getRequestCookieMap().get(USER_ID_COOKIE_KEY);
         // no ID now? lets take the IP address
         if (cookieUser == null) {
             HttpServletRequest request = (HttpServletRequest)externalContext.getRequest();
-            String remoteIp = request.getRemoteAddr();
-            if (StringUtils.trimToNull(remoteIp) != null && remoteIp.length() >= 9) {
-                remoteIp = remoteIp.replace(".", "").replace(":", "");
-                LOG.debug("Using IP {} as user ID.", remoteIp);
-                cookieUser = remoteIp;
+            String remoteHost = request.getRemoteHost();
+            if (StringUtils.trimToNull(remoteHost) != null && remoteHost.length() >= 2) {
+                LOG.debug("Using Host ID as {} as user ID.", remoteHost);
+                cookieUser = remoteHost;
             }
         } else {
             if (cookieUser instanceof javax.servlet.http.Cookie) {
                 cookieUser = ((javax.servlet.http.Cookie)cookieUser).getValue();
             }
         }
-        Long result;
-        try {
-            result = Long.valueOf(String.valueOf(cookieUser));
-        } catch (Exception e) {
-            result = R.nextLong();
-            LOG.warn("Failed to parse userID {} to a number. Using generated {} as user id.", cookieUser, result, e);
-        }
-        // save the cookie
+        String result = cookieUser != null ? String.valueOf(cookieUser) : "Random_" + R.nextInt();
         externalContext.addResponseCookie(USER_ID_COOKIE_KEY, String.valueOf(result), null);
         return result;
     }

@@ -51,6 +51,15 @@ public abstract class AbstractTableModel<T extends ModelClass<Long>, FacadeType 
         if (elements.isEmpty()) return null;
         return elements.get(0);
     }
+    
+    public T getElement(Long id) {
+        for (T t : elements) {
+            if (id.longValue() == t.getId().longValue()) {
+                return t;
+            }
+        }
+        return this.getFacade().find(id);
+    }
 
     /** The element which is currently added. */
     public T getNewElement() {

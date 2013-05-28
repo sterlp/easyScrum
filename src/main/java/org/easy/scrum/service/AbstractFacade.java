@@ -31,8 +31,17 @@ public abstract class AbstractFacade<T extends IEntity<IdType>, IdType> {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
+    /**
+     * Searches the by the given ID, if the ID is not null
+     * @param id the id to search for
+     * @return the found element or null if not found or id = null
+     */
     public T find(IdType id) {
-        return getEntityManager().find(entityClass, id);
+        if (id != null) {
+            return getEntityManager().find(entityClass, id);
+        } else {
+            return null;
+        }
     }
 
     public List<T> findAll() {

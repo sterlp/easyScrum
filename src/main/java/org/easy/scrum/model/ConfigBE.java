@@ -14,11 +14,11 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "CONFIG")
-public class ConfigBE implements IEntity<Long> {
+public class ConfigBE implements IEntity<String> {
 
     /** the client id of this configuration */
     @Id
-    private Long id;
+    private String id;
     
     @Column(name = "burn_down_type", nullable = false, length = 50)
     @NotNull
@@ -39,11 +39,11 @@ public class ConfigBE implements IEntity<Long> {
     
     /** the client id of this configuration */
     @Override
-    public Long getId() {
+    public String getId() {
         return id;
     }
     /** the client id of this configuration */
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

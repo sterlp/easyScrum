@@ -24,7 +24,9 @@
                             </h:panelGrid>
                         </f:facet>
                         <h:panelGrid columns="2">
-                            <easy3djs:burndown graphData="#{overview.burnDown}" height="400" width="1000">
+                            <easy3djs:burndown graphData="#{overview.burnDown}" 
+                                               height="#{configController.userConfig.burnDownHeight}" 
+                                               width="#{configController.userConfig.burnDownWidth}">
                             </easy3djs:burndown>
                             <p:panel header="#{bundle.sprint_details}" toggleable="true">
                                 <ui:include src="/sprint/sprintDetails.xhtml" >

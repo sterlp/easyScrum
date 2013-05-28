@@ -35,10 +35,10 @@
                     <h:panelGrid columns="1" width="100%">
                         <p:selectOneMenu id="selectTeam" value="#{sprintController.sprintModel.team}" style="width: 100%" required="false">
                             <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
-                            <f:selectItems value="#{teamController.teamModel.elements}" 
+                            <f:selectItems value="#{teamController.teamModel.elements}"
                                            var="team" itemLabel="#{team.name}"/>
                             <p:ajax update=":tableForm"
-                                    listener="#{sprintController.selectedTeamChanged}" /> 
+                                    listener="#{sprintController.selectedTeamChanged}" partialSubmit="true" process="@this" /> 
                         </p:selectOneMenu>
                         <p:commandButton update=":createSprintForm"
                                          partialSubmit="true"

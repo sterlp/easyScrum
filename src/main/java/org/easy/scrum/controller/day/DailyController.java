@@ -52,7 +52,7 @@ public class DailyController implements Serializable {
         onSelectedSprintChange();
     }
     public void onSelectedSprintChange() {
-        LOG.debug("*** onSelectedSprintChange ***");
+        LOG.debug("*** onSelectedSprintChange {} ***", this.sprintDays.getSprint());
         sprintDays.realod();
     }
     
