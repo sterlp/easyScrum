@@ -11,6 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
 @Table(name = "CONFIG")
@@ -36,6 +37,10 @@ public class ConfigBE implements IEntity<String> {
     @Column(name = "burn_down_height")
     @Min(value = 100)
     private long burnDownHeight = 500;
+    
+    @Column(name = "hours_spinner_step")
+    @Min(1)
+    private long hoursSpinnerStep = 4;
     
     /** the client id of this configuration */
     @Override
@@ -78,7 +83,20 @@ public class ConfigBE implements IEntity<String> {
         return burnDownHeight;
     }
 
-    public void setBurnDownHeight(Long burnDownHeight) {
+    public void setBurnDownHeight(long burnDownHeight) {
         this.burnDownHeight = burnDownHeight;
+    }
+
+    public long getHoursSpinnerStep() {
+        return hoursSpinnerStep;
+    }
+
+    public void setHoursSpinnerStep(long hoursSpinnerStep) {
+        this.hoursSpinnerStep = hoursSpinnerStep;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

@@ -38,7 +38,7 @@ public class IndexController implements Serializable {
         for (TeamBE team : teams) {
             SprintBE currentSprint = sprintBF.findMostRecentSprint(team.getId(), true);
             if (currentSprint != null) {
-                overviews.add(new SprintOverview(team, currentSprint, configModel.getUserConfig().getBurnDownType()));
+                overviews.add(new SprintOverview(team, currentSprint, currentSprint.getDays(), configModel.getUserConfig().getBurnDownType()));
             }
         }
     }

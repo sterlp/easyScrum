@@ -3,13 +3,13 @@ package org.easy.validation.html;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 
 public class NoHtmlValidator implements ConstraintValidator<NoHtml, String> {
     
+    private NoHtml constraintAnnotation;
     @Override
     public void initialize(NoHtml constraintAnnotation) {
-        // nothing
+        this.constraintAnnotation = constraintAnnotation;
     }
     
     @Override
@@ -17,7 +17,7 @@ public class NoHtmlValidator implements ConstraintValidator<NoHtml, String> {
         // validation makes only senese if you have more then 2 chars
         // e.g. "<a>"
         if (value != null && value.length() > 2) {
-            return Jsoup.isValid(value, Whitelist.none());
+            return Jsoup.isValid(value, constraintAnnotation.value().getWhitelist());
         } else {
             return true;
         }

@@ -12,7 +12,7 @@
         <ui:define name="noLayout">
             <h:form id="createTeamForm" >
                 <ui:include src="/team/createTeamDialog.xhtml">
-                    <ui:param name="update" value=":createTeamForm" />
+                    <ui:param name="update" value=":createTeamForm,:teamListForm" />
                     <ui:param name="oncomplete" value="" />
                 </ui:include>
             </h:form>

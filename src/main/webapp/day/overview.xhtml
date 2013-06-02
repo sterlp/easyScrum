@@ -86,10 +86,12 @@
                 </h:panelGrid>
             </h:form>
             <h:form id="tableForm" styleClass="easy-edit-table" >
-                <p:fieldset legend="#{bundle.team}: #{dailyController.teamSprints.team.name},  #{bundle.sprint}: #{dailyController.sprintDays.sprint.name}" toggleable="true" rendered="#{dailyController.sprintDays.sprint != null}">
-                    <p:dataTable editable="true" value="#{dailyController.sprintDays.elements}" binding="#{table}" 
-                                 draggableColumns="true" var="day" 
-                                 widgetVar="dailyTable" id="burnDownTable">
+                <p:fieldset legend="#{bundle.team}: #{dailyController.teamSprints.team.name},  #{bundle.sprint}: #{dailyController.sprintDays.sprint.name}" 
+                            toggleable="true" rendered="#{dailyController.sprintDays.sprint != null}">
+                    
+                    <p:dataTable id="burnDownTable" editable="true" value="#{dailyController.sprintDays.elements}" binding="#{table}" 
+                                 draggableColumns="true" var="day"
+                                 widgetVar="dailyTable">
                         <f:facet name="header">
                             <h1>
                             #{bundle.from}: <h:outputText value="#{dailyController.sprintDays.sprint.start}"><f:convertDateTime pattern="#{bundle.date_format}"/></h:outputText> 
@@ -98,7 +100,7 @@
                         </f:facet>
                         <p:ajax event="rowEdit" listener="#{dailyController.sprintDays.onEditRow}" update=":burnDown" />
                         <p:ajax event="rowEditCancel" listener="#{dailyController.sprintDays.realod}" update=":tableForm:burnDownTable" />  
-                        <p:column>
+                        <p:column headerText="#{bundle.sprintDay_day}">
                             <p:cellEditor>  
                                 <f:facet name="output">  
                                     <h:outputText value="#{day.day}">
@@ -111,13 +113,14 @@
                                 </f:facet>  
                             </p:cellEditor> 
                         </p:column>
-                        <p:column headerText="Burn Down">
+                        <p:column headerText="#{bundle.sprintDay_burnDown}">
                             <p:cellEditor>  
                                 <f:facet name="output">  
                                     <h:outputText value="#{day.burnDown}" />
                                 </f:facet>  
                                 <f:facet name="input">  
-                                    <p:spinner id="burnDown" value="#{day.burnDown}" min="0" />
+                                    <p:spinner id="burnDown" value="#{day.burnDown}" min="0" 
+                                               stepFactor="#{configController.userConfig.hoursSpinnerStep}"/>
                                     <p:message for="burnDown" /> 
                                 </f:facet>  
                             </p:cellEditor>
@@ -125,32 +128,33 @@
                         <p:column headerText="#{bundle.sprintDay_comment}">
                             <p:cellEditor>  
                                 <f:facet name="output">  
-                                    <h:outputText value="#{day.comment}" />
-                                </f:facet>  
+                                    <h:outputText value="#{day.comment}" escape="false" />
+                                </f:facet>
                                 <f:facet name="input">
-                                    <p:inputText id="comment" value="#{day.comment}" />
+                                    <h:inputTextarea id="comment" styleClass="easy-fill-bounding-box" value="#{day.comment}" />
                                     <p:message for="comment" /> 
                                 </f:facet>  
                             </p:cellEditor>
                         </p:column>
-                        <p:column headerText="Upscaling">
+                        <p:column headerText="#{bundle.sprintDay_upscaling}">
                             <p:cellEditor>  
                                 <f:facet name="output">  
                                     <h:outputText value="#{day.upscaling}" />
                                 </f:facet>  
                                 <f:facet name="input">  
-                                    <p:spinner id="upscaling" value="#{day.upscaling}" min="0" />
+                                    <p:spinner id="upscaling" value="#{day.upscaling}" min="0" 
+                                               stepFactor="#{configController.userConfig.hoursSpinnerStep}"/>
                                     <p:message for="upscaling" /> 
                                 </f:facet>  
                             </p:cellEditor>
                         </p:column>
-                        <p:column headerText="Upscaling Reason">
+                        <p:column headerText="#{bundle.sprintDay_upscaling_reason}">
                             <p:cellEditor>  
                                 <f:facet name="output">  
-                                    <h:outputText value="#{day.reasonForUpscaling}" />
+                                    <h:outputText value="#{day.reasonForUpscaling}"  escape="false"/>
                                 </f:facet>  
                                 <f:facet name="input">
-                                    <p:inputText id="reasonForUpscaling" value="#{day.reasonForUpscaling}" />
+                                    <h:inputTextarea id="reasonForUpscaling" styleClass="easy-fill-bounding-box" value="#{day.reasonForUpscaling}" />
                                     <p:message for="reasonForUpscaling" /> 
                                 </f:facet>  
                             </p:cellEditor>

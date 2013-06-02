@@ -17,6 +17,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.easy.scrum.model.validation.DayInSprint;
 import org.easy.validation.date.InDateRange;
+import org.easy.validation.html.HtmlValidation;
 import org.easy.validation.html.NoHtml;
 
 @Entity
@@ -39,15 +40,12 @@ public class SprintDayBE extends AbstractEntity {
     
     @Column(name = "reason_for_upscaling", length = 255)
     @Size(max = 255)
-    @NoHtml
+    @NoHtml(HtmlValidation.Basic)
     private String reasonForUpscaling = null;
-    
-    @Column(name = "hours_left")
-    private long hoursLeft = 0;
     
     @Size(max = 255)
     @Column(length = 255)
-    @NoHtml
+    @NoHtml(HtmlValidation.Basic)
     private String comment = null;
     
     @ManyToOne(cascade = {}, optional = false, fetch = FetchType.EAGER)
@@ -91,14 +89,6 @@ public class SprintDayBE extends AbstractEntity {
 
     public void setReasonForUpscaling(String reasonForUpscaling) {
         this.reasonForUpscaling = reasonForUpscaling;
-    }
-
-    public long getHoursLeft() {
-        return hoursLeft;
-    }
-
-    public void setHoursLeft(long hoursLeft) {
-        this.hoursLeft = hoursLeft;
     }
 
     public String getComment() {

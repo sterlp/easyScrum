@@ -14,6 +14,8 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NoHtml {
 
+    HtmlValidation value() default HtmlValidation.None;
+    
     String message() default "{org.easy.validation.html.NoHtml.message}";
 
     Class<?>[] groups() default {};

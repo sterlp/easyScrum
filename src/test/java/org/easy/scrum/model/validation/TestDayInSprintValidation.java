@@ -24,7 +24,7 @@ public class TestDayInSprintValidation {
     }
     
     @Test
-    public void testSprintDay() {
+    public void testSprintDayInSprint() {
         SprintDayBE sprintDay = new SprintDayBE();
         sprintDay.setDay(new LocalDate(2000, 01, 01).toDate());
         sprintDay.setSprint(new SprintBE("test 1"));

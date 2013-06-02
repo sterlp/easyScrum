@@ -28,8 +28,14 @@
                     value="#{sprintController.sprintModel.newElement.end}" pattern="#{bundle.date_format}" />
         <p:message for="endDate" /> 
         
+        <h:outputLabel value="#{bundle.sprint_story_points}:" for="storyPoints" />
+        <p:spinner id="storyPoints" value="#{sprintController.sprintModel.newElement.storyPoints}" min="0" 
+                   stepFactor="#{configController.userConfig.hoursSpinnerStep}"/>
+        <p:message for="storyPoints" />
+
         <h:outputLabel value="#{bundle.sprint_planned_hours}:" for="hours" />
-        <p:spinner id="hours" value="#{sprintController.sprintModel.newElement.plannedHours}" min="1" ></p:spinner>
+        <p:spinner id="hours" value="#{sprintController.sprintModel.newElement.plannedHours}" min="1" 
+                   stepFactor="#{configController.userConfig.hoursSpinnerStep}"/>
         <p:message for="hours" /> 
         
         <h:outputLabel value="#{bundle.sprint_available_hours}:" for="hoursAvailable" />

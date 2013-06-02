@@ -74,8 +74,7 @@ public class DailyController implements Serializable {
 
     private void recalcualteBurndown(TeamBE team, SprintBE sprint, List<SprintDayBE> days) {
         if (sprint != null && days != null) {
-            sprint.setDays(days);
-            overview = new SprintOverview(team, sprint, configModel.getUserConfig().getBurnDownType());
+            overview = new SprintOverview(team, sprint, days, configModel.getUserConfig().getBurnDownType());
         } else {
             overview = null;
         }

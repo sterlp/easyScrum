@@ -31,6 +31,21 @@
                 </h:outputText>
             </p:column>
         </p:row>
+        
+        <p:row>
+            <p:column>#{bundle.sprint_days_in_between}:</p:column>
+            <p:column colspan="4">
+                <h:outputText value="#{overview.sprint.daysInBetween}" />
+            </p:column>
+        </p:row>
+        
+        <p:row>
+            <p:column>#{bundle.sprint_days_remaining}:</p:column>
+            <p:column colspan="4">
+                <h:outputText value="#{overview.sprint.daysRemaining}" />
+            </p:column>
+        </p:row>
+        
         <p:row>  
             <p:column colspan="5" styleClass="ui-widget-header">  
                 <p:spacer height="0"/>  

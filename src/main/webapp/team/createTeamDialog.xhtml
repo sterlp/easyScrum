@@ -14,10 +14,7 @@
     -->
     <p:dialog header="#{bundle.team_create_dialog_header}" 
           widgetVar="createTeamDialog" 
-          hideEffect="fade"
-          resizable="false"
-          modal="true"
-          closeOnEscape="true">
+          hideEffect="fade" closeOnEscape="true" resizable="false" modal="true">
         <h:panelGrid columns="3">
             <h:outputLabel value="#{bundle.team_table_columns_name}:" for="teamName" />
             <p:inputText id="teamName" value="#{teamController.teamModel.newElement.name}" label="#{bundle.team_table_columns_name}" />

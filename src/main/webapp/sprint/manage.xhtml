@@ -95,13 +95,23 @@
                             </f:facet>  
                         </p:cellEditor>
                     </p:column>
+                    <p:column headerText="#{bundle.sprint_story_points}">
+                        <p:cellEditor>
+                            <f:facet name="output">  
+                                <h:outputText value="#{sprint.storyPoints}" />  
+                            </f:facet> 
+                            <f:facet name="input">
+                                <p:spinner value="#{sprint.storyPoints}" min="0"></p:spinner>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
                     <p:column headerText="#{bundle.sprint_planned_hours}">
                         <p:cellEditor>
                             <f:facet name="output">  
                                 <h:outputText value="#{sprint.plannedHours}" />  
                             </f:facet> 
                             <f:facet name="input">
-                                <p:spinner value="#{sprint.plannedHours}" min="1"></p:spinner>
+                                <p:spinner value="#{sprint.plannedHours}" min="1" stepFactor="#{configController.userConfig.hoursSpinnerStep}"/>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -111,7 +121,7 @@
                                 <h:outputText value="#{sprint.availableHours}" />  
                             </f:facet> 
                             <f:facet name="input">
-                                <p:spinner value="#{sprint.availableHours}" min="1"></p:spinner>
+                                <p:spinner value="#{sprint.availableHours}" min="1" stepFactor="#{configController.userConfig.hoursSpinnerStep}"/>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>

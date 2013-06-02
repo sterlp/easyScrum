@@ -59,8 +59,8 @@ public class SprintBE extends AbstractEntity {
     private int plannedHours = 1;
     
     @Column(name = "story_points")
-    @Min(value = 1)
-    private int storyPoints = 1;
+    @Min(value = 0)
+    private int storyPoints = 0;
     
     @ManyToOne(cascade = {}, optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id")
@@ -70,6 +70,10 @@ public class SprintBE extends AbstractEntity {
     @OneToMany(cascade = {}, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "sprint")
     @OrderBy("day DESC")
     private List<SprintDayBE> days;
+    
+    private transient int daysInBetween = 0;
+    
+    private transient int daysRemaining = -1;
     
     public SprintBE() {
         super();
@@ -92,8 +96,19 @@ public class SprintBE extends AbstractEntity {
     }
     
     /** Returns the days between start and end day */
-    public int getDayOfIteration() {
-        return Days.daysBetween(new LocalDate(start), new LocalDate(end)).getDays();
+    public int getDaysInBetween() {
+        if (start != null && end != null && daysInBetween <= 0) {
+            daysInBetween = Days.daysBetween(new LocalDate(start), new LocalDate(end)).getDays();
+        } 
+        return daysInBetween;
+    }
+    
+    public int getDaysRemaining() {
+        if (end != null && daysRemaining < 0) {
+            daysRemaining = Days.daysBetween(new LocalDate(), new LocalDate(end)).getDays();
+            if (daysRemaining < 0) daysRemaining = 0; // if the spring is in the past
+        } 
+        return daysRemaining;
     }
 
     public String getName() {
@@ -118,6 +133,7 @@ public class SprintBE extends AbstractEntity {
 
     public void setStart(Date start) {
         this.start = start;
+        this.daysInBetween = 0;
     }
 
     public Date getEnd() {
@@ -126,6 +142,8 @@ public class SprintBE extends AbstractEntity {
 
     public void setEnd(Date end) {
         this.end = end;
+        this.daysInBetween = 0;
+        this.daysRemaining = -1;
     }
 
     public int getPlannedHours() {
