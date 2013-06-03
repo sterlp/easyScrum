@@ -33,9 +33,9 @@
         </p:row>
         
         <p:row>
-            <p:column>#{bundle.sprint_days_in_between}:</p:column>
+            <p:column>#{bundle.sprint_workdays_in_sprint}:</p:column>
             <p:column colspan="4">
-                <h:outputText value="#{overview.sprint.daysInBetween}" />
+                <h:outputText value="#{overview.burnDown.workDays}" />
             </p:column>
         </p:row>
         
@@ -46,20 +46,23 @@
             </p:column>
         </p:row>
         
+        
+        
         <p:row>  
             <p:column colspan="5" styleClass="ui-widget-header">  
                 <p:spacer height="0"/>  
             </p:column>  
-        </p:row>  
+        </p:row>
+
         <p:row>
             <p:column>#{bundle.hours_planned}:</p:column>
             <p:column styleClass="easy-number-column">#{overview.burnDown.planedHours} #{bundle.hours_short}</p:column>
             <p:column>#{bundle.hours_done}:</p:column>
             <p:column styleClass="easy-number-column">#{overview.burnDown.hoursDone} #{bundle.hours_short}</p:column>
             <p:column styleClass="easy-number-column">
-                <h:outputText value="#{overview.burnDown.planedHours > 0 ? overview.burnDown.hoursDone / overview.burnDown.planedHours * 100 : 0}">
-                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                </h:outputText>%
+                <h:outputText value="#{overview.burnDown.hoursDone / overview.burnDown.planedHours}">
+                    <f:convertNumber type="percent" maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
             </p:column>
         </p:row>
         <p:row>
@@ -68,27 +71,71 @@
             <p:column>#{bundle.hours_added}:</p:column>
             <p:column styleClass="easy-number-column">#{overview.burnDown.hoursAdded} #{bundle.hours_short}</p:column>
             <p:column style="text-align: right;">
-                <h:outputText value="#{overview.burnDown.hoursRemaining > 0 ? overview.burnDown.hoursAdded / overview.burnDown.hoursRemaining * 100 : 0}">
-                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                </h:outputText>%
+                <h:outputText value="#{overview.burnDown.hoursRemaining > 0 ? overview.burnDown.hoursAdded / overview.burnDown.hoursRemaining : 0}">
+                    <f:convertNumber type="percent" maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
             </p:column>
         </p:row>
         <p:row>
             <p:column colspan="2" styleClass="easy-number-column">
-                <h:outputText value="#{overview.burnDown.hoursRemaining > 0 ?overview.burnDown.hoursRemaining / overview.burnDown.planedHours * 100 : 0}">
-                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                </h:outputText>%
+                <h:outputText value="#{overview.burnDown.hoursRemaining > 0 ?overview.burnDown.hoursRemaining / overview.burnDown.planedHours : 0}">
+                    <f:convertNumber type="percent" maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
             </p:column>
             <p:column colspan="2" styleClass="easy-number-column">
-                <h:outputText value="#{overview.burnDown.hoursDone > 0 ?overview.burnDown.hoursAdded / overview.burnDown.hoursDone * 100 : 0}">
-                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                </h:outputText>%
+                <h:outputText value="#{overview.burnDown.hoursDone > 0 ? overview.burnDown.hoursAdded / overview.burnDown.hoursDone : 0}">
+                    <f:convertNumber type="percent" maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
             </p:column>
             <p:column styleClass="easy-number-column">
-                <h:outputText value="#{overview.burnDown.planedHours > 0 ?overview.burnDown.hoursAdded / overview.burnDown.planedHours * 100 : 0}">
-                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                </h:outputText>%
+                <h:outputText value="#{overview.burnDown.hoursAdded / overview.burnDown.planedHours}">
+                    <f:convertNumber type="percent" maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
             </p:column>
         </p:row>
+        
+        <p:row>  
+            <p:column colspan="5" styleClass="ui-widget-header">  
+                <p:spacer height="0"/>  
+            </p:column>  
+        </p:row>
+        
+        <p:row>
+            <p:column>#{bundle.sprint_needed_burndown}:</p:column>
+            <p:column colspan="4">#{overview.neededBurndown}</p:column>
+        </p:row>
+        <p:row>
+            <p:column>#{bundle.sprint_avg_burndown}:</p:column>
+            <p:column colspan="4">#{overview.avgBurndown}</p:column>
+        </p:row>
+        
+        <p:row>  
+            <p:column colspan="5" styleClass="ui-widget-header">  
+                <p:spacer height="0"/>  
+            </p:column>  
+        </p:row>
+        
+        <p:row>
+            <p:column>#{bundle.sprint_story_points}:</p:column>
+            <p:column colspan="4">#{overview.sprint.storyPoints}</p:column>
+        </p:row>
+        <p:row>
+            <p:column>#{bundle.sprint_planned_hours_by_story_point}:</p:column>
+            <p:column colspan="4">
+                <h:outputText value="#{overview.plannedHoursByStoryPoint}">
+                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column>#{bundle.sprint_done_hours_by_story_point}:</p:column>
+            <p:column colspan="4">
+                <h:outputText value="#{overview.doneHoursByStoryPoint}">
+                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+        </p:row>
+        
+
     </p:panelGrid>
 </ui:fragment>

@@ -11,42 +11,52 @@ import org.easy.scrum.model.TeamBE;
 
 public class SprintOverview implements Serializable {
     private static final GraphHelper GH = new GraphHelper();
-    private IterationBurndown burnDown;
-    private TeamBE team;
-    private SprintBE sprint;
+    private final IterationBurndown burnDown;
+    private final TeamBE team;
+    private final SprintBE sprint;
     
-    public SprintOverview() {
-        super();
-    }
-
+    private final double neededBurndown;
+    private final double avgBurndown;
+    private final double plannedHoursByStoryPoint;
+    private final double doneHoursByStoryPoint;
+    
     public SprintOverview(TeamBE team, SprintBE sprint, List<SprintDayBE> days, BurnDownType burnDownType) {
-        this();
+        super();
         this.team = team;
         this.sprint = sprint;
-        burnDown = GH.recalcualteBurndown(sprint, days, burnDownType);
+        this.burnDown = GH.recalcualteBurndown(sprint, days, burnDownType);
+        
+        neededBurndown = burnDown.getWorkDays() > 0 ? burnDown.getHoursRemaining() / burnDown.getWorkDays() : 0;
+        avgBurndown = days.size() > 0 ? burnDown.getHoursDone() / days.size() : 0;
+        plannedHoursByStoryPoint = sprint.getStoryPoints() > 0 ? sprint.getPlannedHours() / sprint.getStoryPoints() : 0;
+        doneHoursByStoryPoint = sprint.getStoryPoints() > 0 ? burnDown.getHoursDone() / sprint.getStoryPoints() : 0;
     }
 
     public IterationBurndown getBurnDown() {
         return burnDown;
     }
 
-    public void setBurnDown(IterationBurndown burnDown) {
-        this.burnDown = burnDown;
-    }
-
     public TeamBE getTeam() {
         return team;
-    }
-
-    public void setTeam(TeamBE team) {
-        this.team = team;
     }
 
     public SprintBE getSprint() {
         return sprint;
     }
 
-    public void setSprint(SprintBE sprint) {
-        this.sprint = sprint;
+    public double getNeededBurndown() {
+        return neededBurndown;
+    }
+
+    public double getAvgBurndown() {
+        return avgBurndown;
+    }
+
+    public double getPlannedHoursByStoryPoint() {
+        return plannedHoursByStoryPoint;
+    }
+
+    public double getDoneHoursByStoryPoint() {
+        return doneHoursByStoryPoint;
     }
 }

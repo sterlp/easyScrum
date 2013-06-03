@@ -16,6 +16,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.easy.time.TimeCalcUtil;
 import org.easy.validation.date.InDateRange;
 import org.easy.validation.html.NoHtml;
 import org.joda.time.Days;
@@ -105,9 +106,11 @@ public class SprintBE extends AbstractEntity {
     
     public int getDaysRemaining() {
         if (end != null && daysRemaining < 0) {
-            daysRemaining = Days.daysBetween(new LocalDate(), new LocalDate(end)).getDays();
-            if (daysRemaining < 0) daysRemaining = 0; // if the spring is in the past
-        } 
+            LocalDate now = new LocalDate();
+            LocalDate localEnd = new LocalDate(this.end);
+            daysRemaining = TimeCalcUtil.daysBetween(now, localEnd, false);
+            if (daysRemaining < 0) daysRemaining = 0; // if the sprint is in the past
+        }
         return daysRemaining;
     }
 
