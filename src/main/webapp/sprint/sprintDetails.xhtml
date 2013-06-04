@@ -101,12 +101,28 @@
         </p:row>
         
         <p:row>
+            <p:column>#{bundle.sprint_planned_burndown}:</p:column>
+            <p:column colspan="4">
+                <h:outputText value="#{overview.avgPlannedBurndown}">
+                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+        </p:row>
+        <p:row>
             <p:column>#{bundle.sprint_needed_burndown}:</p:column>
-            <p:column colspan="4">#{overview.neededBurndown}</p:column>
+            <p:column colspan="4">
+                <h:outputText value="#{overview.neededBurndown}">
+                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
         </p:row>
         <p:row>
             <p:column>#{bundle.sprint_avg_burndown}:</p:column>
-            <p:column colspan="4">#{overview.avgBurndown}</p:column>
+            <p:column colspan="4">
+                <h:outputText value="#{overview.avgBurndown}">
+                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
         </p:row>
         
         <p:row>  

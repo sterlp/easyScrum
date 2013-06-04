@@ -15,6 +15,7 @@ public class SprintOverview implements Serializable {
     private final TeamBE team;
     private final SprintBE sprint;
     
+    private final double avgPlannedBurndown;
     private final double neededBurndown;
     private final double avgBurndown;
     private final double plannedHoursByStoryPoint;
@@ -26,10 +27,11 @@ public class SprintOverview implements Serializable {
         this.sprint = sprint;
         this.burnDown = GH.recalcualteBurndown(sprint, days, burnDownType);
         
-        neededBurndown = burnDown.getWorkDays() > 0 ? burnDown.getHoursRemaining() / burnDown.getWorkDays() : 0;
-        avgBurndown = days.size() > 0 ? burnDown.getHoursDone() / days.size() : 0;
-        plannedHoursByStoryPoint = sprint.getStoryPoints() > 0 ? sprint.getPlannedHours() / sprint.getStoryPoints() : 0;
-        doneHoursByStoryPoint = sprint.getStoryPoints() > 0 ? burnDown.getHoursDone() / sprint.getStoryPoints() : 0;
+        neededBurndown = sprint.getDaysRemaining() > 0 ? (double)burnDown.getHoursRemaining() / sprint.getDaysRemaining() : burnDown.getHoursRemaining();
+        avgPlannedBurndown = burnDown.getWorkDays() > 0 ? (double)sprint.getPlannedHours() / burnDown.getWorkDays() : 0;
+        avgBurndown = days.size() > 0 ? (double)burnDown.getHoursDone() / days.size() : 0;
+        plannedHoursByStoryPoint = sprint.getStoryPoints() > 0 ? (double)sprint.getPlannedHours() / sprint.getStoryPoints() : 0;
+        doneHoursByStoryPoint = sprint.getStoryPoints() > 0 ? (double)burnDown.getHoursDone() / sprint.getStoryPoints() : 0;
     }
 
     public IterationBurndown getBurnDown() {
@@ -58,5 +60,9 @@ public class SprintOverview implements Serializable {
 
     public double getDoneHoursByStoryPoint() {
         return doneHoursByStoryPoint;
+    }
+
+    public double getAvgPlannedBurndown() {
+        return avgPlannedBurndown;
     }
 }
