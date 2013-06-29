@@ -19,7 +19,7 @@ public class GraphHelper {
             burnDown = new IterationBurndown(
                 new LocalDate(sprint.getStart()), 
                 new LocalDate(sprint.getEnd()), 
-                sprint.getPlannedHours());
+                sprint.getPlannedHours(), false);
 
             List<SprintDayBE> elements = new ArrayList<SprintDayBE>(days);
             Collections.reverse(elements);

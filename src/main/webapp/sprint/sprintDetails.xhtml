@@ -56,11 +56,11 @@
 
         <p:row>
             <p:column>#{bundle.hours_planned}:</p:column>
-            <p:column styleClass="easy-number-column">#{overview.burnDown.planedHours} #{bundle.hours_short}</p:column>
+            <p:column styleClass="easy-number-column">#{overview.burnDown.plannedHours} #{bundle.hours_short}</p:column>
             <p:column>#{bundle.hours_done}:</p:column>
             <p:column styleClass="easy-number-column">#{overview.burnDown.hoursDone} #{bundle.hours_short}</p:column>
             <p:column styleClass="easy-number-column">
-                <h:outputText value="#{overview.burnDown.hoursDone / overview.burnDown.planedHours}">
+                <h:outputText value="#{overview.burnDown.hoursDone / overview.burnDown.plannedHours}">
                     <f:convertNumber type="percent" maxFractionDigits="2" minFractionDigits="2" />
                 </h:outputText>
             </p:column>
@@ -78,7 +78,7 @@
         </p:row>
         <p:row>
             <p:column colspan="2" styleClass="easy-number-column">
-                <h:outputText value="#{overview.burnDown.hoursRemaining > 0 ?overview.burnDown.hoursRemaining / overview.burnDown.planedHours : 0}">
+                <h:outputText value="#{overview.burnDown.hoursRemaining > 0 ?overview.burnDown.hoursRemaining / overview.burnDown.plannedHours : 0}">
                     <f:convertNumber type="percent" maxFractionDigits="2" minFractionDigits="2" />
                 </h:outputText>
             </p:column>
@@ -88,7 +88,7 @@
                 </h:outputText>
             </p:column>
             <p:column styleClass="easy-number-column">
-                <h:outputText value="#{overview.burnDown.hoursAdded / overview.burnDown.planedHours}">
+                <h:outputText value="#{overview.burnDown.hoursAdded / overview.burnDown.plannedHours}">
                     <f:convertNumber type="percent" maxFractionDigits="2" minFractionDigits="2" />
                 </h:outputText>
             </p:column>
