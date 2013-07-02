@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.easy.scrum</groupId>
-    <artifactId>easyScrum-webapp</artifactId>
+    <artifactId>easyScrum-db</artifactId>
     <packaging>jar</packaging>
     <name>easyScrum DB</name>
 

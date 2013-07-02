@@ -17,6 +17,7 @@
 
     <modules>
         <module>easyScrum-webapp</module>
+        <module>easyScrum-db</module>
     </modules>
 
     <repositories>
