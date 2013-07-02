@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
-    <changeSet author="sterlp" id="0.1.0-SNAPSHOT">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+    <changeSet author="sterlp" id="0.1.0-SNAPSHOT" logicalFilePath="easyScrum">
         <createTable tableName="CONFIG">
             <column name="id" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -74,7 +76,7 @@
         <addForeignKeyConstraint baseColumnNames="team_id" baseTableName="SPRINT" constraintName="FK922FF61ADB47DBB8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="TEAM"/>
         <addForeignKeyConstraint baseColumnNames="sprint_id" baseTableName="SPRINT_DAY" constraintName="FK6EDF8FD783595098" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="SPRINT"/>
     </changeSet>
-    <changeSet id="0.1.0.FINAL" author="sterl">
+    <changeSet id="0.1.0.FINAL" author="sterlp" logicalFilePath="easyScrum">
         <dropForeignKeyConstraint baseTableName="SPRINT" constraintName="FK922FF61ADB47DBB8"/>
         <dropForeignKeyConstraint baseTableName="SPRINT_DAY" constraintName="FK6EDF8FD783595098"/>
         

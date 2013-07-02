@@ -53,9 +53,12 @@
     </error-page>
     -->
     
+    <!--
+    https://blogs.oracle.com/enterprisetechtips/entry/datasource_resource_definition_in_java
+    -->
     <resource-ref>
         <description>Resource reference to my database</description>
-        <res-ref-name>jdbc/easyScrum</res-ref-name>
+        <res-ref-name>java:app/env/easyScrum</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>

@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.easy.time.TimeCalcUtil;
 import org.easy.validation.date.InDateRange;
-import org.easy.validation.html.NoHtml;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadablePeriod;
@@ -36,7 +36,7 @@ public class SprintBE extends AbstractEntity {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(nullable = false, length = 255)
-    @NoHtml
+    @SafeHtml
     private String name;
     
     @NotNull

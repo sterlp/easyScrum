@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.easy.validation.html.NoHtml;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Table(name = "TEAM")
@@ -20,7 +20,7 @@ public class TeamBE extends AbstractEntity {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(length = 255)
-    @NoHtml
+    @SafeHtml
     private String name;
 
     @OneToMany(cascade = {}, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "team")

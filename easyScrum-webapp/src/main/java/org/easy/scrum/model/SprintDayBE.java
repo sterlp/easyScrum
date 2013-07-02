@@ -17,8 +17,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.easy.scrum.model.validation.DayInSprint;
 import org.easy.validation.date.InDateRange;
-import org.easy.validation.html.HtmlValidation;
-import org.easy.validation.html.NoHtml;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Table(name = "SPRINT_DAY")
@@ -40,12 +39,12 @@ public class SprintDayBE extends AbstractEntity {
     
     @Column(name = "reason_for_upscaling", length = 255)
     @Size(max = 255)
-    @NoHtml(HtmlValidation.Basic)
+    @SafeHtml
     private String reasonForUpscaling = null;
     
     @Size(max = 255)
     @Column(length = 255)
-    @NoHtml(HtmlValidation.Basic)
+    @SafeHtml
     private String comment = null;
     
     @ManyToOne(cascade = {}, optional = false, fetch = FetchType.EAGER)

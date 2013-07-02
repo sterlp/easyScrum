@@ -1,9 +1,11 @@
 package org.easy.scrum.service;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.sql.DataSource;
 import javax.validation.Valid;
 import org.easy.scrum.model.IEntity;
 import org.easy.util.logging.LoggingInterceptor;
