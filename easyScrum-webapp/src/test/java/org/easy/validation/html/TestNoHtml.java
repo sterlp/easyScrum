@@ -5,7 +5,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import org.hibernate.validator.constraints.SafeHtml;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -13,7 +12,7 @@ import static org.junit.Assert.*;
 public class TestNoHtml {
 
     static class TestClass {
-        @SafeHtml(whitelistType = SafeHtml.WhiteListType.RELAXED)
+        @SafeHtml(HtmlValidation.Relaxed)
         String value;
 
         public TestClass(String value) {

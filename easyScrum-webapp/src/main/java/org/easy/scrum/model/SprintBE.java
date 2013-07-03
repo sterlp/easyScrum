@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.easy.time.TimeCalcUtil;
 import org.easy.validation.date.InDateRange;
-import org.hibernate.validator.constraints.SafeHtml;
+import org.easy.validation.html.SafeHtml;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadablePeriod;

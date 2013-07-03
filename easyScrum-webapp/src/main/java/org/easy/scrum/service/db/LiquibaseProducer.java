@@ -19,7 +19,6 @@ public class LiquibaseProducer {
     @Resource(name = "jdbc/easyScrum")
     private DataSource myDataSource;
 
-    
     @Produces @LiquibaseType
     public CDILiquibaseConfig createConfig() {
         CDILiquibaseConfig config = new CDILiquibaseConfig();

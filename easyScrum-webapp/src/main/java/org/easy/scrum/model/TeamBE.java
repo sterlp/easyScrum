@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.validator.constraints.SafeHtml;
+import org.easy.validation.html.SafeHtml;
 
 @Entity
 @Table(name = "TEAM")

@@ -3,9 +3,10 @@
     <context-param>
         <!-- Production Development UnitTest SystemTest 
         http://www.icesoft.org/wiki/display/ICE/JSF+Configuration
+        Production
         -->
         <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Production</param-value>
+        <param-value>Development</param-value>
     </context-param>
     <context-param>
         <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
@@ -25,11 +26,25 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
+    <session-config><session-timeout>30</session-timeout></session-config>
+    
+    <!-- 
+        http://logback.qos.ch/manual/configuration.html 
+        https://github.com/qos-ch/logback-demo/blob/master/src/main/webapp/WEB-INF/web.xml
+    -->
+    <servlet>
+        <servlet-name>ViewLastLog</servlet-name>
+        <servlet-class>ch.qos.logback.demo.ViewLastLog</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewStatusMessages</servlet-name>
+        <servlet-class>ch.qos.logback.classic.ViewStatusMessagesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewStatusMessages</servlet-name>
+        <url-pattern>/log</url-pattern>
+    </servlet-mapping>
+    
     <!-- time to cache resources which are in the "resource" folder 
     http://stackoverflow.com/questions/15057932/jsf-cache-static-resources-filter/
     -->
