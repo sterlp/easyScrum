@@ -12,7 +12,11 @@
 
         <f:metadata>
             <f:event listener="#{dailyController.pageRender}" type="preRenderView" />
+            <f:viewParam name="team" value="#{dailyController.selectedTeam}" />
+            <f:viewParam name="sprint" value="#{dailyController.selectedSprint}" />
         </f:metadata>
+        
+
         <ui:define name="noLayout">
             <h:form id="createTeamForm">
                 <ui:include src="/team/createTeamDialog.xhtml">
@@ -36,7 +40,7 @@
                             <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
                             <f:selectItems value="#{teamController.teamModel.elements}" 
                                    var="team" itemLabel="#{team.name}"/>
-                            <p:ajax update=":menuForm,:tableForm,:burnDown" process="@this" partialSubmit="true"
+                            <p:ajax update=":menuForm:sprintSelect,:menuForm:deeplink,:tableForm,:burnDown" process="@this" partialSubmit="true"
                                     listener="#{dailyController.onSelectedTeamChange}" /> 
                         </p:selectOneMenu>
                         <p:commandLink update=":createTeamForm"
@@ -48,7 +52,7 @@
                             <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
                             <f:selectItems value="#{dailyController.teamSprints.elements}" 
                                            var="sprint" itemLabel="#{sprint.name}" />
-                            <p:ajax update=":tableForm,:burnDown,:menuForm" process="@this" partialSubmit="true"
+                            <p:ajax update=":menuForm:deeplink,:tableForm,:burnDown" process="@this" partialSubmit="true"
                                     listener="#{dailyController.onSelectedSprintChange}" />
                         </p:selectOneMenu>
                         <p:commandLink update=":createSprintForm"
@@ -63,6 +67,13 @@
                                      update=":createDayForm"
                                      oncomplete="createDayDialog.show();"
                                      value="#{bundle.sprintDay_add}"/>
+                    
+                    <h:link styleClass="easy-link" rendered="#{dailyController.teamSprints.team != null}"
+                            id="deeplink" outcome="/day/overview.xhtml"
+                            title="#{bundle.link} #{dailyController.teamSprints.team.name} #{dailyController.sprintDays.sprint.name}">
+                        <f:param name="team" value="#{dailyController.selectedTeam}" />
+                        <f:param name="sprint" value="#{dailyController.selectedSprint}" />
+                    </h:link>
                 </h:form>
             </p:layoutUnit>
         </ui:define>
@@ -173,7 +184,7 @@
                             </f:facet>
                             <p:rowEditor />
                             <p:commandLink id="cmdDeleteDay"
-                                styleClass="easy-remove" title="#{bundle.Delete}" 
+                                           styleClass="easy-remove" title="#{bundle.Delete}" 
                                 actionListener="#{dailyController.sprintDays.delete(day)}" update=":tableForm,:burnDown">
                             </p:commandLink>
                         </p:column>

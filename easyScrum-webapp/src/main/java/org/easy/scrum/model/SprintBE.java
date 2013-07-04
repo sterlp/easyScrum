@@ -91,6 +91,19 @@ public class SprintBE extends AbstractEntity {
         this.name = name;
     }
     
+    public SprintBE(SprintBE sprint) {
+        this();
+        this.availableHours = sprint.availableHours;
+        this.daysInBetween = sprint.daysInBetween;
+        this.daysRemaining = sprint.daysRemaining;
+        this.end = sprint.end;
+        this.name = sprint.name;
+        this.plannedHours = sprint.plannedHours;
+        this.start = sprint.start;
+        this.storyPoints = sprint.storyPoints;
+        this.team = sprint.team;
+    }
+    
     /** Adds the given period to the start date, which will be the new end date */
     public void newEndDate(ReadablePeriod period) {
         this.end = new LocalDate(start).plus(period).toDate();

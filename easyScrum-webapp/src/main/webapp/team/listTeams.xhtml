@@ -69,7 +69,8 @@
                         <p:commandLink id="cmdDeleteTeam"
                                        partialSubmit="true"
                                        process="@this"
-                                       styleClass="easy-remove" title="#{bundle.Delete}" oncomplete="confirmDialog.show();"
+                                       styleClass="easy-remove" 
+                                       title="#{bundle.Delete} #{team.name}" oncomplete="confirmDialog.show();"
                                        action="#{teamController.teamModel.setSelected(team)}" 
                                        update=":confirmDialogForm">
                         </p:commandLink>

@@ -328,6 +328,24 @@ img.right {
     cursor: pointer;
 }
 
+.easy-copy {
+    background-image: url("#{resource['images/actions/Actions-edit-copy-icon-16.png']}");
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.easy-link {
+    background-image: url("#{resource['images/actions/Link-icon-24.png']}");
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    cursor: pointer;
+    float: right;
+}
+
 .easy-app-excel {
     background-image: url("#{resource['images/apps/Excel-icon-24.png']}");
     height: 24px;

@@ -53,7 +53,7 @@ public class SprintDayBE extends AbstractEntity {
     @NotNull 
     @Valid
     private SprintBE sprint;
-    
+
     @Override
     public String getName() {
         return String.valueOf(day);

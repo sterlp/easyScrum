@@ -3,6 +3,8 @@ package org.easy.scrum.controller.day;
 import java.util.Collections;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.easy.jsf.table.AbstractTableModel;
@@ -39,6 +41,7 @@ public class SprintDayTableModel extends AbstractTableModel<SprintDayBE, SprintD
         }
         return result;
     }
+    
     @Override
     protected List<SprintDayBE> findAll() {
         List<SprintDayBE> result = Collections.emptyList();
@@ -62,13 +65,16 @@ public class SprintDayTableModel extends AbstractTableModel<SprintDayBE, SprintD
     void updateSprint(List<SprintBE> elements) {
         SprintBE current = getSprint();
         setSprint(null);
+        boolean replaced = false;
         if (current != null) {
             for (SprintBE s : elements) {
                 if (current.getId().equals(s.getId())) {
                     setSprint(s);
+                    replaced = true;
                     break;
                 }
             }
         }
+        if (!replaced) this.elements.clear(); // no team selected!
     }
 }

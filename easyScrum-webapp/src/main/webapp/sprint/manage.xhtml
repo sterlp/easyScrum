@@ -138,14 +138,21 @@
                                 action="#{sprintController.sprintModel.beforeAdd}"
                                 title="#{bundle.team_add}"/>
                         </f:facet>
-                        <p:rowEditor />  
+                        <p:rowEditor />
+                        <p:commandLink styleClass="easy-copy" 
+                                       action="#{sprintController.sprintModel.copy(sprint)}"
+                                       update=":createSprintForm"
+                                       process="@this"
+                                       oncomplete="createSprintDialog.show();"
+                                       title="#{bundle.Copy} #{sprint.name}"/>
+
                         <p:commandLink 
                             update=":confirmSprintDeleteForm"
                             partialSubmit="true"
                             process="@this"
                             styleClass="easy-remove" oncomplete="confirmSprintDelete.show();"
                             actionListener="#{sprintController.sprintModel.setSelected(sprint)}" 
-                            title="#{bundle.Delete}" />
+                            title="#{bundle.Delete} #{sprint.name}" />
                     </p:column>
                     <f:facet name="footer">
                         <ui:include src="/WEB-INF/fragments/exportButtons.xhtml">

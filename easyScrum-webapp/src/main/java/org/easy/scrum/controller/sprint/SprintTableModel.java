@@ -7,11 +7,14 @@ package org.easy.scrum.controller.sprint;
 import java.util.Collections;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.easy.jsf.table.AbstractTableModel;
 import org.easy.scrum.controller.day.DailyController;
 import org.easy.scrum.model.SprintBE;
+import org.easy.scrum.model.SprintDayBE;
 import org.easy.scrum.model.TeamBE;
 import org.easy.scrum.service.SprintBF;
 import org.joda.time.LocalDate;
@@ -44,6 +47,11 @@ public class SprintTableModel extends AbstractTableModel<SprintBE, SprintBF> {
             result.newEndDate(Period.weeks(2));
         }
         return result;
+    }
+    
+    public void copy(SprintBE sprint) {
+        logger.debug("copy -> {}", sprint);
+        this.newElement = new SprintBE(sprint);
     }
 
     @Override
