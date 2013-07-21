@@ -151,7 +151,7 @@ public abstract class AbstractTableModel<T extends ModelClass<Long>, FacadeType 
         this.inCreateNew = false;
     }
     
-    public void newSelected() {
+    public void newSelectedForAdd() {
         this.selected = newModel();
         this.inCreateNew = true;
     }

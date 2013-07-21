@@ -8,9 +8,6 @@
 
     <ui:composition template="/template.xhtml">
         <ui:param name="activeIndex" value="4" />
-        
-        <f:loadBundle basename="Bundle" var="msg" />
-        
         <ui:define name="noLayout">
             <h:form id="createUpdateGoalForm">
                 <p:dialog header="#{bundle.goal_create_dialg_caption}" 
@@ -139,7 +136,7 @@
                                            action="#{goalController.goalModel.realod}" update=":goalsList">
                             </p:commandLink>
                             <p:commandLink styleClass="easy-add" title="#{bundle.goal_add_goal}"
-                                           action="#{goalController.goalModel.newSelected}"
+                                           action="#{goalController.goalModel.newSelectedForAdd}"
                                            oncomplete="createUpdateGoalDialog.show();"
                                            update=":createUpdateGoalForm">
                             </p:commandLink>
