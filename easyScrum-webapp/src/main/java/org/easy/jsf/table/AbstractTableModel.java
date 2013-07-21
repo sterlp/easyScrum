@@ -151,6 +151,34 @@ public abstract class AbstractTableModel<T extends ModelClass<Long>, FacadeType 
         this.inCreateNew = false;
     }
     
+    public void newSelected() {
+        this.selected = newModel();
+        this.inCreateNew = true;
+    }
+    
+    /**
+     * Creates or update a new element based on the data in the selected
+     * element.
+     */
+    public void addOrUpdateSelected() {
+        if (this.inCreateNew) {
+            this.newElement = selected;
+            add();
+        } else {
+            update();
+        }
+    }
+    /**
+     * Updates the selected element.
+     */
+    public void update() {
+        logger.debug("*** update: {} ***", this.newElement);
+        FacesContext context = FacesContext.getCurrentInstance(); 
+        selected = getFacade().edit(selected);
+        context.addMessage(null, new FacesMessage("'" + selected.getName() + "' updated."));
+        setElements(findAll());
+    }
+    
     public void add() {
         logger.debug("*** add: {} ***", this.newElement);
         FacesContext context = FacesContext.getCurrentInstance(); 

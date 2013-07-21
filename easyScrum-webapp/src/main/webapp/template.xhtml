@@ -19,12 +19,13 @@
             <p:layoutUnit position="north" styleClass="easy-head">
                 <h:form id="topMenuForm">
                     <p:tabMenu style="overflow: hidden;" activeIndex="#{activeIndex}" styleClass="easy-scrum-menu">  
-                        <p:menuitem value="Home" url="/index.xhtml" icon="easy-overview" />
-                        <p:menuitem value="Daily" url="/day/overview.xhtml" icon="easy-daily" />
+                        <p:menuitem value="#{bundle.nav_home}" url="/index.xhtml" icon="easy-overview" />
+                        <p:menuitem value="#{bundle.nav_day}" url="/day/overview.xhtml" icon="easy-daily" />
                         <p:menuitem value="#{bundle.nav_sprint}" url="/sprint/manage.xhtml" icon="easy-sprint">
                             <f:param name="team" value="#{teamModel.selected.id}" />
                         </p:menuitem>
                         <p:menuitem value="#{bundle.nav_team}" url="/team/listTeams.xhtml" icon="easy-user" />
+                        <p:menuitem value="#{bundle.nav_goals}" url="/goal/goals.xhtml" icon="easy-goal" />
                         <p:menuitem value="#{bundle.nav_config}" url="/config/config.xhtml" icon="easy-config" />
                     </p:tabMenu>
                     <p:ajaxStatus styleClass="easy-ajax-status" style="width:26px;height:26px;position:fixed;top:20px;right:31px">

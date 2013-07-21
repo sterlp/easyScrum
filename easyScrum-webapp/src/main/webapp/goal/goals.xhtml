@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:param name="activeIndex" value="4" />
+        
+        <f:loadBundle basename="Bundle" var="msg" />
+        
+        <ui:define name="noLayout">
+            <h:form id="createUpdateGoalForm">
+                <p:dialog header="#{bundle.goal_create_dialg_caption}" 
+                          widgetVar="createUpdateGoalDialog" dynamic="true"
+                          hideEffect="fade" closeOnEscape="true" resizable="false" modal="true">
+                    
+                    <p:messages />
+                    <h:panelGrid columns="2">
+                        <h:panelGrid columns="3">
+                            <h:outputLabel for="goalName" value="#{bundle.goal_name}:" />
+                            <p:inputText id="goalName" value="#{goalController.goalModel.selected.name}" />
+                            <p:message for="goalName" />
+                            
+                            <h:outputLabel value="#{bundle.goal_start}:" for="startDate" />
+                            <p:calendar id="startDate" effect="#{applicationController.calendarAnimation}" style="width:100%"
+                                        value="#{goalController.goalModel.selected.period.start}" pattern="#{bundle.date_format}" />
+                            <p:message for="startDate" />
+
+                            <h:outputLabel value="#{bundle.goal_end}:" for="endDate" />
+                            <p:calendar id="endDate" effect="#{applicationController.calendarAnimation}"
+                                        value="#{goalController.goalModel.selected.period.end}" pattern="#{bundle.date_format}" />
+                            <p:message for="endDate" />
+                            
+                            <h:outputLabel value="#{bundle.goal_evaluation}:" for="goalEvaluation" />
+                            <p:selectOneMenu id="goalEvaluation" value="#{goalController.goalModel.selected.goalEvaluation}">
+                                <f:selectItems value="#{goalController.goalEvaluations}" var="goalEvaluation"
+                                               itemLabel="#{bundle[goalEvaluation.localization]}" itemValue="#{goalEvaluation}" />
+                            </p:selectOneMenu>
+                            <p:message for="goalEvaluation" />
+                            
+                            <h:outputLabel for="maxForS" value="#{bundle.goal_violations_allowd_for_significantly_short}:" />
+                            <p:spinner id="maxForS" min="0" value="#{goalController.goalModel.selected.violationsAllowdForSignificantly}"
+                                       title="#{bundle.goal_violations_allowd_for_significantly}"/>
+                            <p:message for="maxForS" />
+                            
+                            <h:outputLabel for="maxForA" value="#{bundle.goal_violations_allowd_for_above_short}:" />
+                            <p:spinner id="maxForA" min="0" value="#{goalController.goalModel.selected.violationsAllowdForAbove}"
+                                       title="#{bundle.goal_violations_allowd_for_above}"/>
+                            <p:message for="maxForA" />
+                            
+                            <h:outputLabel for="maxForO" value="#{bundle.goal_violations_allowd_for_on_short}:" />
+                            <p:spinner id="maxForO" min="0" value="#{goalController.goalModel.selected.violationsAllowdForOn}"
+                                       title="#{bundle.goal_violations_allowd_for_on}"/>
+                            <p:message for="maxForO" />
+                            
+                        </h:panelGrid>
+                        <h:panelGrid columns="2">
+                            <p:editor id="goalDescription" value="#{goalController.goalModel.selected.description}"></p:editor>
+                            <p:message for="goalDescription" />
+                            <p:watermark forElement="goalDescription" value="#{bundle.goal_description}"/>
+                        </h:panelGrid>
+                        
+                    </h:panelGrid>
+                    <p:commandButton id="cmdSaveGoal"
+                            value="#{bundle.Save}"
+                            actionListener="#{goalController.goalModel.addOrUpdateSelected}" 
+                            update=":goalsList,:createUpdateGoalForm"
+                            oncomplete="hideDialog(args, createUpdateGoalDialog);"
+                        />
+                        <p:commandButton id="cmdCancel" immediate="true"
+                                         value="#{bundle.cancel}"
+                                         actionListener="#{goalController.goalModel.realod}" 
+                                         update=":goalsList"
+                                         oncomplete="createUpdateGoalDialog.hide()"
+                        />
+                </p:dialog>
+            </h:form>
+            
+            <h:form id="confirmDialogForm">
+                <p:confirmDialog header="#{bundle.goal_delete_dialog_caption}" widgetVar="confirmDeleteGoalDialog" severity="question" >
+                    <f:facet name="message">
+                        <h:outputFormat value="#{bundle.goal_delete_text}" escape="false">
+                            <f:param value="#{goalController.goalModel.selected.name}" />
+                        </h:outputFormat>
+                    </f:facet>
+                    <p:commandButton value="#{bundle.yes}" update=":goalsList" oncomplete="hideDialog(args, confirmDeleteGoalDialog);"  
+                                     action="#{goalController.goalModel.deleteSelected()}" />  
+                    <p:commandButton value="#{bundle.no}" onclick="confirmDeleteGoalDialog.hide();" />
+                </p:confirmDialog>
+            </h:form>
+            
+        </ui:define>
+        <ui:define name="center">
+            <h:form id="goalsList">
+                <p:dataTable value="#{goalController.goalModel.elements}" var="goal">
+                    PeriodStatus
+                    <p:column headerText="#{bundle.goal_name}">
+                        #{goal.name}
+                    </p:column>
+                    <p:column headerText="#{bundle.status}">
+                        #{goal.period.periodStatus}
+                    </p:column>
+                    <p:column headerText="#{bundle.goal_evaluation}">
+                        #{bundle[goal.goalEvaluation.localization]}
+                    </p:column>
+                    <p:column headerText="#{bundle.goal_achievement}">
+                        #{goal.goalAchievement}
+                    </p:column>
+                    
+                    <p:column headerText="#{bundle.goal_violations}">
+                        #{goal.violations}
+                    </p:column>
+                    <p:column headerText="#{bundle.goal_violations_allowd_for_significantly_short}">
+                        #{goal.violationsAllowdForSignificantly}
+                    </p:column>
+                    <p:column headerText="#{bundle.goal_violations_allowd_for_above_short}">
+                        #{goal.violationsAllowdForAbove}
+                    </p:column>
+                    <p:column headerText="#{bundle.goal_violations_allowd_for_on_short}">
+                        #{goal.violationsAllowdForOn}
+                    </p:column>
+                    
+                    <p:column headerText="#{bundle.goal_start}">
+                        <h:outputText value="#{goal.period.start}">  
+                            <f:convertDateTime pattern="#{bundle.date_format}"/>  
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{bundle.goal_end}">
+                        <h:outputText value="#{goal.period.end}">  
+                            <f:convertDateTime pattern="#{bundle.date_format}"/>  
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <p:commandLink styleClass="easy-reload" title="#{bundle.Reload}" 
+                                           action="#{goalController.goalModel.realod}" update=":goalsList">
+                            </p:commandLink>
+                            <p:commandLink styleClass="easy-add" title="#{bundle.goal_add_goal}"
+                                           action="#{goalController.goalModel.newSelected}"
+                                           oncomplete="createUpdateGoalDialog.show();"
+                                           update=":createUpdateGoalForm">
+                            </p:commandLink>
+                        </f:facet>
+                        
+                        <p:commandLink id="cmdEditGoal"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       styleClass="easy-edit" 
+                                       title="#{bundle.Edit} #{goal.name}" oncomplete="createUpdateGoalDialog.show();"
+                                       action="#{goalController.goalModel.setSelected(goal)}" 
+                                       update=":createUpdateGoalForm" />
+                        
+                        <p:commandLink id="cmdDeleteGoal"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       styleClass="easy-remove" 
+                                       title="#{bundle.Delete} #{goal.name}" oncomplete="confirmDeleteGoalDialog.show();"
+                                       action="#{goalController.goalModel.setSelected(goal)}" 
+                                       update=":confirmDialogForm" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -4,15 +4,48 @@
 
     <groupId>org.easy.scrum</groupId>
     <artifactId>easyScrum</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>easyScrum Parent Pom</name>
-
+    <description>A light weight application from Scrum Teams for Scrum Teams</description>
+    <url>https://github.com/puel/easyScrum</url>
+    <inceptionYear>2013</inceptionYear>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/puel/jsf-burndown-chart</url>
+        <connection>scm:git:git@github.com:puel/easyScrum.git</connection>
+    </scm>
+    <developers>
+        <developer>
+            <id>paul_sterl</id>
+            <name>Paul Sterl</name>
+            <email>paul_sterl@users.sourceforge.net</email>
+        </developer>
+        <developer>
+            <id>adangel</id>
+            <name>Andreas Dangel</name>
+            <email>adangel@users.sourceforge.net</email>
+        </developer>
+    </developers>
+	
+	<parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+        <relativePath/>
+    </parent>
+	
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
-        <hibernate.version>4.2.2.Final</hibernate.version>
+        <hibernate.version>4.2.3.Final</hibernate.version>
     </properties>
 
     <modules>
@@ -39,6 +72,5 @@
             <id>usertype2</id>
             <url>http://usertype.sourceforge.net/m2-repo/org/jadira/</url>
         </repository>
-    </repositories>
-        
+    </repositories> 
 </project>

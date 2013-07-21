@@ -16,6 +16,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.easy.scrum.enums.PeriodStatus;
 import org.easy.time.TimeCalcUtil;
 import org.easy.validation.date.InDateRange;
 import org.easy.validation.html.SafeHtml;
@@ -192,6 +193,10 @@ public class SprintBE extends AbstractEntity {
 
     public void setAvailableHours(int availableHours) {
         this.availableHours = availableHours;
+    }
+    
+    public PeriodStatus getPeriodStatus() {
+        return PeriodStatus.fromDates(start, end);
     }
     
     @Override

@@ -319,6 +319,15 @@ img.right {
     cursor: pointer;
 }
 
+.easy-edit {
+    background-image: url("#{resource['images/actions/Actions-document-edit-icon-16.png']}");
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
 .easy-remove {
     background-image: url("#{resource['images/actions/Actions-list-remove-icon-16.png']}");
     width: 16px;

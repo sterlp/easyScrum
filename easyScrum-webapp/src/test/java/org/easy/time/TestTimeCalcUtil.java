@@ -15,7 +15,7 @@ public class TestTimeCalcUtil {
         s.setStart(new LocalDate().toDate());
         s.setEnd(new LocalDate().plusDays(7).toDate());
         System.out.println(s.getDaysRemaining());
-        assertTrue(s.getDaysRemaining() > 5);
+        assertTrue(s.getDaysRemaining() >= 5);
     }
     
     @Test

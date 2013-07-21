@@ -40,7 +40,7 @@
                             <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
                             <f:selectItems value="#{teamController.teamModel.elements}" 
                                    var="team" itemLabel="#{team.name}"/>
-                            <p:ajax update=":menuForm:sprintSelect,:menuForm:deeplink,:tableForm,:burnDown" process="@this" partialSubmit="true"
+                            <p:ajax update=":menuForm:sprintSelect,:menuAdd,:tableForm,:burnDown" process="@this" partialSubmit="true"
                                     listener="#{dailyController.onSelectedTeamChange}" /> 
                         </p:selectOneMenu>
                         <p:commandLink update=":createTeamForm"
@@ -52,7 +52,7 @@
                             <f:selectItem itemLabel="#{bundle.select_value}" itemValue="" /> 
                             <f:selectItems value="#{dailyController.teamSprints.elements}" 
                                            var="sprint" itemLabel="#{sprint.name}" />
-                            <p:ajax update=":menuForm:deeplink,:tableForm,:burnDown" process="@this" partialSubmit="true"
+                            <p:ajax update=":menuAdd,:tableForm,:burnDown" process="@this" partialSubmit="true"
                                     listener="#{dailyController.onSelectedSprintChange}" />
                         </p:selectOneMenu>
                         <p:commandLink update=":createSprintForm"
@@ -62,7 +62,9 @@
                                        title="#{bundle.sprint_add}" />
 
                     </h:panelGrid>
-                    <p:commandButton id="cmdAddDay" rendered="#{dailyController.sprintDays.sprint != null}"
+                </h:form>
+                <h:form id="menuAdd">
+                    <p:commandButton id="cmdAddDay" disabled="#{dailyController.sprintDays.sprint == null}"
                                      action="#{dailyController.sprintDays.beforeAdd}"
                                      update=":createDayForm"
                                      oncomplete="createDayDialog.show();"
