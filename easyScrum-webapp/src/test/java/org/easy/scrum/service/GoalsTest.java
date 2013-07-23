@@ -16,6 +16,7 @@
 package org.easy.scrum.service;
 
 import org.easy.scrum.model.GoalBE;
+import org.easy.scrum.model.GoalBE.GoalAchievement;
 import org.easy.scrum.model.GoalBE.GoalEvaluation;
 import org.easy.scrum.model.embedded.PersistentPeriod;
 import org.joda.time.DateMidnight;
@@ -118,5 +119,26 @@ public class GoalsTest {
                 GoalBE.GoalEvaluation.WEEKLY,
                 2, 10, 20);
         assertEquals(3, g.getGoalViolationMultipyFactor());
+    }
+    
+    @Test
+    public void testGoalAchievementCalculation() {
+        
+        // 6 Months
+        GoalBE g = new GoalBE(
+                "Verify CI Builds",
+                new LocalDate(2012, 1, 1).toDate(),
+                new LocalDate(2012, 7, 1).toDate(),
+                GoalBE.GoalEvaluation.MONTHLY,
+                1, 2, 3);
+        
+        assertEquals(GoalAchievement.SIGNIFICANTELY_ABOVE_TARGET, g.getGoalAchievement());
+        assertEquals(6, g.getGoalViolationMultipyFactor());
+        
+        assertEquals(GoalAchievement.SIGNIFICANTELY_ABOVE_TARGET, g.addViolations(6));
+        assertEquals(GoalAchievement.ABOVE_TARGET, g.addViolations());
+        assertEquals(GoalAchievement.ABOVE_TARGET, g.addViolations(5));
+        
+        assertEquals(GoalAchievement.ON_TARGET, g.addViolations());
     }
 }

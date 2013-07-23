@@ -1,9 +1,9 @@
 package org.easy.util.logging;
 
 import java.util.Arrays;
+import java.util.Collection;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +48,9 @@ public class LoggingInterceptor {
             result = (in.getClass().isArray() ? Arrays.toString((Object[])in) : in.toString());
             if (result.length() > 90) {
                 result = result.substring(0, 87) + "...";
+            }
+            if (in instanceof Collection) {
+                result += " count: " + ((Collection)in).size();
             }
         }
         return result;

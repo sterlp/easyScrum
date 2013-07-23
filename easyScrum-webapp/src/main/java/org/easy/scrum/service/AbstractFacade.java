@@ -32,6 +32,18 @@ public abstract class AbstractFacade<T extends IEntity<IdType>, IdType> {
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
+    
+    /**
+     * Removes the given object by it's ID and returns it if it was still in the DB
+     * @return the deleted element or null if already deleted
+     */
+    public T remove(IdType id) {
+        T toDelete = find(id);
+        if (toDelete != null) {
+            getEntityManager().remove(toDelete);
+        }
+        return toDelete;
+    }
 
     /**
      * Searches the by the given ID, if the ID is not null

@@ -24,13 +24,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.easy.scrum.enums.PeriodStatus;
 import org.easy.scrum.model.embedded.PersistentPeriod;
-import org.easy.validation.html.HtmlValidation;
 import org.easy.validation.html.SafeHtml;
 import org.joda.time.LocalDate;
 
@@ -47,7 +47,7 @@ public class GoalBE extends AbstractEntity {
         public String getName() {
             return name();
         }
-        public String getLocalization() {
+        public String getLocalizationCode() {
             return GoalAchievement.class.getSimpleName() + "_" + name();
         }
     }
@@ -83,11 +83,18 @@ public class GoalBE extends AbstractEntity {
                 return period.getMonthsBetween() / 6;
             }
         },
+        
+        YEARLY {
+            @Override
+            public int getPassedTime(PersistentPeriod period) {
+                return period.getMonthsBetween() / 12;
+            }
+        },
         ;
         public String getName() {
             return name();
         }
-        public String getLocalization() {
+        public String getLocalizationCode() {
             return GoalEvaluation.class.getSimpleName() + "_" + name();
         }
         /**
@@ -176,6 +183,47 @@ public class GoalBE extends AbstractEntity {
             total = Math.min(total, current);
         }
         return total;
+    }
+    
+    /**
+     * Adds a goal violation to this goal and recalcualted the current status.
+     * 
+     * @return the current Goal Status
+     */
+    public GoalAchievement addViolations() {
+        return addViolations(1);
+    }
+    /**
+     * Adds a goal violation to this goal and recalcualted the current status.
+     * 
+     * @param violationCount the count of violations
+     * @return the current Goal Status
+     */
+    public GoalAchievement addViolations(int violationCount) {
+        this.violations += violationCount;
+        this.setGoalAchievement(calcualteGoalAchievement());
+        return this.goalAchievement;
+    }
+    
+    
+    GoalAchievement calcualteGoalAchievement() {
+        int goalViolationMultipyFactor = getGoalViolationMultipyFactor();
+        
+        if ((violationsAllowdForSignificantly * goalViolationMultipyFactor) >= this.violations) {
+            return GoalAchievement.SIGNIFICANTELY_ABOVE_TARGET;
+        } else if (violationsAllowdForAbove * goalViolationMultipyFactor >= this.violations) {
+            return GoalAchievement.ABOVE_TARGET;
+        } else if (violationsAllowdForOn * goalViolationMultipyFactor >= this.violations) {
+            return GoalAchievement.ON_TARGET;
+        } else {
+            return GoalAchievement.BELOW_TARGET;
+        }
+    }
+    
+    @PrePersist
+    @PreUpdate
+    void beforeSave() {
+        this.goalAchievement = calcualteGoalAchievement();
     }
     
     @Override

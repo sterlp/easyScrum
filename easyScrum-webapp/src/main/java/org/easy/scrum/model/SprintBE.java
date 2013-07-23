@@ -24,10 +24,6 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadablePeriod;
 
-/**
- *
- * @author Paul
- */
 @Entity
 @Table(name = "SPRINT")
 public class SprintBE extends AbstractEntity {

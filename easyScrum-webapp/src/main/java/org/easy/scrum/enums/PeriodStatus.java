@@ -54,7 +54,7 @@ public enum PeriodStatus {
     public String getName() {
         return name();
     }
-    public String getLocalization() {
+    public String getLocalizationCode() {
         return PeriodStatus.class.getSimpleName() + "_" + name();
     }
 }

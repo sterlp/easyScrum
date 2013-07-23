@@ -125,6 +125,14 @@
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
+                    <p:column headerText="#{bundle.status}" styleClass="easy-#{sprint.periodStatus}">
+                        <p:cellEditor>
+                            <f:facet name="output">  
+                                <h:outputText value="#{bundle[sprint.periodStatus.localizationCode]}" />  
+                            </f:facet> 
+                            <f:facet name="input">&nbsp;</f:facet>
+                        </p:cellEditor>
+                    </p:column>
                     <p:column style="width: 6%" exportable="false">  
                         <f:facet name="header">
                             <p:commandLink styleClass="easy-reload" title="#{bundle.Reload}" 

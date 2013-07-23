@@ -1,5 +1,6 @@
 package org.easy.scrum.service;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -62,7 +63,6 @@ public class SprintBF extends AbstractFacade<SprintBE, Long> {
         //if (fetchDays) sprint.fetch(SprintBE_.days);
         
         Path<Long> sprintTeamId = sprint.get(SprintBE_.team).get(TeamBE_.id);
-        
         cq.select(sprint).where(
             cb.equal(sprintTeamId, id)
         ).orderBy(cb.desc(sprint.get(SprintBE_.end)));

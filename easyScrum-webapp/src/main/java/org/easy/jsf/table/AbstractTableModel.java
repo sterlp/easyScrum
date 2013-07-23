@@ -87,6 +87,7 @@ public abstract class AbstractTableModel<T extends ModelClass<Long>, FacadeType 
     }
     /** The current selected element */
     public void setSelected(T selected) {
+        this.inCreateNew = false;
         this.selected = selected;
     }
     public void onEditRow(RowEditEvent event) {

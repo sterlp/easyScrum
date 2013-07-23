@@ -393,6 +393,12 @@ img.right {
     width:  32px;
 }
 
+.easy-scrum-menu .easy-goal {
+    background: url("#{resource['images/menu/goals-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
 .easy-scrum-menu .easy-sprint {
     background: url("#{resource['images/menu/Sport-Activities-Running-icon-32.png']}") no-repeat;
     height: 32px;
@@ -427,4 +433,41 @@ img.right {
 
 .easy-fill-bounding-box {
     width: 98%;
+}
+
+.easy-SIGNIFICANTELY_ABOVE_TARGET {
+    background: url("#{resource['images/emotes/Emotes-face-smile-icon-24.png']}") no-repeat ;
+    height: 24px;
+    width: 24px;
+    text-align: center;
+    background-position: 5px;
+}
+
+.easy-BELOW_TARGET {
+    background: url("#{resource['images/emotes/Emotes-face-embarrassed-icon-24.png']}") no-repeat ;
+    height: 24px;
+    width: 24px;
+    text-align: center;
+    background-position: 5px;
+}
+.easy-ON_TARGET {
+    background: url("#{resource['images/emotes/Emotes-face-smile-icon-24.png']}") no-repeat ;
+    height: 24px;
+    width: 24px;
+    text-align: center;
+    background-position: 5px;
+}
+.easy-ABOVE_TARGET {
+    background: url("#{resource['images/emotes/Emotes-face-smile-big-icon-24.png']}") no-repeat ;
+    height: 24px;
+    width: 24px;
+    text-align: center;
+    background-position: 5px;
+}
+.easy-SIGNIFICANTELY_ABOVE_TARGET {
+    background: url("#{resource['images/emotes/Emotes-face-angel-icon-24.png']}") no-repeat ;
+    height: 24px;
+    width: 24px;
+    text-align: center;
+    background-position: 5px;
 }
