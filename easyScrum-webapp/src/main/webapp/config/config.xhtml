@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:param name="activeIndex" value="5" />
+        
+        <ui:define name="center">
+            <h:form id="configForm">
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="burnDownType" value="#{bundle.config_burnDownType}:" />
+                    <p:selectOneMenu id="burnDownType" value="#{configController.userConfig.burnDownType}" >
+                        <f:selectItems value="#{configController.burnDownTypes}" />
+                    </p:selectOneMenu>
+                    <p:message for="burnDownType" />
+                    
+                    <h:outputLabel for="burnDownHeight" value="#{bundle.config_burnDownHeight}:" />
+                    <p:spinner id="burnDownHeight" value="#{configController.userConfig.burnDownHeight}" min="100" />
+                    <p:message for="burnDownHeight" />
+                    
+                    <h:outputLabel for="burnDownWidth" value="#{bundle.config_burnDownWidth}:" />
+                    <p:spinner id="burnDownWidth" value="#{configController.userConfig.burnDownWidth}" />
+                    <p:message for="burnDownWidth" />
+                    
+                    <h:outputLabel for="hoursSpinnerStep" value="#{bundle.config_hoursSpinnerStep}:" />
+                    <p:spinner id="hoursSpinnerStep" value="#{configController.userConfig.hoursSpinnerStep}" />
+                    <p:message for="hoursSpinnerStep" />
+                </h:panelGrid>
+                <p:commandButton value="#{bundle.Save}" action="#{configController.save}" />
+                <p:commandButton value="#{bundle.Reload}" action="#{configController.reload}" update="configForm" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

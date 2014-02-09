@@ -1,0 +1,473 @@
+/* 
+    Document   : base
+    Created on : 19.04.2013, 21:52:29
+    Author     : Paul
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+	margin: 0px;
+	padding: 0;
+	color: #616161;
+}
+
+h1, h2, h3 {
+	margin-top: 0;
+}
+
+h1 {
+	font-size: 1.6em;
+	font-weight: normal;
+}
+
+h2 {
+	font-size: 1.6em;
+}
+
+h3 {
+	font-size: 1em;
+	margin-top:20px;
+}
+
+ul {
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a img {
+	border: none;
+}
+
+img.left {
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+img.right {
+	float: right;
+	margin: 0 0 0 20px;
+}
+
+/* Header */
+#header {
+    padding: 4px 0px;
+    height: 75px;
+    position: relative;
+}
+
+#logo {
+    text-align: left;
+}
+
+/* Menu */
+#menu {
+    position: absolute;
+    top:25px;
+    right:15px;
+	padding: 0;
+	height: 59px;
+    overflow: hidden;
+}
+
+#menu ul {
+	margin: 0;
+	list-style: none;
+}
+
+#menu li {
+	display: inline;
+}
+
+#menu li a {
+	display: block;
+	float: left;
+	height: 42px;
+	margin: 0;
+	padding: 18px 40px 0 40px;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+#menu li a:hover {
+	text-decoration: underline;
+}
+
+#globalthemeswitcher {
+    position:absolute;
+    top:5px;
+    right:50px;
+}
+
+/* Page */
+#page {
+	padding: 10px 0px;
+	background: #FFFFFF;
+}
+
+/* Content */
+#content {
+	width: 70%;
+    float:left;
+}
+
+.post {
+	padding-bottom: 15px;
+}
+
+.post h1 {
+	font-weight: normal;
+}
+
+.title {
+	height: 30px;
+	margin-left: 10px;
+	padding: 8px 0 0 20px;
+}
+
+.title a {
+	border-bottom: none;
+	color: #FFFFFF;
+}
+
+.title a:hover {
+	border-bottom: 1px dotted #000000;
+}
+
+.submenu-title {
+    padding: 4px 10px;
+}
+
+.submenu-content {
+    text-align:center;
+}
+
+.byline {
+	margin: -60px 20px 20px 20px;
+}
+
+.byline a {
+	color: #DC8700;
+}
+
+.tag {
+	padding: 0 15px;
+}
+
+.entry {
+	padding: 0 20px;
+}
+
+.entry p {
+	line-height: 200%;
+}
+
+.links {
+	padding: 4px 0px;
+	text-align: right;
+	font-weight: bold;
+}
+
+.links a {
+	border: none;
+}
+
+.links a:hover {
+}
+
+#sidebar {
+	float: left;
+	width: 25%;
+	padding: 0 10px;
+	margin-left: -1px;
+    overflow: hidden;
+}
+
+#sidebar a.ui-state-hover, 
+#sidebar a.ui-state-highlight {
+    border:0 none;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+#sidebar table {
+    width: 100%;
+}
+
+#sidebar table td {
+    vertical-align: top;
+}
+
+#sidebar ul {
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar ul li {
+    list-style-type: none;
+    padding: 1px;
+}
+
+/* Footer */
+#footer {
+	height: 70px;
+	margin: 0 auto;
+	padding: 0 20px;
+    font-size: 14px;
+}
+
+#footer p {
+	margin: 0;
+	padding: 25px 0 0 0;
+	text-align: center;
+}
+
+#footer a {
+}
+
+#footer .link {
+	float: right;
+}
+
+#footer .copyright {
+	float: left;
+}
+
+.homeText {
+	line-height: 175%;
+}
+
+.homeMenu {
+	width:200px;
+	float:left;
+	margin-right:10px
+}
+
+.themeMenu {
+    overflow: auto;
+    height:300px;
+    width:200px;
+}
+
+.dp-xml {
+    width:1000px;
+}
+
+.ui-themeswitcher a.ui-selectonemenu-label-container {
+    text-decoration: none !important;
+}
+
+.ui-widget {
+    font-size: 12px !important;
+}
+
+
+
+.easy-head .ui-layout-unit {
+    overflow: visible;
+}
+
+.easy-scrum-body .ui-row-editor {
+    float: left;
+}
+
+.ui-datatable .ui-row-editor .ui-icon-pencil {
+    background-image: url("#{resource['images/actions/Actions-document-edit-icon-16.png']}");
+    background-position: 0px 0px;
+    width: 16px;
+    height: 16px;
+    vertical-align: bottom;
+}
+
+.ui-datatable .ui-row-editor .ui-icon-check {
+    background-image: url("#{resource['images/actions/Actions-dialog-ok-apply-icon-16.png']}");
+    background-position: 0px 0px;
+    width: 16px;
+    height: 16px;
+    vertical-align: bottom;
+}
+
+.ui-datatable .ui-row-editor .ui-icon-close {
+    background-image: url("#{resource['images/actions/Actions-application-exit-icon-16.png']}");
+    background-position: 0px 0px;
+    width: 16px;
+    height: 16px;
+    vertical-align: bottom;
+}
+
+.easy-reload {
+    background-image: url("#{resource['images/actions/Actions-view-refresh-icon-16.png']}");
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.easy-add {
+    background-image: url("#{resource['images/actions/Add-icon-16.png']}");
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.easy-edit {
+    background-image: url("#{resource['images/actions/Actions-document-edit-icon-16.png']}");
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.easy-remove {
+    background-image: url("#{resource['images/actions/Actions-list-remove-icon-16.png']}");
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.easy-copy {
+    background-image: url("#{resource['images/actions/Actions-edit-copy-icon-16.png']}");
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.easy-link {
+    background-image: url("#{resource['images/actions/Link-icon-24.png']}");
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    cursor: pointer;
+    float: right;
+}
+
+.easy-app-excel {
+    background-image: url("#{resource['images/apps/Excel-icon-24.png']}");
+    height: 24px;
+    width:  24px;
+    cursor: pointer;
+    display: block;
+}
+
+.easy-add:hover, .easy-reload:hover, .easy-remove:hover,
+.ui-datatable .ui-row-editor .ui-icon-close:hover,
+.ui-datatable .ui-row-editor .ui-icon-check:hover,
+.ui-datatable .ui-row-editor .ui-icon-pencil:hover {
+    opacity: 0.7;
+}
+
+.ui-growl.ui-widget {
+    top: 90%;
+}
+
+.ui-accordion-header td {
+    padding: 0px 5px;
+}
+
+.easy-number-column {
+    text-align: right;
+}
+
+.easy-scrum-menu .ui-menuitem-text {
+    line-height: 32px;
+    margin-left: 5px;
+}
+
+.easy-scrum-menu .easy-user {
+    background: url("#{resource['images/menu/Users-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.easy-scrum-menu .easy-goal {
+    background: url("#{resource['images/menu/goals-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.easy-scrum-menu .easy-sprint {
+    background: url("#{resource['images/menu/Sport-Activities-Running-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.easy-scrum-menu .easy-daily {
+    background: url("#{resource['images/menu/Task-List-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.easy-scrum-menu .easy-overview {
+    background: url("#{resource['images/menu/Status-user-away-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.easy-scrum-menu .easy-config {
+    background: url("#{resource['images/menu/run-icon32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+}
+
+.ui-confirm-dialog .ui-icon-question {
+    background: url("#{resource['images/actions/Alarm-Help-and-Support-icon-32.png']}") no-repeat;
+    height: 32px;
+    width:  32px;
+    background-position: 0px 0px;
+}
+
+
+.easy-fill-bounding-box {
+    width: 98%;
+}
+
+.easy-SIGNIFICANTELY_ABOVE_TARGET {
+    background: url("#{resource['images/emotes/Emotes-face-smile-icon-24.png']}") no-repeat ;
+    height: 24px;
+    width: 24px;
+    text-align: center;
+    background-position: 5px;
+}
+
+.easy-BELOW_TARGET {
+    background: url("#{resource['images/emotes/Emotes-face-embarrassed-icon-24.png']}") no-repeat ;
+    height: 24px;
+    width: 24px;
+    text-align: center;
+    background-position: 5px;
+}
+.easy-ON_TARGET {
+    background: url("#{resource['images/emotes/Emotes-face-smile-icon-24.png']}") no-repeat ;
+    height: 24px;
+    width: 24px;
+    text-align: center;
+    background-position: 5px;
+}
+.easy-ABOVE_TARGET {
+    background: url("#{resource['images/emotes/Emotes-face-smile-big-icon-24.png']}") no-repeat ;
+    height: 24px;
+    width: 24px;
+    text-align: center;
+    background-position: 5px;
+}
+.easy-SIGNIFICANTELY_ABOVE_TARGET {
+    background: url("#{resource['images/emotes/Emotes-face-angel-icon-24.png']}") no-repeat ;
+    height: 24px;
+    width: 24px;
+    text-align: center;
+    background-position: 5px;
+}

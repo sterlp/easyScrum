@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui">
+    
+    <!--
+    parameters:
+    * update
+    -->
+    <p:dialog header="#{bundle.team_create_dialog_header}" 
+          widgetVar="createTeamDialog" 
+          hideEffect="fade" closeOnEscape="true" resizable="false" modal="true">
+        <h:panelGrid columns="3">
+            <h:outputLabel value="#{bundle.team_table_columns_name}:" for="teamName" />
+            <p:inputText id="teamName" value="#{teamController.teamModel.newElement.name}" label="#{bundle.team_table_columns_name}" />
+            <p:message for="teamName" /> 
+        </h:panelGrid>
+        <p:commandButton id="cmdSaveTeam"
+            value="#{bundle.Save}"
+            actionListener="#{teamController.teamModel.add}" 
+            update="#{update}"
+            oncomplete="hideDialog(args, createTeamDialog); #{oncomplete}"
+        />
+    </p:dialog>
+</ui:composition>
+            

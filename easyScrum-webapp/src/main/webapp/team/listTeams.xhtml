@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:param name="activeIndex" value="3" />
+        
+        <ui:define name="noLayout">
+            <h:form id="createTeamForm" >
+                <ui:include src="/team/createTeamDialog.xhtml">
+                    <ui:param name="update" value=":createTeamForm,:teamListForm" />
+                    <ui:param name="oncomplete" value="" />
+                </ui:include>
+            </h:form>
+            
+            <h:form id="confirmDialogForm">
+                <p:confirmDialog id="confirmDeleteTeamDialog"
+                                 header="#{bundle.team_delete_caption}" widgetVar="confirmDialog" severity="question" >
+                    <f:facet name="message">
+                        <h:outputFormat value="#{bundle.team_delete_text}" escape="false">
+                            <f:param value="#{teamController.teamModel.selected.name}" />
+                        </h:outputFormat>
+                    </f:facet>
+                    <p:commandButton value="#{bundle.yes}" update=":teamListForm" oncomplete="hideDialog(args, confirmDialog);"  
+                                     action="#{teamController.teamModel.deleteSelected()}" />  
+                    <p:commandButton value="#{bundle.no}" onclick="confirmDialog.hide();" />
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+
+        <ui:define name="center">
+            <!--
+            http://stackoverflow.com/questions/14339855/ajax-update-doesnt-work-when-using-filter-on-datatable-jsf-primefaces
+            -->
+            <h:form id="teamListForm">
+                <p:dataTable binding="#{table}" id="teamList" widgetVar="teamListTableVar"
+                             value="#{teamController.teamModel.elements}" editable="true" var="team">
+                    <p:ajax event="rowEdit" oncomplete="hideTableDelete();"
+                            listener="#{teamController.teamModel.onEditRow}" update="teamList" />
+                    <p:ajax event="rowEditCancel" oncomplete="hideTableDelete();"
+                            listener="#{teamController.teamModel.onCancelEditRow}" update="teamList" />  
+                    
+                    <p:column headerText="#{bundle.team_table_columns_name}" >  
+                        <p:cellEditor>  
+                            <f:facet name="output">  
+                                <h:outputText value="#{team.name}" />  
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:inputText id="tableTeamName" value="#{team.name}" label="#{bundle.team_table_columns_name}" style="width:99%"/>  
+                                <p:message for="tableTeamName" /> 
+                            </f:facet>  
+                        </p:cellEditor>  
+                    </p:column> 
+                    <p:column style="width:6%" exportable="false">  
+                        <f:facet name="header">
+                            <p:commandLink styleClass="easy-reload" title="#{bundle.Reload}" 
+                                           action="#{teamController.teamModel.realod}" update=":teamListForm">
+                                <!-- <div class="easy-reload"></div> -->
+                            </p:commandLink>
+                            <a onclick="createTeamDialog.show();" class="easy-add" title="#{bundle.team_add}"></a>
+                        </f:facet>
+                        
+                        <p:rowEditor>
+                        </p:rowEditor>
+                        <p:commandLink id="cmdDeleteTeam"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       styleClass="easy-remove" 
+                                       title="#{bundle.Delete} #{team.name}" oncomplete="confirmDialog.show();"
+                                       action="#{teamController.teamModel.setSelected(team)}" 
+                                       update=":confirmDialogForm">
+                        </p:commandLink>
+                    </p:column>
+                    
+                    <f:facet name="footer">
+                        <ui:include src="/WEB-INF/fragments/exportButtons.xhtml">
+                            <ui:param name="table" value="#{table}" />
+                            <ui:param name="fileName" value="#{bundle.team_export_file_name}" />
+                        </ui:include>
+                    </f:facet>
+                </p:dataTable>
+                <script>
+                    hideTableDelete();
+                </script>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

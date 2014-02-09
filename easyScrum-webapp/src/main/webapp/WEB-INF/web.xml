@@ -1,22 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/applicationContext.xml</param-value>
+        <!-- Production Development UnitTest SystemTest 
+        http://www.icesoft.org/wiki/display/ICE/JSF+Configuration
+        Production
+        -->
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Production</param-value>
     </context-param>
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <!-- do not render comments -->
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
     <servlet>
-        <servlet-name>dispatcher</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>*.htm</url-pattern>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+    <session-config><session-timeout>30</session-timeout></session-config>
+    
+    <!-- 
+        http://logback.qos.ch/manual/configuration.html 
+        https://github.com/qos-ch/logback-demo/blob/master/src/main/webapp/WEB-INF/web.xml
+    -->
+    <servlet>
+        <servlet-name>ViewLastLog</servlet-name>
+        <servlet-class>ch.qos.logback.demo.ViewLastLog</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewStatusMessages</servlet-name>
+        <servlet-class>ch.qos.logback.classic.ViewStatusMessagesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewStatusMessages</servlet-name>
+        <url-pattern>/log</url-pattern>
+    </servlet-mapping>
+    
+    <!-- time to cache resources which are in the "resource" folder 
+    http://stackoverflow.com/questions/15057932/jsf-cache-static-resources-filter/
+    -->
+    <context-param>
+        <param-name>com.sun.faces.defaultResourceMaxAge</param-name>
+        <param-value>2592000000</param-value> <!-- 30 days -->  
+    </context-param>
+    <!--
+    http://stackoverflow.com/questions/15331073/jsf-page-flashes-during-load-while-in-project-stage-development/
+    -->
+    <context-param>
+        <param-name>javax.faces.FACELETS_BUFFER_SIZE</param-name>
+        <param-value>65535</param-value> <!-- 64KB -->
+    </context-param>
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
+    <!--
+    <error-page>
+        <location>/error.xhtml</location>
+    </error-page>
+    -->
+    
+    <!--
+    https://blogs.oracle.com/enterprisetechtips/entry/datasource_resource_definition_in_java
+    -->
+    <resource-ref>
+        <description>Resource reference to my database</description>
+        <res-ref-name>java:app/env/easyScrum</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
 </web-app>

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:form id="createSprintForm">
+        <p:dialog id="createSprint" header="#{bundle.sprint_create_sprint}" 
+                  widgetVar="createSprintDialog" 
+                  visible="false"
+                  hideEffect="fade" closeOnEscape="true" resizable="false" modal="true">
+            <ui:include src="/sprint/createSprint.xhtml" />
+            <p:commandButton action="#{sprintController.sprintModel.add}" 
+                value="#{bundle.Add}"
+                update=":createSprintForm,#{update}" 
+                oncomplete="if (!args.validationFailed) createSprintDialog.hide(); else createSprintDialog.show();"
+            />
+        </p:dialog>
+    </h:form>
+</ui:fragment>
