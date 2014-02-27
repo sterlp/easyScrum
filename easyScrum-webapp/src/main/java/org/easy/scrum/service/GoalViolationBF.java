@@ -21,15 +21,9 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import javax.validation.Valid;
-import org.easy.scrum.model.AbstractEntity_;
 import org.easy.scrum.model.GoalBE;
-import org.easy.scrum.model.GoalBE_;
 import org.easy.scrum.model.GoalViolationBE;
-import org.easy.scrum.model.GoalViolationBE_;
 import org.easy.scrum.service.exception.EasyScrumException.GoalNotFoundException;
 
 @Stateless
@@ -82,26 +76,13 @@ public class GoalViolationBF  extends AbstractFacade<GoalViolationBE, Long> {
         return v;
     }
 
-    @Override
     public List<GoalViolationBE> findAll() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<GoalViolationBE> cq = cb.createQuery(GoalViolationBE.class);
-        Root v = cq.from(GoalViolationBE.class);
-        
-        cq.select(v).orderBy(cb.desc(v.get(GoalViolationBE_.day)));
-        
-        return em.createQuery(cq).getResultList();
+        return em.createNamedQuery(GoalViolationBE.Q_ALL).getResultList();
     }
 
     public List<GoalViolationBE> findAllViolationsForGoal(Long goalId) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<GoalViolationBE> cq = cb.createQuery(GoalViolationBE.class);
-        Root v = cq.from(GoalViolationBE.class);
-        
-        cq.select(v).where(
-            cb.equal(v.get(GoalViolationBE_.goal).get(GoalBE_.id), goalId)
-        ).orderBy(cb.desc(v.get(GoalViolationBE_.day)));
-        
-        return em.createQuery(cq).getResultList();
+        return em.createNamedQuery(GoalViolationBE.Q_BY_GOAL_ID)
+                .setParameter("id", goalId)
+                .getResultList();
     }
 }

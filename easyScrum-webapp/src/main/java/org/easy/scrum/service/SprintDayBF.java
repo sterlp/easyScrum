@@ -29,15 +29,7 @@ public class SprintDayBF extends AbstractFacade<SprintDayBE, Long> {
     }
 
     public List<SprintDayBE> findAllBySprintId(Long id) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<SprintDayBE> cq = cb.createQuery(SprintDayBE.class);
-        Root<SprintDayBE> sprintDay = cq.from(SprintDayBE.class);
-        Path<Long> sprintDaySprintId = sprintDay.get(SprintDayBE_.sprint).get(SprintBE_.id);
-        
-        cq.select(sprintDay).where(
-            cb.equal(sprintDaySprintId, id)
-        ).orderBy(cb.desc(sprintDay.get(SprintDayBE_.day)));
-        TypedQuery<SprintDayBE> createQuery = em.createQuery(cq);
-        return createQuery.getResultList();
+        return em.createNamedQuery(SprintDayBE.Q_BY_SPRINT_ID)
+                .setParameter("id", id).getResultList();
     }
 }

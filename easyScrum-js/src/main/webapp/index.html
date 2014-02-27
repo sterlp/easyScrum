@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+Copyright 2014 Paul.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html lang="en" ng-app="easyScrum">
+    <head>
+        <title>easyScrum</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link href="lib/bootstrap-3.1.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="lib/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/sb-admin.css" rel="stylesheet">
+    </head>
+    <body>
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/home">easyScrum</a>
+            </div>
+        </nav>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav side-nav">
+                <li class="active"><a href="#/home"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="#/teams"><i class="fa fa-bar-chart-o"></i> Teams</a></li>
+            </ul>
+        </div>
+
+        <div id="wrapper">
+            <div id="page-wrapper">
+                <div ng-view></div>
+            </div>
+
+        </div>
+        <script src="lib/jquery-2.1.0.min.js"></script>
+        <script src="lib/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+        <script src="lib/angular-1.2.12/angular.js"></script>
+        <script src="lib/angular-1.2.12/angular-resource.js"></script>
+        <script src="lib/angular-1.2.12/angular-route.js"></script>
+        <script src="lib/lodash-2.4.1/lodash.js"></script>
+        <script src="lib/rest-angular-1.3.1/rest-angular.js"></script>
+
+        <script src="js/controllers.js"></script>
+    </body>
+</html>

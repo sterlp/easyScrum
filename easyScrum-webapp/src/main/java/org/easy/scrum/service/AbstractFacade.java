@@ -32,7 +32,12 @@ public abstract class AbstractFacade<T extends IEntity<IdType>, IdType> {
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
-    
+
+    public List<T> findAll() {
+        return getEntityManager().createQuery("SELECT e FROM " 
+                + entityClass.getSimpleName() + " AS e ORDER BY ID ASC").getResultList();
+    }
+
     /**
      * Removes the given object by it's ID and returns it if it was still in the DB
      * @return the deleted element or null if already deleted
@@ -56,29 +61,6 @@ public abstract class AbstractFacade<T extends IEntity<IdType>, IdType> {
         } else {
             return null;
         }
-    }
-
-    public List<T> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-
-    public List<T> findRange(int[] range) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        q.setMaxResults(range[1] - range[0]);
-        q.setFirstResult(range[0]);
-        return q.getResultList();
-    }
-
-    public int count() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
     }
     
     protected Query addRange(Query query, Integer startPosition, Integer maxResult) {

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+    <changeSet author="sterlp" id="0.1.0-SNAPSHOT" logicalFilePath="easyScrum">
+        <createTable tableName="CONFIG">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="burn_down_height" type="BIGINT(19)"/>
+            <column name="burn_down_type" type="VARCHAR(50)" defaultValue="BURN_DOWN_BEFORE_UP_SCALING">
+                <constraints nullable="false"/>
+            </column>
+            <column name="burn_down_width" type="BIGINT(19)"/>
+            <column name="hours_spinner_step" type="BIGINT(19)" defaultValueNumeric="4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_login" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="SPRINT_DAY">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="sprint_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="burn_down" type="INT(10)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sprint_day" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="VARCHAR(255)"/>
+            <column name="reason_for_upscaling" type="VARCHAR(255)"/>
+            <column name="upscaling" type="INT(10)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="SPRINT">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="team_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="planned_hours" type="INT(10)" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="available_hours" type="INT(10)" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="story_points" type="INT(10)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="TEAM">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="id" constraintName="PRIMARY" tableName="CONFIG"/>
+        <addForeignKeyConstraint baseColumnNames="team_id" baseTableName="SPRINT" constraintName="FK922FF61ADB47DBB8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="TEAM"/>
+        <addForeignKeyConstraint baseColumnNames="sprint_id" baseTableName="SPRINT_DAY" constraintName="FK6EDF8FD783595098" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="SPRINT"/>
+    </changeSet>
+    <changeSet id="0.1.0.FINAL" author="sterlp" logicalFilePath="easyScrum">
+        <dropForeignKeyConstraint baseTableName="SPRINT" constraintName="FK922FF61ADB47DBB8"/>
+        <dropForeignKeyConstraint baseTableName="SPRINT_DAY" constraintName="FK6EDF8FD783595098"/>
+        
+        <addForeignKeyConstraint baseColumnNames="team_id" baseTableName="SPRINT" constraintName="FK_TEAM_TO_SPRINT" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="TEAM"/>
+        <addForeignKeyConstraint baseColumnNames="sprint_id" baseTableName="SPRINT_DAY" constraintName="FK_SPRINT_TO_DAY" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="SPRINT"/>
+        
+        <createIndex tableName="SPRINT_DAY" indexName="IDX_SPRINT_DAY_DAY" unique="false">
+            <column name="sprint_day" />
+        </createIndex>
+        <createIndex tableName="SPRINT" indexName="IDX_SPRINT_END_DAY" unique="false">
+            <column name="end_date" />
+        </createIndex>
+    </changeSet>
+    
+    <changeSet id="0.2.0-SNAPSHOT" author="sterlp" logicalFilePath="easyScrum">
+        <createTable tableName="GOAL">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="team_id" type="BIGINT(19)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="violations" type="INT(10)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="violations_allowd_for_significantly" type="INT(10)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="violations_allowd_for_above" type="INT(10)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="violations_allowd_for_on" type="INT(10)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="goal_evaluation" type="VARCHAR(50)" defaultValue="WEEKLY">
+                <constraints nullable="false"/>
+            </column>
+            <column name="goal_achievement" type="VARCHAR(50)" defaultValue="SIGNIFICANTELY_ABOVE_TARGET">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="start_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(1024)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="team_id" baseTableName="GOAL" constraintName="FK_GOAL_TO_TEAM" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="TEAM"/>
+        <createIndex tableName="GOAL" indexName="IDX_GOAL_END_DAY" unique="false">
+            <column name="end_date" />
+        </createIndex>
+        
+        <createTable tableName="GOAL_VIOLATION">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="goal_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="violation_day" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="goal_id" baseTableName="GOAL_VIOLATION" constraintName="FK_GOAL_VIOLATION_TO_GOAL" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="GOAL"/>
+        <createIndex tableName="GOAL_VIOLATION" indexName="IDX_GOAL_VIOLATION_DAY" unique="false">
+            <column name="violation_day" />
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

@@ -8,3 +8,5 @@
 /easyScrum-webapp/target/
 /easyScrum-db/target/
 .DS_Store
+/easyScrum-js/target/
+/easyScrum-model/target/

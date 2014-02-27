@@ -1,0 +1,17 @@
+<domain>
+    <resources>
+        <jdbc-resource pool-name="MemoryDB" jndi-name="jdbc/easyScrum"></jdbc-resource>
+        <jdbc-connection-pool datasource-classname="org.hsqldb.jdbcDriver" is-isolation-level-guaranteed="false" res-type="javax.sql.DataSource" name="MemoryDB">
+            <property name="Password" value=""></property>
+            <property name="User" value="sa"></property>
+            <property name="url" value="jdbc:hsqldb:mem:testdb;shutdown=false"></property>
+        </jdbc-connection-pool>
+    </resources>
+
+    <servers>
+        <server name="server" config-ref="server-config">
+            <resource-ref ref="jdbc/easyScrum"></resource-ref>
+        </server>
+    </servers>
+    <property name="administrative.domain.name" value="domain1"></property>
+</domain>

@@ -20,12 +20,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import org.easy.scrum.model.GoalBE;
-import org.easy.scrum.model.GoalBE_;
-import org.easy.scrum.model.embedded.PersistentPeriod_;
 
 @Stateless
 @TransactionAttribute
@@ -43,16 +38,7 @@ public class GoalBF extends AbstractFacade<GoalBE, Long> {
         return em;
     }
 
-    @Override
     public List<GoalBE> findAll() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<GoalBE> cq = cb.createQuery(GoalBE.class);
-        Root goal = cq.from(GoalBE.class);
-        
-        cq.select(goal).orderBy(
-            cb.desc(goal.get(GoalBE_.period).get(PersistentPeriod_.end))
-        );
-        
-        return em.createQuery(cq).getResultList();
+        return em.createNamedQuery(GoalBE.Q_GOAL_ALL).getResultList();
     }
 }
