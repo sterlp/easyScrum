@@ -47,8 +47,8 @@
         <hibernate.version>4.2.8.Final</hibernate.version>
         <mysql.version>5.1.29</mysql.version>
         <junit.version>4.11</junit.version>
+        <jackson.version>2.3.2</jackson.version>
         
-        <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
         <netbeans.compile.on.save>all</netbeans.compile.on.save>
     </properties>
 

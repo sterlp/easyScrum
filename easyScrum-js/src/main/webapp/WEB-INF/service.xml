@@ -38,14 +38,8 @@
           class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
-    <!--
-   <bean id="transactionManager" 
-      class="org.springframework.orm.jpa.JpaTransactionManager"
-      p:entityManagerFactory-ref="entityManagerFactory"/>
-    -->
-        
-    <bean id="entityManagerFactory" 
-              class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
         </property>

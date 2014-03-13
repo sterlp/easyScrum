@@ -31,7 +31,10 @@ angular.module('easyScrum', ['ngRoute', 'restangular']).
     });
 
 
-function HomeCtrl($scope, $timeout, Restangular) {
+function HomeCtrl($scope) {
+}
+
+function TeamsCtrl($scope, $timeout, Restangular) {
     Restangular.setBaseUrl('service/');
     var restTeams = Restangular.all('team');
     $scope.refresh = function () {
@@ -51,10 +54,4 @@ function HomeCtrl($scope, $timeout, Restangular) {
     // allow tooltips on this page
     $scope.layoutDone = function() { $timeout(function() {$('.easy-tooltip').tooltip(); }, 0) };
     $scope.refresh();
-    
-    
-}
-
-function TeamsCtrl($scope) {
-    $scope.team = {name: "Team 2"};
 }
