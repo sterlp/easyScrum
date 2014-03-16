@@ -17,12 +17,15 @@ package org.easy.scrum.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 import org.easy.scrum.model.TeamBE;
 import org.easy.scrum.model.dao.TeamDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,7 +37,7 @@ public class TeamService {
     @Autowired
     private TeamDao teamDao;
 
-    @RequestMapping("/team")
+    @RequestMapping(value = "/team", method = RequestMethod.GET)
     @ResponseBody
     public List<TeamBE> list() {
         List<TeamBE> result = new ArrayList<>();
@@ -55,5 +58,17 @@ public class TeamService {
     @ResponseBody
     public void deleteTeam(@PathVariable Long id) {   
         teamDao.delete(id);
+    }
+    @RequestMapping(value = "/team", method = RequestMethod.POST)
+    @ResponseBody
+    public TeamBE save(@Valid @RequestBody TeamBE team) {
+        return teamDao.save(team);
+    }
+    @RequestMapping(value = "/team/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public TeamBE update(@PathVariable Long id, @Valid @RequestBody TeamBE team) {
+        team.setId(id);
+        team = teamDao.save(team);
+        return team;
     }
 }
