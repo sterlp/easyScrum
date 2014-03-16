@@ -48,8 +48,7 @@ limitations under the License.
                 </td>
             </tr>
         </table>
-        <p>Dialog Status: {{ showTeamDialog }}</p>
-        
+
         <div data-easy-dialog show="showTeamDialog" header="{{ editHeader }}">
             <form class="form-horizontal" role="form" ng-submit="dialogClose('submit')" >
                 <div class="form-group">
@@ -58,6 +57,7 @@ limitations under the License.
                         <input ng-model="team.name" required type="text" class="form-control" id="teamName" placeholder="Team Name">
                     </div>
                 </div>
+                <hr>
                 <button type="submit" class="btn btn-primary">Okay</button>
                 <button ng-click="dialogClose('cancel')" type="button" class="btn btn-default">Close</button>
             </form>

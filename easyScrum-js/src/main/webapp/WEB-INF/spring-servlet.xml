@@ -12,6 +12,7 @@
            
        >
     <mvc:annotation-driven  />
+
     <context:component-scan base-package="org.easy.scrum" />
 
 </beans>

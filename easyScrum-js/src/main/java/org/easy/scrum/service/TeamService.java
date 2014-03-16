@@ -23,7 +23,6 @@ import org.easy.scrum.model.dao.TeamDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,7 +61,8 @@ public class TeamService {
     @RequestMapping(value = "/team", method = RequestMethod.POST)
     @ResponseBody
     public TeamBE save(@Valid @RequestBody TeamBE team) {
-        return teamDao.save(team);
+        TeamBE t = teamDao.save(team);
+        return t;
     }
     @RequestMapping(value = "/team/{id}", method = RequestMethod.PUT)
     @ResponseBody

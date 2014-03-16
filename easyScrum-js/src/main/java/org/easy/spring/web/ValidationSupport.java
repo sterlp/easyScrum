@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.easy.scrum.service;
+package org.easy.spring.web;
 
 import java.util.List;
 import java.util.Locale;
