@@ -1,5 +1,6 @@
 package org.easy.scrum.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -29,12 +30,12 @@ import org.joda.time.ReadablePeriod;
 @Entity
 @Table(name = "SPRINT")
 @NamedQueries(
-        @NamedQuery(name = SprintBE.Q_BY_TEAM_ID, query = "SELECT s from SprintBE as s WHERE s.team.id = :id ORDER BY s.end DESC")
+        @NamedQuery(name = SprintBE.Q_BY_TEAM_ID, query = "SELECT s from SprintBE as s WHERE s.team.id = :teamId ORDER BY s.end DESC")
 )
 public class SprintBE extends AbstractEntity {
     private static final long serialVersionUID = 1L;
 
-    public static final String Q_BY_TEAM_ID = "SprintBE.all";
+    public static final String Q_BY_TEAM_ID = "SprintBE.byTeamId";
     
     @NotNull
     @Size(min = 1, max = 255)
@@ -73,6 +74,7 @@ public class SprintBE extends AbstractEntity {
     
     @OneToMany(cascade = {}, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "sprint")
     @OrderBy("day DESC")
+    @JsonIgnore
     private List<SprintDayBE> days;
     
     private transient int daysInBetween = 0;

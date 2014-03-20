@@ -36,9 +36,9 @@ public class TeamService {
     @Autowired
     private TeamDao teamDao;
 
-    @RequestMapping(value = "/team", method = RequestMethod.GET)
+    @RequestMapping(value = "/teams", method = RequestMethod.GET)
     @ResponseBody
-    public List<TeamBE> list() {
+    public List<TeamBE> list() throws Exception {
         List<TeamBE> result = new ArrayList<>();
         Iterable<TeamBE> teams = teamDao.findAll();
         for (TeamBE teamBE : teams) {
@@ -47,24 +47,25 @@ public class TeamService {
         return result;
     }
 
-    @RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/teams/{id}", method = RequestMethod.GET)
     @ResponseBody
     public TeamBE getTeam(@PathVariable Long id) {   
         return teamDao.findOne(id);
     }
     
-    @RequestMapping(value = "/team/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/teams/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public void deleteTeam(@PathVariable Long id) {   
         teamDao.delete(id);
     }
-    @RequestMapping(value = "/team", method = RequestMethod.POST)
+    @RequestMapping(value = "/teams", method = RequestMethod.POST)
     @ResponseBody
-    public TeamBE save(@Valid @RequestBody TeamBE team) {
+    public TeamBE create(@Valid @RequestBody TeamBE team) {
+        team.setId(null);
         TeamBE t = teamDao.save(team);
         return t;
     }
-    @RequestMapping(value = "/team/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/teams/{id}", method = RequestMethod.PUT)
     @ResponseBody
     public TeamBE update(@PathVariable Long id, @Valid @RequestBody TeamBE team) {
         team.setId(id);

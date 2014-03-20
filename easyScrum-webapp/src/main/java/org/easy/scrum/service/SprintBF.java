@@ -52,6 +52,6 @@ public class SprintBF extends AbstractFacade<SprintBE, Long> {
     private Query findByTeamIdOrderByEndDate(Long id) {
 
         return em.createNamedQuery(SprintBE.Q_BY_TEAM_ID)
-                .setParameter("id", id);
+                .setParameter("teamId", id);
     }
 }

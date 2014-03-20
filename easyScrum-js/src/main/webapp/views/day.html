@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--
+Copyright 2014 Paul.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Daily View & Burndown</h1>
+    </div>
+</div>
+<!-- team select -->
+<div class="row">
+    <!-- show any server errors etc. like the JSF messages -->
+    <div class="col-lg-12">
+        <div class="messages"></div>
+    </div>
+    <!-- Team & Sprint Select -->
+    <div class="col-lg-6">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Team</label>
+                <div class="col-sm-10">
+                    <select class="form-control" ng-disabled="teams.length === 0" ng-model="team" ng-options="team.name for team in teams"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Sprint</label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <select class="form-control" ng-disabled="sprints.length === 0" ng-model="sprint" ng-options="sprint.name for sprint in sprints"></select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default easy-tooltip" type="button" title="Add Sprint"><i class="fa fa-plus-circle"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        
+    </div>
+</div>
+<!-- burn down chart -->
+<div class="row">
+
+</div>
+<!-- daily table -->
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-hover table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Burndown</th>
+                    <th>Comment</th>
+                    <th>Up-Scalling</th>
+                    <th>Reason for Up-Scalling</th>
+                    <th><div class="pull-right btn-group"><button ng-click="addDay()" class="btn btn-default btn-xs easy-tooltip" type="button" title="Add Day"><i class="fa fa-plus-circle"></i></button></div></th>
+                </tr>
+            </thead>
+            <tr ng-repeat="day in days">
+                <td>{{ day.date }}</td>
+                <td>{{ day.burnDown }}</td>
+                <td>{{ day.comment }}</td>
+                <td>{{ day.upscaling }}</td>
+                <td>{{ day.reasonForUpscaling }}</td>
+                <td>
+                    <div class="pull-right btn-group">
+                        <button ng-click="edit(day, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit Day {{ day.date}}"><i class="fa fa-edit fa-fw"></i></button>
+                        <button ng-click="delete(day, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete Day {{ day.date}}"><i class="fa fa-trash-o fa-fw"></i></button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div data-easy-dialog show="showDayDialog" header="{{ dialogHeader }}">
+    <div class="col-lg-12">
+        <div class="messages"></div>
+    </div>
+    <form class="form-horizontal" role="form" ng-submit="submitDialog('submit')" >
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Sprint&nbsp;Name</label>
+            <div class="col-sm-10">
+                <p class="form-control-static">{{ day.sprint.name }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Day</label>
+            <div class="col-sm-10">
+                <input ng-model="day.day" required type="date" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Burndown</label>
+            <div class="col-sm-10">
+                <input ng-model="day.burnDown" min="0" type="number" required class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Comment</label>
+            <div class="col-sm-10">
+                <textarea ng-model="day.comment" class="form-control" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Up-Scaling</label>
+            <div class="col-sm-10">
+                <input ng-model="day.upscaling" min="0" required type="number" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Reason</label>
+            <div class="col-sm-10">
+                <textarea ng-model="day.reasonForUpscaling" class="form-control" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button ng-disabled="network.busy" type="submit" class="btn btn-primary">Okay</button>
+                <button ng-click="submitDialog('cancel')" type="button" class="btn btn-default">Close</button>
+            </div>
+        </div>
+    </form>
+</div>

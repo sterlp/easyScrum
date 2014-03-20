@@ -1,0 +1,7 @@
+<div class="alert alert-danger alert-dismissable" ng-show="network.lastRequestError">
+    <strong>{{ network.lastRequestError.status }}</strong> Server Error, please try again later or contact Support.
+    <hr ng-show="network.lastRequestError.config.url">
+    <strong>{{ network.lastRequestError.config.url }}</strong>
+    <hr ng-show="network.lastRequestError.data.message">
+    {{ network.lastRequestError.data.message }}
+</div>

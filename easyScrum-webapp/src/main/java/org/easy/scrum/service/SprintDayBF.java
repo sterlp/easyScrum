@@ -30,6 +30,6 @@ public class SprintDayBF extends AbstractFacade<SprintDayBE, Long> {
 
     public List<SprintDayBE> findAllBySprintId(Long id) {
         return em.createNamedQuery(SprintDayBE.Q_BY_SPRINT_ID)
-                .setParameter("id", id).getResultList();
+                .setParameter("sprintId", id).getResultList();
     }
 }

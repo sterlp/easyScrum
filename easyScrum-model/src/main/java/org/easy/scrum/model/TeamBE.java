@@ -1,6 +1,7 @@
 package org.easy.scrum.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import org.easy.validation.html.SafeHtml;
 
 @Entity
 @Table(name = "TEAM")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TeamBE extends AbstractEntity {
     private static final long serialVersionUID = 1L;
     

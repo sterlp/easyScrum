@@ -17,8 +17,7 @@
 package org.easy.spring.web;
 
 import java.util.List;
-import java.util.Locale;
-import org.springframework.context.i18n.LocaleContextHolder;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -37,7 +36,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ValidationSupport {
     // @Autowired
     //private MessageSource messageSource;
-    
+    @Data
     static class ValidationError {
         String objectName;
         String path;
@@ -50,27 +49,7 @@ public class ValidationSupport {
             this.errors = errors;
             this.fieldErrors = fieldErrors;
         }
-
-        public String getObjectName() {
-            return objectName;
-        }
-
-        public String getPath() {
-            return path;
-        }
-
-        public int getErrors() {
-            return errors;
-        }
-
-        public List<FieldError> getFieldErrors() {
-            return fieldErrors;
-        }
     }
-    
-    //static class FieldError {
-        
-    //}
 
     
     @ExceptionHandler(MethodArgumentNotValidException.class)

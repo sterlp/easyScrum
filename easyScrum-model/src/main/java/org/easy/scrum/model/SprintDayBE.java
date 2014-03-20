@@ -1,5 +1,6 @@
 package org.easy.scrum.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,11 +27,12 @@ import org.easy.validation.html.SafeHtml;
 @Table(name = "SPRINT_DAY")
 @DayInSprint
 @NamedQueries(
-        @NamedQuery(name = SprintDayBE.Q_BY_SPRINT_ID, query = "SELECT a from SprintDayBE AS a WHERE a.sprint.id = :id ORDER BY a.day DESC")
+    @NamedQuery(name = SprintDayBE.Q_BY_SPRINT_ID, query = "SELECT a from SprintDayBE AS a WHERE a.sprint.id = :sprintId ORDER BY a.day DESC")
 )
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SprintDayBE extends AbstractEntity {
 
-    public static final String Q_BY_SPRINT_ID = "SprintDayBE.bySprintId";
+    public static final String Q_BY_SPRINT_ID = "SprintDayBE.findBySprintId";
 
     @NotNull
     @InDateRange
