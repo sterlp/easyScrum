@@ -33,20 +33,5 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ControllerAdvice
 public class JsonErrorSupport {
-    protected final static Logger LOG = LoggerFactory.getLogger(JsonErrorSupport.class);
     
-    @Data
-    @AllArgsConstructor
-    static class ErrorMessage {
-        String message;
-        String details;
-    }
-    
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public ErrorMessage onError(Exception e) {
-        LOG.error(e.getMessage(), e);
-        return new ErrorMessage(e.getMessage(), ExceptionUtils.getStackTrace(e));
-    }
 }

@@ -17,7 +17,11 @@
 package org.easy.spring.web;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -34,8 +38,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ControllerAdvice
 public class ValidationSupport {
+    protected final static Logger LOG = LoggerFactory.getLogger(JsonErrorSupport.class);
     // @Autowired
     //private MessageSource messageSource;
+
+
     @Data
     static class ValidationError {
         String objectName;
@@ -64,5 +71,24 @@ public class ValidationSupport {
                 errors.getFieldErrors());
         
         return result ;//processFieldErrors(fieldErrors);
+    }
+    
+    @Data
+    @AllArgsConstructor
+    static class ErrorMessage {
+        String message;
+        String details;
+    }
+    
+    /**
+     * Has to be in one class as Spring seems to take a magic order in this handlers
+     * as this is the last "method" the other handlers are takes before this fallback
+     */
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorMessage onError(Exception e) {
+        LOG.error(e.getMessage(), e);
+        return new ErrorMessage(e.getMessage(), ExceptionUtils.getStackTrace(e));
     }
 }

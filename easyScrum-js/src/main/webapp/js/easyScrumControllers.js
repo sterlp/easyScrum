@@ -21,11 +21,12 @@ function TopNavCtrl($scope) {
 function HomeCtrl($scope) {
 }
 
-function DayCtrl($scope, $routeParams, $location, Restangular) {
+function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
     var restTeams = Restangular.all('teams');
     $scope.sprints = [];
     $scope.days = [];
     $scope.showDayDialog = false;
+    $scope.createNewDay = false;
     
     restTeams.getList().then(function(teams) {
        $scope.teams = teams; 
@@ -37,6 +38,10 @@ function DayCtrl($scope, $routeParams, $location, Restangular) {
             $scope.team.all('sprints').getList().then(function(sprints) {
                 $scope.sprints = sprints;
                 if ($scope.sprints && $scope.sprints.length > 0) $scope.sprint = $scope.sprints[0]; // select first sprint
+                else {
+                    $scope.sprint = null;
+                    $scope.days = [];
+                }
             });
         } else {
             $scope.sprints = [];
@@ -47,15 +52,24 @@ function DayCtrl($scope, $routeParams, $location, Restangular) {
     };
     
     $scope.addDay = function() {
-        $scope.day = {__new: true, sprint: Restangular.stripRestangular($scope.sprint.clone()), day: new Date(), burnDown: 0, upscaling: 0};
+        $scope.day = {sprint: Restangular.stripRestangular($scope.sprint.clone()), day: $filter('date')(new Date(), 'yyyy-MM-dd'), burnDown: 0, upscaling: 0};
         $scope.dialogHeader = "New Sprint Day";
+        $scope.createNewDay = true;
         $scope.showDayDialog = true;
+    };
+    $scope.editDay = function(day, index) {
+        $scope.day = day;
+        $scope.dialogHeader = "Edit Sprint Day: " + day.day;
+        $scope.createNewDay = false;
+        $scope.showDayDialog = true;
+    };
+    $scope.deleteDay = function(day, index) {
+        day.remove().then($scope.loadSprintDays);
     };
     // add & edit
     $scope.submitDialog = function(action) {
         if (action === 'submit') {
-            if ($scope.day.__new === true) {
-                delete $scope.day.__new;
+            if ($scope.createNewDay) {
                 $scope.days.post($scope.day).then(function(savedDay) {
                     $scope.loadSprintDays();
                     $scope.showDayDialog = false;
@@ -67,6 +81,7 @@ function DayCtrl($scope, $routeParams, $location, Restangular) {
                 });
             }
         } else {
+            $scope.loadSprintDays();
             $scope.showDayDialog = false;
         }
     };

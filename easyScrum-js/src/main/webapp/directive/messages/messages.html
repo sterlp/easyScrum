@@ -1,4 +1,4 @@
-<div class="alert alert-danger alert-dismissable" ng-show="network.lastRequestError">
+<div class="alert alert-danger alert-dismissable" ng-show="network.errorType === 'unknown'">
     <strong>{{ network.lastRequestError.status }}</strong> Server Error, please try again later or contact Support.
     <hr ng-show="network.lastRequestError.config.url">
     <strong>{{ network.lastRequestError.config.url }}</strong>

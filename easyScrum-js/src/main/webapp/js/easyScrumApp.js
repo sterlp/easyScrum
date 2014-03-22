@@ -20,7 +20,7 @@ $.fn.setCursorEnd = function(pos) {
     this.each(function(index, elem) {
         var length = elem.value ? elem.value.length : 0; 
         if (elem.setSelectionRange && length > 0) {
-            elem.setSelectionRange(length, length);
+            try { elem.setSelectionRange(length, length);} catch (e) {/** ignore */};
         } else if (elem.createTextRange && length) {
             var range = elem.createTextRange();
             range.collapse(true);
@@ -46,9 +46,19 @@ angular.module('RequestInterceptor', [])
         };
         function updateStatus(increment, error) {
             $rootScope.network.lastRequestError = error ? error : null;
+            $rootScope.network.errorType = null;
+            $rootScope.network.fieldErrors = {}; // reset field errors
             $rootScope.network.pendingRequests += increment;
             if ($rootScope.network.pendingRequests < 0) $rootScope.network.pendingRequests = 0;
-            if (error) {
+            // check for error
+            if (error && error.data && error.data.fieldErrors) {
+                $rootScope.network.errorType = 'validation';
+                console.info("User Input Error (validation):", error.data.fieldErrors);
+                angular.forEach(error.data.fieldErrors, function(fieldError) {
+                    $rootScope.network.fieldErrors[fieldError.field] = fieldError;
+                });
+            } else if (error) {
+                $rootScope.network.errorType = 'unknown';
                 console.warn("Server Error:", error);
             }
             $rootScope.network.busy = $rootScope.network.pendingRequests > 0;
@@ -76,6 +86,30 @@ angular.module('RequestInterceptor', [])
         return {
             restrict: 'AC',
             templateUrl: 'directive/messages/messages.html'
+        };
+    }).
+    directive('message', function() {
+        function link (scope, element, attrs) {
+            var bindTo = 'network.fieldErrors.' + attrs.message;
+            if (attrs.message) {
+                var formGroup = element.closest('.form-group');
+                scope.$watch(bindTo, function(newValue) {
+                    if (newValue) formGroup.addClass('has-error');
+                    else formGroup.removeClass('has-error');
+                });
+            }
+        }
+        return {
+            restrict: 'A',
+            compile: function (element, attrs, transclude) {
+                var bindTo = 'network.fieldErrors.' + attrs.message;
+                if (attrs.message) {
+                    element.parent().append('<span class="help-block" ng-show="' + bindTo + '.defaultMessage">{{ ' + bindTo + '.defaultMessage }}</span>');
+                } else {
+                    console.error("Message directive needs a value to bind to the validation error data.");
+                }
+                return link;
+            }
         };
     });
             

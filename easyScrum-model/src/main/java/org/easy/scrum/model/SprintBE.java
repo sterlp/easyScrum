@@ -1,6 +1,7 @@
 package org.easy.scrum.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -32,6 +33,7 @@ import org.joda.time.ReadablePeriod;
 @NamedQueries(
         @NamedQuery(name = SprintBE.Q_BY_TEAM_ID, query = "SELECT s from SprintBE as s WHERE s.team.id = :teamId ORDER BY s.end DESC")
 )
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SprintBE extends AbstractEntity {
     private static final long serialVersionUID = 1L;
 

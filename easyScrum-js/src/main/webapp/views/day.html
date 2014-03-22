@@ -21,34 +21,39 @@ limitations under the License.
 </div>
 <!-- team select -->
 <div class="row">
-    <!-- show any server errors etc. like the JSF messages -->
     <div class="col-lg-12">
         <div class="messages"></div>
-    </div>
-    <!-- Team & Sprint Select -->
-    <div class="col-lg-6">
-        <form class="form-horizontal" role="form">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Team</label>
-                <div class="col-sm-10">
-                    <select class="form-control" ng-disabled="teams.length === 0" ng-model="team" ng-options="team.name for team in teams"></select>
+    
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <!-- show any server errors etc. like the JSF messages -->
+                <!-- Team & Sprint Select -->
+                <div class="col-lg-6">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Team</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-disabled="teams.length === 0" ng-model="team" ng-options="team.name for team in teams"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Sprint</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <select class="form-control" ng-disabled="sprints.length === 0" ng-model="sprint" ng-options="sprint.name for sprint in sprints"></select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default easy-tooltip" type="button" title="Add Sprint"><i class="fa fa-plus-circle"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Sprint</label>
-                <div class="col-sm-10">
-                    <div class="input-group">
-                        <select class="form-control" ng-disabled="sprints.length === 0" ng-model="sprint" ng-options="sprint.name for sprint in sprints"></select>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default easy-tooltip" type="button" title="Add Sprint"><i class="fa fa-plus-circle"></i></button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="col-lg-6">
-        
+        </div>
     </div>
 </div>
 <!-- burn down chart -->
@@ -58,31 +63,45 @@ limitations under the License.
 <!-- daily table -->
 <div class="row">
     <div class="col-lg-12">
-        <table class="table table-hover table-striped table-responsive">
-            <thead>
-                <tr>
-                    <th>Day</th>
-                    <th>Burndown</th>
-                    <th>Comment</th>
-                    <th>Up-Scalling</th>
-                    <th>Reason for Up-Scalling</th>
-                    <th><div class="pull-right btn-group"><button ng-click="addDay()" class="btn btn-default btn-xs easy-tooltip" type="button" title="Add Day"><i class="fa fa-plus-circle"></i></button></div></th>
-                </tr>
-            </thead>
-            <tr ng-repeat="day in days">
-                <td>{{ day.date }}</td>
-                <td>{{ day.burnDown }}</td>
-                <td>{{ day.comment }}</td>
-                <td>{{ day.upscaling }}</td>
-                <td>{{ day.reasonForUpscaling }}</td>
-                <td>
-                    <div class="pull-right btn-group">
-                        <button ng-click="edit(day, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit Day {{ day.date}}"><i class="fa fa-edit fa-fw"></i></button>
-                        <button ng-click="delete(day, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete Day {{ day.date}}"><i class="fa fa-trash-o fa-fw"></i></button>
-                    </div>
-                </td>
-            </tr>
-        </table>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search in Sprint" ng-model="dayQuery">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default easy-tooltip" title="Search" type="button" ><i class="fa fa-search"></i></button>
+                        <button ng-disabled="network.busy" class="btn btn-default easy-tooltip" type="button" title="Refresh" ng-click="loadSprintDays()" ><i class="fa fa-refresh" ng-class="{'fa-spin': network.busy}"></i></button>
+                        <button type="button" class="btn btn-default" ng-click="addDay()">Add Day</button>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Burndown</th>
+                            <th>Comment</th>
+                            <th>Up-Scalling</th>
+                            <th>Reason for Up-Scalling</th>
+                            <th><div class="pull-right btn-group"><button ng-click="addDay()" class="btn btn-default btn-xs easy-tooltip" type="button" title="Add Day"><i class="fa fa-plus-circle"></i></button></div></th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="day in days | filter:dayQuery">
+                        <td>{{ day.day | date }}</td>
+                        <td>{{ day.burnDown }}</td>
+                        <td>{{ day.comment }}</td>
+                        <td>{{ day.upscaling }}</td>
+                        <td>{{ day.reasonForUpscaling }}</td>
+                        <td>
+                            <div class="pull-right btn-group">
+                                <button ng-click="editDay(day, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit Day {{ day.date}}"><i class="fa fa-edit fa-fw"></i></button>
+                                <button ng-click="deleteDay(day, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete Day {{ day.date}}"><i class="fa fa-trash-o fa-fw"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -100,13 +119,13 @@ limitations under the License.
         <div class="form-group">
             <label class="col-sm-2 control-label">Day</label>
             <div class="col-sm-10">
-                <input ng-model="day.day" required type="date" class="form-control">
+                <input ng-model="day.day" required type="text" message="day" class="form-control">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Burndown</label>
             <div class="col-sm-10">
-                <input ng-model="day.burnDown" min="0" type="number" required class="form-control">
+                <input ng-model="day.burnDown" message="burnDown" min="0" type="number" required class="form-control">
             </div>
         </div>
         <div class="form-group">
