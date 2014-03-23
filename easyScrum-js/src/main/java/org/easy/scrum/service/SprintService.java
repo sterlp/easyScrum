@@ -75,4 +75,13 @@ public class SprintService {
         day.setId(dayId);
         return sprintDayDao.save(day);
     }
+    
+    @RequestMapping(value = "/teams/{teamId}/sprints/{sprintId}/days/{dayId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteDay(
+            @PathVariable Long teamId, 
+            @PathVariable Long sprintId,
+            @PathVariable Long dayId) throws Exception {
+        sprintDayDao.delete(dayId);
+    }
 }

@@ -61,6 +61,7 @@ public class SprintDayBE extends AbstractEntity {
     @JoinColumn(name = "sprint_id", nullable = false, updatable = false)
     @NotNull 
     @Valid
+    // TODO should be a simple id only
     private SprintBE sprint;
 
     @Override

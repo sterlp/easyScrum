@@ -95,7 +95,8 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
  * Team Page Controller
  */
 function TeamsCtrl($scope, $timeout, Restangular) {
-    var restTeams = Restangular.all('teams');
+    var restTeams = Restangular.all('teams'),
+        addMode = false;
     $scope.refresh = function () {
         restTeams.getList().then(function(teams) {
             $scope.teams = teams;
@@ -105,20 +106,21 @@ function TeamsCtrl($scope, $timeout, Restangular) {
         team.remove().then($scope.refresh);
     };
     $scope.edit = function(team) {
+        addMode = false;
         $scope.editHeader = "Edit Team: '" + team.name + "'";
         $scope.team = team;
         $scope.showTeamDialog = true;
     };
     $scope.newTeam = function() {
+        addMode = true;
         $scope.editHeader = "Create new Team";
-        $scope.team = {__new: true};
+        $scope.team = {};
         $scope.showTeamDialog = true;
     };
     $scope.dialogClose = function(status) {
         $scope.showTeamDialog = false;
         if ($scope.team && status === 'submit') {
-            if ($scope.team.__new === true) {
-                delete $scope.team.__new;
+            if (addMode) {
                 restTeams.post($scope.team).then($scope.refresh); // create reload
             } else {
                 $scope.team.put().then($scope.refresh); // "update" and reload

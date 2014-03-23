@@ -112,6 +112,10 @@ angular.module('RequestInterceptor', [])
             }
         };
     });
+    
+// TODO replace most of the own directives with either:
+// http://mgcrea.github.io/angular-strap/
+// http://angular-ui.github.io/
             
 angular.module('easyScrum', ['ngRoute', 'restangular', 'RequestInterceptor']).
     config(['$routeProvider', 'RestangularProvider', function($routeProvider, RestangularProvider) {
@@ -141,22 +145,32 @@ angular.module('easyScrum', ['ngRoute', 'restangular', 'RequestInterceptor']).
                 header: "@" // string
             },
             link: function (scope, element, attrs) {
-                var dialog = $(element.children()[0]);
-                dialog.on('hidden.bs.modal', function () {
-                    scope.$apply(function() {scope.show = false;});
-                });
-                dialog.on('shown.bs.modal', function () {
-                    dialog.find(".modal-body :input:visible:enabled:first").focus().setCursorEnd();
-                });
+                var dialog = null,
+                    init = false;
+                addEventHandler();
+                if (element.children().length > 0) {
+                    dialog = $(element.children()[0]);
+                }
                 scope.$watch("show", function(show) {
                     if (show === true) {
-                        dialog.modal('show');
+                        $(element.children()[0]).modal('show');
+                    } else {
+                        dialog && dialog.modal('hide');
                     }
-                    else dialog.modal('hide');
                 });
                 scope.close = function() {
                     scope.show = false;
                 };
+                function addEventHandler() {
+                    element.on('hidden.bs.modal', function () {
+                        scope.$apply(function() {scope.show = false;});
+                    });
+                    element.on('shown.bs.modal', function () {
+                        //dialog.find(".modal-body :input:visible:enabled:first").focus().setCursorEnd();
+                        dialog && dialog.find(".modal-body .dialog-focus").focus().setCursorEnd();
+                    });
+                    //init = true;
+                }
             }
         };
     }).
@@ -167,6 +181,33 @@ angular.module('easyScrum', ['ngRoute', 'restangular', 'RequestInterceptor']).
             link: function (scope, element, attrs) {
                 //console.log("tooltip attached to: ", element);
                 $timeout(function() {element.tooltip(); }, 0);
+            }
+        };
+    }).
+    // requeries: http://eternicode.github.io/bootstrap-datepicker
+    directive('easyDate', function() {
+        return {
+            restrict: 'AC',
+            repalce: false,
+            scope: {
+                startDate: "@", // string
+                endDate: "@" // string
+            },
+            link: function (scope, element, attrs) {
+                //console.log(attrs);
+                var datePicker = element.datepicker({
+                    format: 'yyyy-mm-dd',
+                    startDate: scope.startDate,
+                    endDate: scope.endDate,
+                    autoclose: true
+                }); 
+                
+                scope.$watch('startDate', function(newVal){ 
+                    datePicker.datepicker('setStartDate', newVal ? new Date(newVal) : null); 
+                });
+                scope.$watch('endDate', function(newVal){ 
+                    datePicker.datepicker('setEndDate', newVal ? new Date(newVal) : null); 
+                });
             }
         };
     });
