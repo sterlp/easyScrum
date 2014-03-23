@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ControllerAdvice
 public class ValidationSupport {
-    protected final static Logger LOG = LoggerFactory.getLogger(JsonErrorSupport.class);
+    protected final static Logger LOG = LoggerFactory.getLogger(ValidationSupport.class);
     // @Autowired
     //private MessageSource messageSource;
 

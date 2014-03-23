@@ -50,7 +50,20 @@ limitations under the License.
                     </form>
                 </div>
                 <div class="col-lg-6">
-
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Start</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static">{{ sprint.start | date }}</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">End</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static">{{ sprint.end | date }}</p>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -58,7 +71,13 @@ limitations under the License.
 </div>
 <!-- burn down chart -->
 <div class="row">
-
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <easy-burndown ng-model="burnDownData" />
+            </div>
+        </div>
+    </div>
 </div>
 <!-- daily table -->
 <div class="row">
@@ -111,7 +130,7 @@ limitations under the License.
     </div>
     <form class="form-horizontal" role="form" ng-submit="submitDialog('submit')" >
         <div class="form-group">
-            <label class="col-sm-2 control-label">Sprint&nbsp;Name</label>
+            <label class="col-sm-2 control-label">Sprint Name</label>
             <div class="col-sm-10">
                 <p class="form-control-static">{{ day.sprint.name }}</p>
             </div>

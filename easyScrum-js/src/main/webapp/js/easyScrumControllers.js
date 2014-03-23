@@ -41,6 +41,7 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
                 else {
                     $scope.sprint = null;
                     $scope.days = [];
+                    $scope.burnDownData = null;
                 }
             });
         } else {
@@ -48,7 +49,37 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
         }
     };
     $scope.loadSprintDays = function() {
-        if ($scope.sprint) $scope.days = $scope.sprint.all('days').getList().$object;
+        if ($scope.sprint) $scope.sprint.all('days').getList().then(function(days) {
+            $scope.days = days;
+            // build burndown
+            if (days && days.length > 0) {
+                var sprint = $scope.sprint,
+                    day = null,
+                    burnDownData = {
+                    start: sprint.start,
+                    end: sprint.end,
+                    plannedHours: sprint.plannedHours,
+                    burndowns: []
+                };
+                var hours = sprint.plannedHours;
+                for (var i = days.length - 1; i >= 0; --i) {
+                    day = days[i];
+                    burnDownData.burndowns.push({
+                        date: day.day,
+                        hours: hours = hours - day.burnDown,
+                        comment: day.comment
+                    });
+                    if (day.upscaling > 0) {
+                        burnDownData.burndowns.push({
+                            date: day.day,
+                            hours: hours = hours + day.upscaling,
+                            comment: day.reasonForUpscaling
+                        });
+                    }
+                }
+                $scope.burnDownData = burnDownData;
+            }
+        });
     };
     
     $scope.addDay = function() {

@@ -31,7 +31,7 @@ import org.joda.time.ReadablePeriod;
 @Entity
 @Table(name = "SPRINT")
 @NamedQueries(
-        @NamedQuery(name = SprintBE.Q_BY_TEAM_ID, query = "SELECT s from SprintBE as s WHERE s.team.id = :teamId ORDER BY s.end DESC")
+    @NamedQuery(name = SprintBE.Q_BY_TEAM_ID, query = "SELECT s from SprintBE as s WHERE s.team.id = :teamId ORDER BY s.end DESC")
 )
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SprintBE extends AbstractEntity {

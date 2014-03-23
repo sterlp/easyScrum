@@ -210,4 +210,58 @@ angular.module('easyScrum', ['ngRoute', 'restangular', 'RequestInterceptor']).
                 });
             }
         };
+    }).
+    // requeries: https://github.com/adangel/simple-burndown-chart
+    // see also: http://docs.angularjs.org/api/ng/type/ngModel.NgModelController
+    directive('easyBurndown', function($filter) {
+        var burndowns = 0;
+        return {
+            restrict: 'E',
+            repalce: false,
+            require: '?ngModel',
+            scope: {
+                showGrid: "@", // string
+                showComments: "@" // string
+            },
+            link: function (scope, element, attrs, ngModel) {
+                if(!ngModel) {
+                    log.warn('easyBurndown requires a ngModel to render.');
+                    return; // do nothing if no ng-model
+                }
+                var id = "easyBurndown_" + (++burndowns);
+                ngModel.$render = render;
+                $(window).bind("resize", render);
+
+                var rendering = null;
+                function render() {
+                    element.empty();
+                    if (ngModel.$viewValue) {
+                        if (rendering) clearTimeout(rendering);
+                        rendering = setTimeout(function() {
+                            element.html('<div style="easyBurndown" id="' + id + '"></div>');
+                            // copy is needed as d3.js does change the data inside
+                            var data = angular.copy(ngModel.$viewValue);
+                            if (!data.timeDomain) { // no timedomain, lets create one
+                                var start = new Date(data.start),
+                                    end = new Date(data.end);
+                                data.timeDomain = [];
+                                while(start <= end) {
+                                    data.timeDomain.push($filter('date')(start, 'yyyy-MM-dd'));
+                                    start.setDate(start.getDate() + 1); // next day
+                                }
+                            }
+                                
+                            console.log('render burndown for:', ngModel.$viewValue, ' full data: ', data);
+                            SBD.render(data, {
+                                chartNodeSelector: '#' + id, 
+                                showGrid: scope.showGrid || true, 
+                                showComments: scope.showComments || true,
+                                dateFormat: "%Y-%m-%d",
+                                width: $(element).parent().width()
+                            }); 
+                        }, 70);
+                    }
+                }
+            }
+        };
     });
