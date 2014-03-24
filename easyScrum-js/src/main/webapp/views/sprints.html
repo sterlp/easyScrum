@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+Copyright 2014 Paul.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Manage Team Sprints</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <!-- show any server errors etc. like the JSF messages -->
+        <div class="easy-messages"></div>
+    
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <!-- Team  Select -->
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Team</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" ng-disabled="teams.length === 0" ng-model="team" ng-options="team.name for team in teams"></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- sprints table -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search Sprints" ng-model="query">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default easy-tooltip" title="Search" type="button" ><i class="fa fa-search"></i></button>
+                        <button ng-disabled="network.busy" class="btn btn-default easy-tooltip" type="button" title="Refresh" ng-click="loadTeamSprints()" ><i class="fa fa-refresh" ng-class="{'fa-spin': network.busy}"></i></button>
+                        <button type="button" class="btn btn-default" ng-click="addSprint()">Add Sprint</button>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Available Hours</th>
+                            <th>Planned Hours</th>
+                            <th>Story Points</th>
+                            <th><div class="pull-right btn-group"><button ng-click="addSprint()" class="btn btn-default btn-xs easy-tooltip" type="button" title="Add Sprint"><i class="fa fa-plus-circle"></i></button></div></th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="sprint in sprints | filter:query">
+                        <td>{{ sprint.name }}</td>
+                        <td>{{ sprint.start | date }}</td>
+                        <td>{{ sprint.end | date }}</td>
+                        <td>{{ sprint.availableHours }}</td>
+                        <td>{{ sprint.plannedHours }}</td>
+                        <td>{{ sprint.storyPoints }}</td>
+                        <td>
+                            <div class="pull-right btn-group">
+                                <button ng-click="editSprint(sprint)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit Sprint {{ sprint.name }}"><i class="fa fa-edit fa-fw"></i></button>
+                                <button easy-confirm-click="Do you realy want to delete the Sprint {{ sprint.name }}?" confirm-okay="deleteSprint(sprint)"  class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete Sprint {{ sprint.name }}"><i class="fa fa-trash-o fa-fw"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div data-easy-dialog show="showSprintDialog" header="{{ sprintDialogHeader }}">
+    <div class="col-lg-12">
+        <div class="easy-messages"></div>
+    </div>
+    <form class="form-horizontal" role="form" ng-submit="submitSprintDialog('submit')" >
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Team Name</label>
+            <div class="col-sm-8">
+                <p class="form-control-static">{{ sprint.team.name }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Sprint Name</label>
+            <div class="col-sm-8">
+                <input ng-model="sprint.name" class="form-control dialog-focus" required easy-message>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Start</label>
+            <div class="col-sm-8">
+                <input ng-model="sprint.start" easy-date required easy-message type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">End</label>
+            <div class="col-sm-8">
+                <input ng-model="sprint.end" easy-date required easy-message type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Available Hours</label>
+            <div class="col-sm-8">
+                <input ng-model="sprint.availableHours" easy-message min="0" type="number" required class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Planned Hours</label>
+            <div class="col-sm-8">
+                <input ng-model="sprint.plannedHours" easy-message min="0" type="number" required class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Story Points</label>
+            <div class="col-sm-8">
+                <input ng-model="sprint.storyPoints" easy-message min="0" type="number" required class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8">
+                <button ng-disabled="network.busy" type="submit" class="btn btn-primary">Okay</button>
+                <button ng-click="submitSprintDialog('cancel')" type="button" class="btn btn-default">Close</button>
+            </div>
+        </div>
+    </form>
+</div>

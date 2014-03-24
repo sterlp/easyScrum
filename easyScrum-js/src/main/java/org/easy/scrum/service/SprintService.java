@@ -55,6 +55,33 @@ public class SprintService {
         return sprintDayDao.findDaysInSprint(sprintId);
     }
     
+    @RequestMapping(value = "/teams/{teamId}/sprints", method = RequestMethod.POST)
+    @ResponseBody
+    public SprintBE addSprint(
+            @PathVariable Long teamId,
+            @Valid @RequestBody SprintBE sprint) {
+        sprint.setId(null);
+        return sprintDao.save(sprint);
+    }
+    
+    @RequestMapping(value = "/teams/{teamId}/sprints/{sprintId}", method = RequestMethod.PUT)
+    @ResponseBody
+    public SprintBE updateSprint(
+            @PathVariable Long teamId,
+            @PathVariable Long sprintId,
+            @Valid @RequestBody SprintBE sprint) {
+        sprint.setId(sprintId);
+        return sprintDao.save(sprint);
+    }
+    
+    @RequestMapping(value = "/teams/{teamId}/sprints/{sprintId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteSprint(
+            @PathVariable Long teamId,
+            @PathVariable Long sprintId) {
+        sprintDao.delete(sprintId);
+    }
+    
     @RequestMapping(value = "/teams/{teamId}/sprints/{sprintId}/days", method = RequestMethod.POST)
     @ResponseBody
     public SprintDayBE addDay(

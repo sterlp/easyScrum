@@ -20,19 +20,21 @@ function TopNavCtrl($scope) {
 
 function HomeCtrl($scope) {
 }
-
-function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
-    var restTeams = Restangular.all('teams');
-    $scope.sprints = [];
-    $scope.days = [];
-    $scope.showDayDialog = false;
-    $scope.createNewDay = false;
+function SprintsCtrl($scope, $filter, Restangular, $routeParams, $location) {
+    $scope.restTeams = Restangular.all('teams');
+    $scope.team = null; // selected team
+    $scope.teams = []; // all teams
+    $scope.sprint = null; // selected sprint
+    $scope.sprints = []; // team sprints
+    $scope.showSprintDialog = false;
+    $scope.sprintDialogHeader = "";
+    $scope.createNewSprint = false;
     
-    restTeams.getList().then(function(teams) {
+    // read the teams
+    $scope.restTeams.getList().then(function(teams) {
        $scope.teams = teams; 
        if ($scope.teams && $scope.teams.length > 0) $scope.team = $scope.teams[0];
     });
-
     $scope.loadTeamSprints = function() {
         if ($scope.team && $scope.team.id) {
             $scope.team.all('sprints').getList().then(function(sprints) {
@@ -41,14 +43,65 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
                 else {
                     $scope.sprint = null;
                     $scope.days = [];
-                    $scope.burnDownData = null;
                 }
             });
         } else {
             $scope.sprints = [];
         }
     };
+    $scope.$watch('team', $scope.loadTeamSprints);
+    
+    $scope.addSprint = function() {
+        var now = new Date();
+        $scope.sprint = {
+            team: Restangular.stripRestangular($scope.team.clone()), 
+            start: $filter('date')(now, 'yyyy-MM-dd'), 
+            end: $filter('date')(new Date().setDate(now.getDate() + 14), 'yyyy-MM-dd'),  
+            availableHours: 100, plannedHours: 100, storyPoints: 0
+        };
+        $scope.sprintDialogHeader = "Create new Sprint for Team " + $scope.team.name;
+        $scope.createNewSprint = true;
+        $scope.showSprintDialog = true;
+    };
+    $scope.editSprint = function(sprint) {
+        $scope.sprint = sprint;
+        $scope.dialogHeader = "Edit Sprint: " + sprint.name;
+        $scope.createNewSprint = false;
+        $scope.showSprintDialog = true;
+    };
+    $scope.deleteSprint = function(sprint) {
+        sprint.remove().then($scope.loadTeamSprints);
+    };
+    $scope.submitSprintDialog = function(action) {
+        if (action === 'submit') {
+            if ($scope.createNewSprint) {
+                $scope.sprints.post($scope.sprint).then(function(savedSprint) {
+                    $scope.loadTeamSprints();
+                    $scope.showSprintDialog = false;
+                });
+            } else {
+                $scope.sprint.put().then(function() {
+                    $scope.loadTeamSprints();
+                    $scope.showSprintDialog = false;
+                });
+            }
+        } else {
+            $scope.loadTeamSprints();
+            $scope.showSprintDialog = false;
+        }
+    };
+}
+
+function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
+    // http://digital-drive.com/?p=188
+    angular.extend(this, new SprintsCtrl($scope, $filter, Restangular, $routeParams, $location)); // extend the sprint controller
+    $scope.days = [];
+    $scope.showDayDialog = false;
+    $scope.createNewDay = false;
+    
+    // load the days of the sprint if it changes
     $scope.loadSprintDays = function() {
+        $scope.burnDownData = null;
         if ($scope.sprint) $scope.sprint.all('days').getList().then(function(days) {
             $scope.days = days;
             // build burndown
@@ -81,10 +134,11 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
             }
         });
     };
+    $scope.$watch('sprint', $scope.loadSprintDays);
     
     $scope.addDay = function() {
         $scope.day = {sprint: Restangular.stripRestangular($scope.sprint.clone()), day: $filter('date')(new Date(), 'yyyy-MM-dd'), burnDown: 0, upscaling: 0};
-        $scope.dialogHeader = "New Sprint Day";
+        $scope.dialogHeader = "Add Day to Sprint: " + $scope.sprint.name;
         $scope.createNewDay = true;
         $scope.showDayDialog = true;
     };
@@ -116,10 +170,6 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
             $scope.showDayDialog = false;
         }
     };
-
-    $scope.$watch('team', $scope.loadTeamSprints);
-    // load the days of the sprint if it changes
-    $scope.$watch('sprint', $scope.loadSprintDays);
 }
 
 /**

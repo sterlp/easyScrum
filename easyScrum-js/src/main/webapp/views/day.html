@@ -22,11 +22,11 @@ limitations under the License.
 <!-- team select -->
 <div class="row">
     <div class="col-lg-12">
-        <div class="messages"></div>
+        <!-- show any server errors etc. like the JSF messages -->
+        <div class="easy-messages"></div>
     
         <div class="panel panel-default">
             <div class="panel-body">
-                <!-- show any server errors etc. like the JSF messages -->
                 <!-- Team & Sprint Select -->
                 <div class="col-lg-6">
                     <form class="form-horizontal" role="form">
@@ -39,12 +39,7 @@ limitations under the License.
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Sprint</label>
                             <div class="col-sm-10">
-                                <div class="input-group">
-                                    <select class="form-control" ng-disabled="sprints.length === 0" ng-model="sprint" ng-options="sprint.name for sprint in sprints"></select>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default easy-tooltip" type="button" title="Add Sprint"><i class="fa fa-plus-circle"></i></button>
-                                    </span>
-                                </div>
+                                <select class="form-control" ng-disabled="sprints.length === 0" ng-model="sprint" ng-options="sprint.name for sprint in sprints"></select>
                             </div>
                         </div>
                     </form>
@@ -114,7 +109,7 @@ limitations under the License.
                         <td>
                             <div class="pull-right btn-group">
                                 <button ng-click="editDay(day, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit Day {{ day.date}}"><i class="fa fa-edit fa-fw"></i></button>
-                                <button easy-confirm-click="Do you really want to delete the day: {{ day.day | date }}?" okay-method="deleteDay(day)"  class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete Day {{ day.date}}"><i class="fa fa-trash-o fa-fw"></i></button>
+                                <button easy-confirm-click="Do you realy want to delete the day: {{ day.day | date }}?" confirm-okay="deleteDay(day)"  class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete Day {{ day.date}}"><i class="fa fa-trash-o fa-fw"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -126,47 +121,47 @@ limitations under the License.
 
 <div data-easy-dialog show="showDayDialog" header="{{ dialogHeader }}">
     <div class="col-lg-12">
-        <div class="messages"></div>
+        <div class="easy-messages"></div>
     </div>
     <form class="form-horizontal" role="form" ng-submit="submitDialog('submit')" >
         <div class="form-group">
-            <label class="col-sm-2 control-label">Sprint Name</label>
-            <div class="col-sm-10">
+            <label class="col-sm-4 control-label">Sprint Name</label>
+            <div class="col-sm-8">
                 <p class="form-control-static">{{ day.sprint.name }}</p>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Day</label>
-            <div class="col-sm-10">
-                <input ng-model="day.day" easy-date start-date="{{day.sprint.start}}" end-date="{{day.sprint.end}}" required type="text" message="day" class="form-control">
+            <label class="col-sm-4 control-label">Day</label>
+            <div class="col-sm-8">
+                <input ng-model="day.day" easy-date start-date="{{day.sprint.start}}" end-date="{{day.sprint.end}}" required easy-message type="text" class="form-control">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Burndown</label>
-            <div class="col-sm-10">
-                <input ng-model="day.burnDown" message="burnDown" min="0" type="number" required class="form-control dialog-focus">
+            <label class="col-sm-4 control-label">Burndown</label>
+            <div class="col-sm-8">
+                <input ng-model="day.burnDown" easy-message min="0" type="number" required class="form-control dialog-focus">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Comment</label>
-            <div class="col-sm-10">
-                <textarea ng-model="day.comment" message="comment" class="form-control" rows="3"></textarea>
+            <label class="col-sm-4 control-label">Comment</label>
+            <div class="col-sm-8">
+                <textarea ng-model="day.comment" easy-message class="form-control" rows="3"></textarea>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Up-Scaling</label>
-            <div class="col-sm-10">
-                <input ng-model="day.upscaling" min="0" required type="number" class="form-control">
+            <label class="col-sm-4 control-label">Up-Scaling</label>
+            <div class="col-sm-8">
+                <input ng-model="day.upscaling" min="0" easy-message required type="number" class="form-control">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Reason</label>
-            <div class="col-sm-10">
-                <textarea ng-model="day.reasonForUpscaling" class="form-control" rows="3"></textarea>
+            <label class="col-sm-4 control-label">Reason</label>
+            <div class="col-sm-8">
+                <textarea ng-model="day.reasonForUpscaling" easy-message class="form-control" rows="3"></textarea>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
+            <div class="col-sm-offset-4 col-sm-8">
                 <button ng-disabled="network.busy" type="submit" class="btn btn-primary">Okay</button>
                 <button ng-click="submitDialog('cancel')" type="button" class="btn btn-default">Close</button>
             </div>

@@ -82,16 +82,26 @@ angular.module('RequestInterceptor', [])
             }
         };
     }).
-    directive('messages', function() {
+    directive('easyMessages', function() {
         return {
             restrict: 'AC',
             templateUrl: 'directive/messages/messages.html'
         };
     }).
-    directive('message', function() {
+    directive('easyMessage', function() {
+        function getBindValue(attrs) {
+            if (attrs.easyMessage) return attrs.easyMessage;
+            if (attrs.ngModel) {
+                var dot = attrs.ngModel.indexOf('.');
+                if(dot < 0) return attrs.ngModel;
+                return attrs.ngModel.substring(1 + dot, attrs.ngModel.length);
+            }
+            return null; // nothing to bind too!
+        }
         function link (scope, element, attrs) {
-            var bindTo = 'network.fieldErrors.' + attrs.message;
-            if (attrs.message) {
+            var bindTo = getBindValue(attrs); 
+            if (bindTo) {
+                bindTo = 'network.fieldErrors.' + bindTo;
                 var formGroup = element.closest('.form-group');
                 scope.$watch(bindTo, function(newValue) {
                     if (newValue) formGroup.addClass('has-error');
@@ -100,13 +110,14 @@ angular.module('RequestInterceptor', [])
             }
         }
         return {
-            restrict: 'A',
+            restrict: 'AC',
             compile: function (element, attrs, transclude) {
-                var bindTo = 'network.fieldErrors.' + attrs.message;
-                if (attrs.message) {
+                var bindTo = getBindValue(attrs); 
+                if (bindTo) {
+                    bindTo = 'network.fieldErrors.' + bindTo;
                     element.parent().append('<span class="help-block" ng-show="' + bindTo + '.defaultMessage">{{ ' + bindTo + '.defaultMessage }}</span>');
                 } else {
-                    console.error("Message directive needs a value to bind to the validation error data.");
+                    console.error("Message directive needs a value to bind to the validation error data or ngModel.");
                 }
                 return link;
             }
@@ -122,6 +133,7 @@ angular.module('easyScrum', ['ngRoute', 'restangular', 'RequestInterceptor']).
         RestangularProvider.setBaseUrl('service/');
         $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'HomeCtrl'});
         $routeProvider.when('/day', {templateUrl: 'views/day.html', controller: 'DayCtrl', reloadOnSearch: false});
+        $routeProvider.when('/sprints', {templateUrl: 'views/sprints.html', controller: 'SprintsCtrl'});
         $routeProvider.when('/teams', {templateUrl: 'views/teams.html', controller: 'TeamsCtrl'});
         $routeProvider.otherwise({redirectTo: '/home'});
     }]).
@@ -145,8 +157,7 @@ angular.module('easyScrum', ['ngRoute', 'restangular', 'RequestInterceptor']).
                 header: "@" // string
             },
             link: function (scope, element, attrs) {
-                var dialog = null,
-                    init = false;
+                var dialog = null;
                 addEventHandler();
                 if (element.children().length > 0) {
                     dialog = $(element.children()[0]);

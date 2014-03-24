@@ -22,10 +22,7 @@ limitations under the License.
 </div>
 <div class="row">
     <div class="col-lg-12">
-        <div class="alert alert-danger alert-dismissable" ng-show="network.lastRequestError">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>{{ network.lastRequestError.status }}</strong> Server Error, please try again later or contact Support.
-        </div>
+        <div class="easy-messages"></div>
 
         <div class="form-group input-group">
             <input type="text" class="form-control" placeholder="Search Team" ng-model="teamQuery">
@@ -61,7 +58,7 @@ limitations under the License.
             <div class="form-group">
                 <label for="teamName" class="col-sm-2 control-label">Team&nbsp;Name</label>
                 <div class="col-sm-10">
-                    <input ng-model="team.name" required type="text" class="form-control dialog-focus" id="teamName" placeholder="Team Name">
+                    <input ng-model="team.name" required easy-message type="text" class="form-control dialog-focus" id="teamName" placeholder="Team Name">
                 </div>
             </div>
             <hr>
