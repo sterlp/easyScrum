@@ -114,7 +114,7 @@ limitations under the License.
                         <td>
                             <div class="pull-right btn-group">
                                 <button ng-click="editDay(day, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit Day {{ day.date}}"><i class="fa fa-edit fa-fw"></i></button>
-                                <button ng-click="deleteDay(day, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete Day {{ day.date}}"><i class="fa fa-trash-o fa-fw"></i></button>
+                                <button easy-confirm-click="Do you really want to delete the day: {{ day.day | date }}?" okay-method="deleteDay(day)"  class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete Day {{ day.date}}"><i class="fa fa-trash-o fa-fw"></i></button>
                             </div>
                         </td>
                     </tr>

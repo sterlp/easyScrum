@@ -134,7 +134,7 @@ angular.module('easyScrum', ['ngRoute', 'restangular', 'RequestInterceptor']).
             }
         };
     }).
-    directive('easyDialog', function($parse) {
+    directive('easyDialog', function() {
         return {
             restrict: 'AC',
             repalce: true,
@@ -174,13 +174,34 @@ angular.module('easyScrum', ['ngRoute', 'restangular', 'RequestInterceptor']).
             }
         };
     }).
+    /**
+     * Directive which can be used instead of
+     * requires: http://bootboxjs.com/ & bootstrap
+     * @param {function} confirm-okay
+     */
+    directive('easyConfirmClick', function() {
+        return {
+            restrict: 'A',
+            repalce: false,
+            transclude: false,
+            link: function (scope, element, attrs) {
+                element.on('click', function(e) {
+                    bootbox.confirm(attrs.easyConfirmClick, function(result) {
+                        if (result) {
+                            scope.$apply(attrs.confirmOkay);
+                        }
+                    });
+                });
+            }
+        };
+    }).
     directive('easyTooltip', function($timeout) {
         return {
             restrict: 'C',
             repalce: false,
             link: function (scope, element, attrs) {
                 //console.log("tooltip attached to: ", element);
-                $timeout(function() {element.tooltip(); }, 0);
+                $timeout(function() {element.tooltip(); }, 0, false);
             }
         };
     }).
