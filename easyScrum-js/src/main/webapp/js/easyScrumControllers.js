@@ -149,28 +149,55 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
             if (days && days.length > 0) {
                 var sprint = $scope.sprint,
                     day = null,
+                    hoursRemaining = sprint.plannedHours,
                     burnDownData = {
-                    start: sprint.start,
-                    end: sprint.end,
-                    plannedHours: sprint.plannedHours,
-                    burndowns: []
-                };
-                var hours = sprint.plannedHours;
+                        start: sprint.start,
+                        end: sprint.end,
+                        plannedHours: sprint.plannedHours,
+                        burndowns: [],
+                        totalDone: 0,
+                        totalAdded: 0,
+                        storyPoints: sprint.storyPoints,
+                        workDays: 0,
+                        totalDays: 0,
+                        hoursRemaining: hoursRemaining,
+                        passedDays: 0
+                    };
+
                 for (var i = days.length - 1; i >= 0; --i) {
                     day = days[i];
                     burnDownData.burndowns.push({
                         date: day.day,
-                        hours: hours = hours - day.burnDown,
+                        hours: hoursRemaining = hoursRemaining - day.burnDown,
                         comment: day.comment
                     });
                     if (day.upscaling > 0) {
                         burnDownData.burndowns.push({
                             date: day.day,
-                            hours: hours = hours + day.upscaling,
+                            hours: hoursRemaining = hoursRemaining + day.upscaling,
                             comment: day.reasonForUpscaling
                         });
                     }
                 }
+                burnDownData.hoursRemaining = hoursRemaining;
+                var start = new Date(sprint.start),
+                    end = new Date(sprint.end),
+                    now = new Date().setHours(0,0,0,0);
+                burnDownData.timeDomain = [];
+                //burnDownData.remainingDays = end - start;
+                while(start <= end) {
+                    ++burnDownData.totalDays;
+                    ++burnDownData.workDays;
+                    if (start < now) ++burnDownData.passedDays;
+                    burnDownData.timeDomain.push($filter('date')(start, 'yyyy-MM-dd'));
+                    start.setDate(start.getDate() + 1); // next day
+                    if (start.getDay() === 6) {
+                        start.setDate(start.getDate() + 2); // skip weekend
+                        burnDownData.totalDays += 2;
+                    } 
+                }
+                burnDownData.remainingDays = burnDownData.workDays - burnDownData.passedDays;
+                //if (burnDownData.remainingDays > 0) burnDownData.timeProgress = 100 - ()
                 $scope.burnDownData = burnDownData;
             }
         });

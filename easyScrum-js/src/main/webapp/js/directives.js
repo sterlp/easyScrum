@@ -275,6 +275,7 @@ angular.module('simpleBurndownChart', []).
                                 while(start <= end) {
                                     data.timeDomain.push($filter('date')(start, 'yyyy-MM-dd'));
                                     start.setDate(start.getDate() + 1); // next day
+                                    if (start.getDay() === 6) start.setDate(start.getDate() + 2); // skip weekend
                                 }
                             }
                             // TODO add this code to the simple burndown
