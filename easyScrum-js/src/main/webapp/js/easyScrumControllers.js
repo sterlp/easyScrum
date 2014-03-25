@@ -20,6 +20,47 @@ function TopNavCtrl($scope) {
 
 function HomeCtrl($scope) {
 }
+
+/**
+ * Team Page Controller
+ */
+function TeamsCtrl($scope, $timeout, Restangular) {
+    var restTeams = Restangular.all('teams'),
+        addMode = false;
+    $scope.refresh = function () {
+        restTeams.getList().then(function(teams) {
+            $scope.teams = teams;
+        });
+    };
+    $scope.delete = function (team, index) {
+        team.remove().then($scope.refresh);
+    };
+    $scope.edit = function(team) {
+        addMode = false;
+        $scope.editHeader = "Edit Team: '" + team.name + "'";
+        $scope.team = team;
+        $scope.showTeamDialog = true;
+    };
+    $scope.newTeam = function() {
+        addMode = true;
+        $scope.editHeader = "Create new Team";
+        $scope.team = {};
+        $scope.showTeamDialog = true;
+    };
+    $scope.dialogClose = function(status) {
+        $scope.showTeamDialog = false;
+        if ($scope.team && status === 'submit') {
+            if (addMode) {
+                restTeams.post($scope.team).then($scope.refresh); // create reload
+            } else {
+                $scope.team.put().then($scope.refresh); // "update" and reload
+            }
+        }
+        $scope.team = null; // done
+    };
+    $scope.refresh(); // load the initial data
+}
+
 function SprintsCtrl($scope, $filter, Restangular, $routeParams, $location) {
     $scope.restTeams = Restangular.all('teams');
     $scope.team = null; // selected team
@@ -142,13 +183,13 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
         $scope.createNewDay = true;
         $scope.showDayDialog = true;
     };
-    $scope.editDay = function(day, index) {
+    $scope.editDay = function(day) {
         $scope.day = day;
         $scope.dialogHeader = "Edit Sprint Day: " + day.day;
         $scope.createNewDay = false;
         $scope.showDayDialog = true;
     };
-    $scope.deleteDay = function(day, index) {
+    $scope.deleteDay = function(day) {
         day.remove().then($scope.loadSprintDays);
     };
     // add & edit
@@ -170,44 +211,4 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
             $scope.showDayDialog = false;
         }
     };
-}
-
-/**
- * Team Page Controller
- */
-function TeamsCtrl($scope, $timeout, Restangular) {
-    var restTeams = Restangular.all('teams'),
-        addMode = false;
-    $scope.refresh = function () {
-        restTeams.getList().then(function(teams) {
-            $scope.teams = teams;
-        });
-    };
-    $scope.delete = function (team, index) {
-        team.remove().then($scope.refresh);
-    };
-    $scope.edit = function(team) {
-        addMode = false;
-        $scope.editHeader = "Edit Team: '" + team.name + "'";
-        $scope.team = team;
-        $scope.showTeamDialog = true;
-    };
-    $scope.newTeam = function() {
-        addMode = true;
-        $scope.editHeader = "Create new Team";
-        $scope.team = {};
-        $scope.showTeamDialog = true;
-    };
-    $scope.dialogClose = function(status) {
-        $scope.showTeamDialog = false;
-        if ($scope.team && status === 'submit') {
-            if (addMode) {
-                restTeams.post($scope.team).then($scope.refresh); // create reload
-            } else {
-                $scope.team.put().then($scope.refresh); // "update" and reload
-            }
-        }
-        $scope.team = null; // done
-    };
-    $scope.refresh(); // load the initial data
 }
