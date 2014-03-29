@@ -106,7 +106,7 @@ function SprintsCtrl($scope, $filter, Restangular, $routeParams, $location) {
     };
     $scope.editSprint = function(sprint) {
         $scope.sprint = sprint;
-        $scope.dialogHeader = "Edit Sprint: " + sprint.name;
+        $scope.sprintDialogHeader = "Edit Sprint: " + sprint.name;
         $scope.createNewSprint = false;
         $scope.showSprintDialog = true;
     };

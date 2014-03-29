@@ -211,19 +211,27 @@ angular.module('easyComponents', [])
     directive('easyDate', function() {
         return {
             restrict: 'AC',
-            repalce: false,
+                repalce: false,
+                require: '?ngModel',
             scope: {
                 startDate: "@", // string
                 endDate: "@" // string
             },
-            link: function (scope, element, attrs) {
+                link: function(scope, element, attrs, ngModel) {
                 //console.log(attrs);
                 var datePicker = element.datepicker({
                     format: 'yyyy-mm-dd',
                     startDate: scope.startDate,
                     endDate: scope.endDate,
-                    autoclose: true
-                }); 
+                        autoclose: true,
+                        todayHighlight: true
+                    });
+
+                    if (ngModel) {
+                        ngModel.$render = function(e) {
+                            datePicker.datepicker('update', ngModel.$viewValue);
+                        };
+                    }
                 
                 scope.$watch('startDate', function(newVal){ 
                     datePicker.datepicker('setStartDate', newVal ? new Date(newVal) : null); 
