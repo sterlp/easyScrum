@@ -64,6 +64,7 @@ limitations under the License.
                             <th>Available Hours</th>
                             <th>Planned Hours</th>
                             <th>Story Points</th>
+                            <th>Status</th>
                             <th><div class="pull-right btn-group"><button ng-click="addSprint()" class="btn btn-default btn-xs easy-tooltip" type="button" title="Add Sprint"><i class="fa fa-plus-circle"></i></button></div></th>
                         </tr>
                     </thead>
@@ -74,6 +75,7 @@ limitations under the License.
                         <td>{{ sprint.availableHours }}</td>
                         <td>{{ sprint.plannedHours }}</td>
                         <td>{{ sprint.storyPoints }}</td>
+                        <td>{{ sprint.end >= today ? 'Running' : 'Complete' }}</td>
                         <td>
                             <div class="pull-right btn-group">
                                 <button ng-click="editSprint(sprint)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit Sprint {{ sprint.name }}"><i class="fa fa-edit fa-fw"></i></button>

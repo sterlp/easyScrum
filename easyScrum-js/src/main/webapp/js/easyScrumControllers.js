@@ -70,6 +70,7 @@ function SprintsCtrl($scope, $filter, Restangular, $routeParams, $location) {
     $scope.showSprintDialog = false;
     $scope.sprintDialogHeader = "";
     $scope.createNewSprint = false;
+    $scope.today = new Date().setHours(0,0,0,0); // date of today
     
     // read the teams
     $scope.restTeams.getList().then(function(teams) {
@@ -166,12 +167,14 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
 
                 for (var i = days.length - 1; i >= 0; --i) {
                     day = days[i];
+                    burnDownData.totalDone += day.burnDown;
                     burnDownData.burndowns.push({
                         date: day.day,
                         hours: hoursRemaining = hoursRemaining - day.burnDown,
                         comment: day.comment
                     });
                     if (day.upscaling > 0) {
+                        burnDownData.totalAdded += day.upscaling;
                         burnDownData.burndowns.push({
                             date: day.day,
                             hours: hoursRemaining = hoursRemaining + day.upscaling,
@@ -197,6 +200,7 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
                     } 
                 }
                 burnDownData.remainingDays = burnDownData.workDays - burnDownData.passedDays;
+                burnDownData.sprintProgressInPercent = 100 - (burnDownData.remainingDays / burnDownData.workDays * 100)
                 //if (burnDownData.remainingDays > 0) burnDownData.timeProgress = 100 - ()
                 $scope.burnDownData = burnDownData;
             }

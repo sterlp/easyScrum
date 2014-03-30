@@ -228,7 +228,8 @@ angular.module('easyComponents', [])
                     });
 
                     if (ngModel) {
-                        ngModel.$render = function(e) {
+                        ngModel.$render = function() {
+                            //console.log('update of the date ', attrs.ngModel, ' value: ', ngModel.$viewValue);
                             datePicker.datepicker('update', ngModel.$viewValue);
                         };
                     }
@@ -240,6 +241,11 @@ angular.module('easyComponents', [])
                     datePicker.datepicker('setEndDate', newVal ? new Date(newVal) : null); 
                 });
             }
+        };
+    }).
+    filter('percent', function($filter) {
+        return function(input) {
+                return $filter('number')(parseFloat(input) * 100, 2) + "%";
         };
     });
     
