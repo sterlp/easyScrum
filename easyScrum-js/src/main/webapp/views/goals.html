@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+Copyright 2014 Paul.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Team Goals</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-hover table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Achivement</th>
+                            <th>Evaluation</th>
+                            <th>Violations</th>
+                            <th><div class="pull-right btn-group"><button ng-click="addGoal()" class="btn btn-default btn-xs easy-tooltip" type="button" title="Add new Goal"><i class="fa fa-plus-circle"></i></button></div></th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="goal in goals">
+                        <td>{{ goal.name }}</td>
+                        <td class="easy-date-column">{{ goal.period.start | date }}</td>
+                        <td class="easy-date-column">{{ goal.period.end | date }}</td>
+                        <td>{{ goal.goalAchievement }}</td>
+                        <td>{{ goal.goalEvaluation }}</td>
+                        <td>{{ goal.violations }}</td>
+                        <td>
+                            <div class="pull-right btn-group two-button-column">
+                                <button ng-click="editGoal(sprint)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit Goal"><i class="fa fa-edit fa-fw"></i></button>
+                                <button easy-confirm-click="Do you really want to delete the Goal '{{ goal.name }}'?" confirm-okay="deleteGoal(sprint)"  class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete Goal"><i class="fa fa-trash-o fa-fw"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

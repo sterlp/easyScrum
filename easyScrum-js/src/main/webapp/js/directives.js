@@ -294,7 +294,9 @@ angular.module('simpleBurndownChart', []).
                             }
                             // TODO add this code to the simple burndown
                             if (data.burndowns.length > 0) { // check if the first points to the first day
-                                if (data.burndowns[0].date !== data.start) {
+                                    if (data.burndowns[0].date !== data.start
+                                            || data.burndowns[0].hours !== data.plannedHours) {
+                                        // add the start dot into the chart
                                     data.burndowns.unshift({
                                         date: data.start,
                                         hours: data.plannedHours});
@@ -308,8 +310,8 @@ angular.module('simpleBurndownChart', []).
                                 showComments: scope.showComments || true,
                                 dateFormat: "%Y-%m-%d",
                                 width: $(element).parent().width()
-                            }); 
-                        }, 70);
+                                });
+                            }, 200);
                     }
                 }
             }

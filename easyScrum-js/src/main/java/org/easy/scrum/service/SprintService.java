@@ -40,7 +40,6 @@ public class SprintService {
     @Autowired
     private SprintDayDao sprintDayDao;
 
-    
     @RequestMapping(value = "/teams/{teamId}/sprints", method = RequestMethod.GET)
     @ResponseBody
     public List<SprintBE> teamSprints(@PathVariable Long teamId) throws Exception {

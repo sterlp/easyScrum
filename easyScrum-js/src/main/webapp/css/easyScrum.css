@@ -1,3 +1,8 @@
-.easy-day-field {
+.easy-date-column {
     min-width: 110px;
+}
+
+.two-button-column {
+    width: 80px;
+    min-width: 80px;
 }

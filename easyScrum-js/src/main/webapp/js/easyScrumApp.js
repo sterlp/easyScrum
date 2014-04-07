@@ -24,6 +24,7 @@ angular.module('easyScrum', ['ngRoute', 'restangular', 'easyComponents', 'simple
         $routeProvider.when('/home', {templateUrl: 'views/home.html', controller: 'HomeCtrl'});
         $routeProvider.when('/day', {templateUrl: 'views/day.html', controller: 'DayCtrl', reloadOnSearch: false});
         $routeProvider.when('/sprints', {templateUrl: 'views/sprints.html', controller: 'SprintsCtrl'});
-        $routeProvider.when('/teams', {templateUrl: 'views/teams.html', controller: 'TeamsCtrl'});
+                $routeProvider.when('/teams', {templateUrl: 'views/teams.html', controller: 'TeamsCtrl'});
+                $routeProvider.when('/goals', {templateUrl: 'views/goals.html', controller: 'GoalCtrl'});
         $routeProvider.otherwise({redirectTo: '/home'});
     }]);

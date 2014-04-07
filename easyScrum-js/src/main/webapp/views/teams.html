@@ -28,8 +28,8 @@ limitations under the License.
             <input type="text" class="form-control" placeholder="Search Team" ng-model="teamQuery">
             <span class="input-group-btn">
                 <button class="btn btn-default easy-tooltip" title="Search" type="button" ><i class="fa fa-search"></i></button>
-                <button ng-disabled="network.busy" class="btn btn-default easy-tooltip" type="button" title="Refresh" ng-click="refresh()" ><i class="fa fa-refresh" ng-class="{'fa-spin': network.busy}"></i></button>
-                <button type="button" class="btn btn-default" ng-click="newTeam()">Add Team</button>
+                <button ng-disabled="network.busy" class="btn btn-default easy-tooltip" type="button" title="Refresh" ng-click="reloadTeams()" ><i class="fa fa-refresh" ng-class="{'fa-spin': network.busy}"></i></button>
+                <button type="button" class="btn btn-default" ng-click="createTeam()">Add Team</button>
             </span>
         </div>
 
@@ -40,12 +40,12 @@ limitations under the License.
                 </tr>
             </thead>
             <tr ng-repeat="team in teams | filter:teamQuery">
-                <td>{{ team.name}}</td>
-                <td>
+                <td>{{ team.name }}</td>
+                <td class="two-button-column">
                     <fieldset ng-disabled="network.busy">
                         <div class="pull-right btn-group">
-                            <button ng-click="edit(team, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit {{ team.name}}"><i class="fa fa-edit fa-fw"></i></button>
-                            <button easy-confirm-click="Do you really want to delete the Team {{ team.name }} and all data?" confirm-okay="delete(team, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete {{ team.name}}"><i class="fa fa-trash-o fa-fw"></i></button>
+                            <button ng-click="editTeam(team, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit {{ team.name}}"><i class="fa fa-edit fa-fw"></i></button>
+                            <button easy-confirm-click="Do you really want to delete the Team {{ team.name }} and all data?" confirm-okay="deleteTeam(team)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete {{ team.name}}"><i class="fa fa-trash-o fa-fw"></i></button>
                         </div>
                     </fieldset>
                 </td>
@@ -53,8 +53,8 @@ limitations under the License.
         </table>
     </div>
 
-    <div data-easy-dialog show="showTeamDialog" header="{{ editHeader }}">
-        <form class="form-horizontal" role="form" ng-submit="dialogClose('submit')" >
+    <div data-easy-dialog show="showTeamDialog" header="{{ editTeamHeader }}">
+        <form class="form-horizontal" role="form" ng-submit="closeTeamDialog('submit')" >
             <div class="form-group">
                 <label for="teamName" class="col-sm-2 control-label">Team&nbsp;Name</label>
                 <div class="col-sm-10">
@@ -63,7 +63,7 @@ limitations under the License.
             </div>
             <hr>
             <button type="submit" class="btn btn-primary">Okay</button>
-            <button ng-click="dialogClose('cancel')" type="button" class="btn btn-default">Close</button>
+            <button ng-click="closeTeamDialog('cancel')" type="button" class="btn btn-default">Close</button>
         </form>
     </div>
 </div>

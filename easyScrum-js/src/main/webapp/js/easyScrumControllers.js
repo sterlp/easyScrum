@@ -21,44 +21,48 @@ function TopNavCtrl($scope) {
 function HomeCtrl($scope) {
 }
 
+function GoalCtrl($scope, Restangular) {
+    $scope.restGoals = Restangular.all('goals');
+    $scope.goals = $scope.restGoals.getList().$object;
+}
+
 /**
  * Team Page Controller
  */
-function TeamsCtrl($scope, $timeout, Restangular) {
-    var restTeams = Restangular.all('teams'),
-        addMode = false;
-    $scope.refresh = function () {
-        restTeams.getList().then(function(teams) {
-            $scope.teams = teams;
-        });
+function TeamsCtrl($scope, Restangular) {
+    $scope.restTeams = Restangular.all('teams');
+    $scope.addNewTeam = false;
+    $scope.showTeamDialog = false;
+    $scope.reloadTeams = function() {
+        $scope.teams = $scope.restTeams.getList().$object;
     };
-    $scope.delete = function (team, index) {
-        team.remove().then($scope.refresh);
+    $scope.deleteTeam = function(team, index) {
+        team.remove().then($scope.reloadTeams);
     };
-    $scope.edit = function(team) {
-        addMode = false;
-        $scope.editHeader = "Edit Team: '" + team.name + "'";
+    $scope.editTeam = function(team) {
+        $scope.addNewTeam = false;
+        $scope.editTeamHeader = "Edit Team: '" + team.name + "'";
         $scope.team = team;
         $scope.showTeamDialog = true;
     };
-    $scope.newTeam = function() {
-        addMode = true;
-        $scope.editHeader = "Create new Team";
+    $scope.createTeam = function() {
+        $scope.addNewTeam = true;
+        $scope.editTeamHeader = "Create new Team";
         $scope.team = {};
         $scope.showTeamDialog = true;
     };
-    $scope.dialogClose = function(status) {
+    $scope.closeTeamDialog = function(status) {
         $scope.showTeamDialog = false;
         if ($scope.team && status === 'submit') {
-            if (addMode) {
-                restTeams.post($scope.team).then($scope.refresh); // create reload
+            if ($scope.addNewTeam) {
+                $scope.restTeams.post($scope.team).then($scope.reloadTeams); // create reload
             } else {
-                $scope.team.put().then($scope.refresh); // "update" and reload
+                $scope.team.put().then($scope.reloadTeams); // "update" and reload
             }
         }
         $scope.team = null; // done
     };
-    $scope.refresh(); // load the initial data
+    $scope.reloadTeams(); // load the initial data
 }
 
 function SprintsCtrl($scope, $filter, Restangular, $routeParams, $location) {
@@ -162,7 +166,8 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
                         workDays: 0,
                         totalDays: 0,
                         hoursRemaining: hoursRemaining,
-                        passedDays: 0
+                        passedDays: 0,
+                        sprint: $scope.sprint
                     };
 
                 for (var i = days.length - 1; i >= 0; --i) {

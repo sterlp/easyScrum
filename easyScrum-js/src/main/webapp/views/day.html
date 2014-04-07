@@ -74,7 +74,7 @@ limitations under the License.
     </div>
 </div>
 <!-- burn down chart -->
-<div class="row">
+<div class="row" ng-if="days.length > 0">
     <div class="col-lg-8">
         <div class="panel panel-default">
             <div class="panel-body">
@@ -102,9 +102,31 @@ limitations under the License.
                             <td class="text-right">{{ burnDownData.totalAdded / burnDownData.hoursRemaining | percent }}</td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="text-right">{{ burnDownData.totalDone / burnDownData.plannedHours | percent }}</td>
+                            <td colspan="2" class="text-right">{{ burnDownData.hoursRemaining / burnDownData.plannedHours | percent }}</td>
                             <td colspan="2" class="text-right">{{ burnDownData.totalAdded / burnDownData.totalDone | percent }}</td>
                             <td class="text-right">{{ burnDownData.totalAdded / burnDownData.plannedHours | percent }}</td>
+                        </tr>
+                        <tr><td colspan="5"></td></tr>
+                        <tr>
+                            <td colspan="4">Story Points</td>
+                            <td>{{ burnDownData.sprint.storyPoints }} </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">Planned Hours / Story Points</td>
+                            <td>{{ burnDownData.plannedHours / burnDownData.sprint.storyPoints | number:0 }} </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">Done Hours / Story Points</td>
+                            <td>{{ burnDownData.totalDone / burnDownData.sprint.storyPoints | number:0 }} </td>
+                        </tr>
+                        <tr><td colspan="5"></td></tr>
+                        <tr>
+                            <td colspan="4">Planned Burndown</td>
+                            <td>{{ burnDownData.plannedHours / burnDownData.totalDays | number:0 }} </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">Current Burndown</td>
+                            <td>{{ burnDownData.totalDone / burnDownData.passedDays | number:0 }} </td>
                         </tr>
                     </table>
                 </div>
@@ -139,12 +161,12 @@ limitations under the License.
                         </tr>
                     </thead>
                     <tr ng-repeat="day in days | filter:dayQuery">
-                        <td class="easy-day-field">{{ day.day | date }}</td>
+                        <td class="easy-date-column">{{ day.day | date }}</td>
                         <td>{{ day.burnDown }}</td>
                         <td>{{ day.comment }}</td>
                         <td>{{ day.upscaling }}</td>
                         <td>{{ day.reasonForUpscaling }}</td>
-                        <td style="width: 80px">
+                        <td class="two-button-column">
                             <div class="pull-right btn-group">
                                 <button ng-click="editDay(day, $index)" class="btn btn-default btn-xs easy-tooltip" type="button" title="Edit Day {{ day.date}}"><i class="fa fa-edit fa-fw"></i></button>
                                 <button easy-confirm-click="Do you really want to delete the day: {{ day.day | date }}?" confirm-okay="deleteDay(day)"  class="btn btn-default btn-xs easy-tooltip" type="button" title="Delete Day {{ day.date}}"><i class="fa fa-trash-o fa-fw"></i></button>
