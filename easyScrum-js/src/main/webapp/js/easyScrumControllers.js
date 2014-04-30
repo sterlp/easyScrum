@@ -110,7 +110,7 @@ function SprintsCtrl($scope, $filter, Restangular, $routeParams, $location) {
         $scope.showSprintDialog = true;
     };
     $scope.editSprint = function(sprint) {
-        $scope.sprint = sprint;
+        $scope.sprint = angular.copy(sprint);
         $scope.sprintDialogHeader = "Edit Sprint: " + sprint.name;
         $scope.createNewSprint = false;
         $scope.showSprintDialog = true;
@@ -120,19 +120,18 @@ function SprintsCtrl($scope, $filter, Restangular, $routeParams, $location) {
     };
     $scope.submitSprintDialog = function(action) {
         if (action === 'submit') {
-            if ($scope.createNewSprint) {
+            if ($scope.createNewSprint) { // add
                 $scope.sprints.post($scope.sprint).then(function(savedSprint) {
                     $scope.loadTeamSprints();
                     $scope.showSprintDialog = false;
                 });
-            } else {
+            } else { // update
                 $scope.sprint.put().then(function() {
                     $scope.loadTeamSprints();
                     $scope.showSprintDialog = false;
                 });
             }
         } else {
-            $scope.loadTeamSprints();
             $scope.showSprintDialog = false;
         }
     };
@@ -151,7 +150,7 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
         if ($scope.sprint) $scope.sprint.all('days').getList().then(function(days) {
             $scope.days = days;
             // build burndown
-            if (days && days.length > 0) {
+            if (days) {
                 var sprint = $scope.sprint,
                     day = null,
                     hoursRemaining = sprint.plannedHours,
@@ -214,13 +213,16 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
     $scope.$watch('sprint', $scope.loadSprintDays);
     
     $scope.addDay = function() {
-        $scope.day = {sprint: Restangular.stripRestangular($scope.sprint.clone()), day: $filter('date')(new Date(), 'yyyy-MM-dd'), burnDown: 0, upscaling: 0};
+        var newDate = new Date();
+        if ($scope.days && $scope.days.length > 0) newDate = new Date($scope.days[0].day).addDays(1, true);
+        $scope.day = {sprint: Restangular.stripRestangular($scope.sprint.clone()), 
+            day: $filter('date')(newDate, 'yyyy-MM-dd'), burnDown: 0, upscaling: 0};
         $scope.dialogHeader = "Add Day to Sprint: " + $scope.sprint.name;
         $scope.createNewDay = true;
         $scope.showDayDialog = true;
     };
     $scope.editDay = function(day) {
-        $scope.day = day;
+        $scope.day = angular.copy(day);
         $scope.dialogHeader = "Edit Sprint Day: " + day.day;
         $scope.createNewDay = false;
         $scope.showDayDialog = true;
@@ -243,7 +245,6 @@ function DayCtrl($scope, $filter, Restangular, $routeParams, $location) {
                 });
             }
         } else {
-            $scope.loadSprintDays();
             $scope.showDayDialog = false;
         }
     };

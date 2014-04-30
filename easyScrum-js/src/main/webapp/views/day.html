@@ -74,10 +74,10 @@ limitations under the License.
     </div>
 </div>
 <!-- burn down chart -->
-<div class="row" ng-if="days.length > 0">
+<div class="row">
     <div class="col-lg-8">
         <div class="panel panel-default">
-            <div class="panel-body">
+            <div class="panel-body" ng-if="days.length > 0">
                 <easy-burndown ng-model="burnDownData"></easy-burndown>
             </div>
         </div>

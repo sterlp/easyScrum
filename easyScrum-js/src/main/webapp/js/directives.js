@@ -31,6 +31,30 @@ $.fn.setCursorEnd = function(pos) {
     });
     return this;
 };
+// http://stackoverflow.com/questions/563406/add-days-to-datetime
+/**
+ * Adds days to the given date.
+ * @param {type} days how many days to add
+ * @param {type} skipWeekend if true skips sun and saturday
+ * @returns {Date|Date.prototype.addDays.dat}
+ */
+Date.prototype.addDays = function(days, skipWeekend) {
+    var dat = new Date(this.valueOf());
+    dat.setDate(dat.getDate() + days);
+    if (skipWeekend === true && dat.isWeekend()) {
+        dat.setDate(dat.getDate() + 1);
+        if (dat.isWeekend()) dat.setDate(dat.getDate() + 1);
+    }
+    return dat;
+};
+/**
+ * Checks of the given date is a weekend
+ * @returns {Boolean} true if Sunday or Saturday
+ */
+Date.prototype.isWeekend = function() {
+    return this.getDay() === 6 || this.getDay() === 0;
+};
+
 
 // TODO replace most of the own directives with either:
 // http://mgcrea.github.io/angular-strap/
