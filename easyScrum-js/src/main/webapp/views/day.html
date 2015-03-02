@@ -113,20 +113,20 @@ limitations under the License.
                         </tr>
                         <tr>
                             <td colspan="4">Planned Hours / Story Points</td>
-                            <td>{{ burnDownData.plannedHours / burnDownData.sprint.storyPoints | number:0 }} </td>
+                            <td>{{ burnDownData.plannedHours / burnDownData.sprint.storyPoints | number:2 }} </td>
                         </tr>
                         <tr>
                             <td colspan="4">Done Hours / Story Points</td>
-                            <td>{{ burnDownData.totalDone / burnDownData.sprint.storyPoints | number:0 }} </td>
+                            <td>{{ burnDownData.totalDone / burnDownData.sprint.storyPoints | number:2 }} </td>
                         </tr>
                         <tr><td colspan="5"></td></tr>
                         <tr>
                             <td colspan="4">Planned Burndown</td>
-                            <td>{{ burnDownData.plannedHours / burnDownData.totalDays | number:0 }} </td>
+                            <td>{{ burnDownData.plannedHours / burnDownData.totalDays | number:2 }} </td>
                         </tr>
                         <tr>
                             <td colspan="4">Current Burndown</td>
-                            <td>{{ burnDownData.totalDone / burnDownData.passedDays | number:0 }} </td>
+                            <td>{{ burnDownData.totalDone / burnDownData.passedDays | number:2 }} </td>
                         </tr>
                     </table>
                 </div>

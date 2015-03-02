@@ -52,7 +52,7 @@
                     value="#{bundle.Save}"
                     actionListener="#{dailyController.sprintDays.add}" 
                     update=":createDayForm,#{update}"
-                    oncomplete="if (!args.validationFailed) createDayDialog.hide(); else createDayDialog.show();"
+                    oncomplete="hideDialog(args, PF('createDayDialog'));"
                 />
         </p:dialog>
     </h:form>

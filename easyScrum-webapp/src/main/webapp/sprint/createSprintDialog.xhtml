@@ -15,7 +15,7 @@
             <p:commandButton action="#{sprintController.sprintModel.add}" 
                 value="#{bundle.Add}"
                 update=":createSprintForm,#{update}" 
-                oncomplete="if (!args.validationFailed) createSprintDialog.hide(); else createSprintDialog.show();"
+                oncomplete="hideDialog(args, PF('createSprintDialog'));"
             />
         </p:dialog>
     </h:form>

@@ -7,7 +7,8 @@ function hideTableDelete() {
 }
 
 function hideDialog(args, dialog) {
-    console.log("hideDialog... " + dialog);
+    if (!args) throw 'Missing stats args, cannot determine what to do...';
+    if (!dialog) throw 'Dialog not given, cannot hide it...';
     if (!args.validationFailed) dialog.hide(); else dialog.show();
 }
 

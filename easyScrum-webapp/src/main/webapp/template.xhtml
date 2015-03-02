@@ -11,10 +11,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><ui:insert name="title">#{bundle.name}</ui:insert></title>
         <h:outputStylesheet name="css/base.css" />
+        <h:outputStylesheet name="css/scrollbars.css" />
         <h:outputScript library="script" name="custom.js" />
     </h:head>
 
     <h:body styleClass="easy-scrum-body">
+        <!-- global confirm dialog gConfirm -->
+        <p:confirmDialog global="true" hideEffect="drop" showEffect="drop" widgetVar="gConfirm">
+            <p:commandButton value="#{bundle.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="#{bundle.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        
         <p:layout fullPage="true">
             <p:layoutUnit position="north" styleClass="easy-head">
                 <h:form id="topMenuForm">

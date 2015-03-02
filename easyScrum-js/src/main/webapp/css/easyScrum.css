@@ -6,3 +6,7 @@
     width: 80px;
     min-width: 80px;
 }
+
+.no-margin {
+    margin: 0px;
+}

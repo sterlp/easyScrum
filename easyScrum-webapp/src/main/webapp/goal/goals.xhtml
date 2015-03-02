@@ -57,7 +57,7 @@
                         <h:panelGrid columns="2">
                             <p:editor id="goalDescription" value="#{goalController.goalModel.selected.description}"></p:editor>
                             <p:message for="goalDescription" />
-                            <p:watermark forElement="goalDescription" value="#{bundle.goal_description}"/>
+                            <p:watermark for="goalDescription" value="#{bundle.goal_description}"/>
                         </h:panelGrid>
                         
                     </h:panelGrid>
@@ -65,13 +65,13 @@
                             value="#{bundle.Save}"
                             actionListener="#{goalController.goalModel.addOrUpdateSelected}" 
                             update=":goalsList,:createUpdateGoalForm"
-                            oncomplete="hideDialog(args, createUpdateGoalDialog);"
+                            oncomplete="hideDialog(args, PF('createUpdateGoalDialog'));"
                         />
                         <p:commandButton id="cmdCancel" immediate="true"
                                          value="#{bundle.cancel}"
                                          actionListener="#{goalController.goalModel.realod}" 
                                          update=":goalsList"
-                                         oncomplete="createUpdateGoalDialog.hide()"
+                                         oncomplete="PF('createUpdateGoalDialog').hide()"
                         />
                 </p:dialog>
             </h:form>
@@ -83,9 +83,9 @@
                             <f:param value="#{goalController.goalModel.selected.name}" />
                         </h:outputFormat>
                     </f:facet>
-                    <p:commandButton value="#{bundle.yes}" update=":goalsList" oncomplete="hideDialog(args, confirmDeleteGoalDialog);"  
+                    <p:commandButton value="#{bundle.yes}" update=":goalsList" oncomplete="hideDialog(args, PF('confirmDeleteGoalDialog'));"  
                                      action="#{goalController.goalModel.deleteSelected()}" />  
-                    <p:commandButton value="#{bundle.no}" onclick="confirmDeleteGoalDialog.hide();" />
+                    <p:commandButton value="#{bundle.no}" onclick="PF('confirmDeleteGoalDialog').hide();" />
                 </p:confirmDialog>
             </h:form>
             
@@ -114,13 +114,13 @@
                                      value="#{bundle.Save}"
                                      actionListener="#{goalController.saveGoalViolation}" 
                                      update=":goalsList,:violationDialogForm"
-                                     oncomplete="hideDialog(args, createViolationDialog);"
+                                     oncomplete="hideDialog(args, PF('createViolationDialog'));"
                     />
                     <p:commandButton id="cmdCancel" immediate="true"
                                      value="#{bundle.cancel}"
                                      actionListener="#{goalController.goalModel.realod}" 
                                      update=":goalsList"
-                                     oncomplete="createViolationDialog.hide()"
+                                     oncomplete="PF('createViolationDialog').hide()"
                     />
                 </p:dialog>
             </h:form>
@@ -157,7 +157,7 @@
                     <p:commandButton id="cmdClose" immediate="true"
                                      process="@none"
                                      value="#{bundle.Close}"
-                                     oncomplete="listViolationDialog.hide()"
+                                     oncomplete="PF('listViolationDialog').hide()"
                     />
                 </p:dialog>
             </h:form>
@@ -183,7 +183,7 @@
                                        partialSubmit="true"
                                        process="@this"
                                        styleClass="easy-edit" 
-                                       title="#{bundle.goal_violation_show_action}" oncomplete="listViolationDialog.show();"
+                                       title="#{bundle.goal_violation_show_action}" oncomplete="PF('listViolationDialog').show();"
                                        action="#{goalController.loadViolations(goal)}" 
                                        update=":violationListForm" />
                     </p:column>
@@ -220,7 +220,7 @@
                             </p:commandLink>
                             <p:commandLink styleClass="easy-add" title="#{bundle.goal_add_goal}"
                                            action="#{goalController.goalModel.newSelectedForAdd}"
-                                           oncomplete="createUpdateGoalDialog.show();"
+                                           oncomplete="PF('createUpdateGoalDialog').show();"
                                            update=":createUpdateGoalForm">
                             </p:commandLink>
                         </f:facet>
@@ -229,7 +229,7 @@
                                        partialSubmit="true"
                                        process="@this"
                                        styleClass="easy-add" 
-                                       title="#{bundle.goal_add_violation} #{goal.name}" oncomplete="createViolationDialog.show();"
+                                       title="#{bundle.goal_add_violation} #{goal.name}" oncomplete="PF('createViolationDialog').show();"
                                        action="#{goalController.addGoalViolation(goal)}" 
                                        update=":violationDialogForm" />
                         
@@ -237,7 +237,7 @@
                                        partialSubmit="true"
                                        process="@this"
                                        styleClass="easy-edit" 
-                                       title="#{bundle.Edit} #{goal.name}" oncomplete="createUpdateGoalDialog.show();"
+                                       title="#{bundle.Edit} #{goal.name}" oncomplete="PF('createUpdateGoalDialog').show();"
                                        action="#{goalController.goalModel.setSelected(goal)}" 
                                        update=":createUpdateGoalForm" />
                         
@@ -245,7 +245,7 @@
                                        partialSubmit="true"
                                        process="@this"
                                        styleClass="easy-remove" 
-                                       title="#{bundle.Delete} #{goal.name}" oncomplete="confirmDeleteGoalDialog.show();"
+                                       title="#{bundle.Delete} #{goal.name}" oncomplete="PF('confirmDeleteGoalDialog').show();"
                                        action="#{goalController.goalModel.setSelected(goal)}" 
                                        update=":confirmDialogForm" />
                     </p:column>

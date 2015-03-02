@@ -24,18 +24,16 @@ limitations under the License.
         <!-- show any server errors etc. like the JSF messages -->
         <div class="easy-messages"></div>
     
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <!-- Team  Select -->
-                <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Team</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" ng-disabled="teams.length === 0" ng-model="team" ng-options="team.name for team in teams"></select>
-                        </div>
+        <div class="easy-panel">
+            <!-- Team  Select -->
+            <form class="form-horizontal" role="form">
+                <div class="form-group no-margin">
+                    <label class="col-sm-2 control-label">Team</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" ng-disabled="teams.length === 0" ng-model="team" ng-options="team.name for team in teams"></select>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

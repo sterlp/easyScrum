@@ -22,9 +22,9 @@
                             <f:param value="#{sprintController.sprintModel.team.name}" />
                         </h:outputFormat>
                     </f:facet>
-                    <p:commandButton value="#{bundle.yes}"  update=":tableForm" oncomplete="hideDialog(args, confirmSprintDelete);"  
+                    <p:commandButton value="#{bundle.yes}"  update=":tableForm" oncomplete="hideDialog(args, PF('confirmSprintDelete'));"  
                                      action="#{sprintController.sprintModel.deleteSelected()}" />  
-                    <p:commandButton partialSubmit="true" process="@none" value="#{bundle.no}" onclick="confirmSprintDelete.hide();" />
+                    <p:commandButton partialSubmit="true" process="@none" value="#{bundle.no}" onclick="PF('confirmSprintDelete').hide();" />
                 </p:confirmDialog>
             </h:form>
         </ui:define>
@@ -43,7 +43,7 @@
                         <p:commandButton update=":createSprintForm"
                                          partialSubmit="true"
                                          process="@this"
-                                         value="#{bundle.sprint_add}" oncomplete="createSprintDialog.show();"
+                                         value="#{bundle.sprint_add}" oncomplete="PF('createSprintDialog').show();"
                                          action="#{sprintController.sprintModel.beforeAdd}" />
                     </h:panelGrid>
                 </h:form>
@@ -142,7 +142,7 @@
                                 update=":createSprintForm"
                                 partialSubmit="true"
                                 process="@this"
-                                oncomplete="createSprintDialog.show();"
+                                oncomplete="PF('createSprintDialog').show();"
                                 action="#{sprintController.sprintModel.beforeAdd}"
                                 title="#{bundle.team_add}"/>
                         </f:facet>
@@ -151,14 +151,14 @@
                                        action="#{sprintController.sprintModel.copy(sprint)}"
                                        update=":createSprintForm"
                                        process="@this"
-                                       oncomplete="createSprintDialog.show();"
+                                       oncomplete="PF('createSprintDialog').show();"
                                        title="#{bundle.Copy} #{sprint.name}"/>
 
                         <p:commandLink 
                             update=":confirmSprintDeleteForm"
                             partialSubmit="true"
                             process="@this"
-                            styleClass="easy-remove" oncomplete="confirmSprintDelete.show();"
+                            styleClass="easy-remove" oncomplete="PF('confirmSprintDelete').show();"
                             actionListener="#{sprintController.sprintModel.setSelected(sprint)}" 
                             title="#{bundle.Delete} #{sprint.name}" />
                     </p:column>

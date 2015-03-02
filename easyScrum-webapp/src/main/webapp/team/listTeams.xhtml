@@ -18,16 +18,16 @@
             </h:form>
             
             <h:form id="confirmDialogForm">
-                <p:confirmDialog id="confirmDeleteTeamDialog"
+                <p:confirmDialog id="confirmDeleteTeamDialog" showEffect="clip"
                                  header="#{bundle.team_delete_caption}" widgetVar="confirmDialog" severity="question" >
                     <f:facet name="message">
                         <h:outputFormat value="#{bundle.team_delete_text}" escape="false">
                             <f:param value="#{teamController.teamModel.selected.name}" />
                         </h:outputFormat>
                     </f:facet>
-                    <p:commandButton value="#{bundle.yes}" update=":teamListForm" oncomplete="hideDialog(args, confirmDialog);"  
+                    <p:commandButton value="#{bundle.yes}" update=":teamListForm" oncomplete="hideDialog(args, PF('confirmDialog'));"  
                                      action="#{teamController.teamModel.deleteSelected()}" />  
-                    <p:commandButton value="#{bundle.no}" onclick="confirmDialog.hide();" />
+                    <p:commandButton value="#{bundle.no}" onclick="PF('confirmDialog').hide();" />
                 </p:confirmDialog>
             </h:form>
         </ui:define>
@@ -61,7 +61,7 @@
                                            action="#{teamController.teamModel.realod}" update=":teamListForm">
                                 <!-- <div class="easy-reload"></div> -->
                             </p:commandLink>
-                            <a onclick="createTeamDialog.show();" class="easy-add" title="#{bundle.team_add}"></a>
+                            <a onclick="PF('createTeamDialog').show();" class="easy-add" title="#{bundle.team_add}"></a>
                         </f:facet>
                         
                         <p:rowEditor>
@@ -70,7 +70,7 @@
                                        partialSubmit="true"
                                        process="@this"
                                        styleClass="easy-remove" 
-                                       title="#{bundle.Delete} #{team.name}" oncomplete="confirmDialog.show();"
+                                       title="#{bundle.Delete} #{team.name}" oncomplete="PF('confirmDialog').show();"
                                        action="#{teamController.teamModel.setSelected(team)}" 
                                        update=":confirmDialogForm">
                         </p:commandLink>

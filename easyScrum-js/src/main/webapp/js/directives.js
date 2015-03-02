@@ -235,8 +235,8 @@ angular.module('easyComponents', [])
     directive('easyDate', function() {
         return {
             restrict: 'AC',
-                repalce: false,
-                require: '?ngModel',
+            repalce: false,
+            require: '?ngModel',
             scope: {
                 startDate: "@", // string
                 endDate: "@" // string
@@ -270,6 +270,13 @@ angular.module('easyComponents', [])
     filter('percent', function($filter) {
         return function(input) {
                 return $filter('number')(parseFloat(input) * 100, 2) + "%";
+        };
+    }).
+    directive('easyPanel', function() {
+        return {
+            restrict: 'EAC',
+            transclude: true,
+            templateUrl: 'directive/panel.html'
         };
     });
     

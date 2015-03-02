@@ -23,17 +23,19 @@
                                 #{bundle.sprint}: <h:outputText value="#{overview.sprint.name}" />
                             </h:panelGrid>
                         </f:facet>
-                        <h:panelGrid columns="2">
-                            <easy3djs:burndown graphData="#{overview.burnDown}" 
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-8">
+                                <easy3djs:burndown graphData="#{overview.burnDown}" 
                                                height="#{configController.userConfig.burnDownHeight}" 
                                                width="#{configController.userConfig.burnDownWidth}">
-                            </easy3djs:burndown>
-                            <p:panel header="#{bundle.sprint_details}" toggleable="true">
+                                </easy3djs:burndown>
+                            </div>
+                            <div class="ui-grid-col-4">
                                 <ui:include src="/sprint/sprintDetails.xhtml" >
                                     <ui:param name="overview" value="#{overview}" />
                                 </ui:include>
-                            </p:panel>
-                        </h:panelGrid>
+                            </div>
+                        </div>
                     </p:tab>
                 </p:accordionPanel>
             </h:form>

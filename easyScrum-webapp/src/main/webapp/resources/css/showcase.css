@@ -1,0 +1,268 @@
+/*
+Copyright 2015 sterlp.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+/* 
+    Created on : 01.03.2015, 17:43:00
+    Author     : sterlp
+*/
+
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'exosemibold';
+    src: url("#{resource['main/fonts/exo-semibold-webfont.eot']}");
+    src: url("#{resource['main/fonts/exo-semibold-webfont.eot?#iefix']}") format('embedded-opentype'),
+         url("#{resource['main/fonts/exo-semibold-webfont.woff']}") format('woff'),
+         url("#{resource['main/fonts/exo-semibold-webfont.ttf']}") format('truetype'),
+         url("#{resource['main/fonts/exo-semibold-webfont.svg#exosemibold']}") format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'exobolditalic';
+    src: url("#{resource['main/fonts/exo-bolditalic-webfont.eot']}");
+    src: url("#{resource['main/fonts/exo-bolditalic-webfont.eot?#iefix']}") format('embedded-opentype'),
+         url("#{resource['main/fonts/exo-bolditalic-webfont.woff']}") format('woff'),
+         url("#{resource['main/fonts/exo-bolditalic-webfont.ttf']}") format('truetype'),
+         url("#{resource['main/fonts/exo-bolditalic-webfont.svg#exobolditalic']}") format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'exomedium';
+    src: url("#{resource['main/fonts/exo-medium-webfont.eot']}");
+    src: url("#{resource['main/fonts/exo-medium-webfont.eot?#iefix']}") format('embedded-opentype'),
+         url("#{resource['main/fonts/exo-medium-webfont.woff']}") format('woff'),
+         url("#{resource['main/fonts/exo-medium-webfont.ttf']}") format('truetype'),
+         url("#{resource['main/fonts/exo-medium-webfont.svg#exomedium']}") format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'exoregular';
+    src: url("#{resource['main/fonts/exo-regular-webfont.eot']}");
+    src: url("#{resource['main/fonts/exo-regular-webfont.eot?#iefix']}") format('embedded-opentype'),
+         url("#{resource['main/fonts/exo-regular-webfont.woff']}") format('woff'),
+         url("#{resource['main/fonts/exo-regular-webfont.ttf']}") format('truetype'),
+         url("#{resource['main/fonts/exo-regular-webfont.svg#exoregular']}") format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/*  ----------------------------------------------------------------------------------------------------- */
+
+body{margin:0px; height:100%; overflow-x:hidden; overflow-y:auto; font-family: 'exoregular', "Trebuchet MS", Arial, Helvetica, sans-serif;}
+
+	
+/** ThemeSwitcher **/
+.navOverlay{width:200px; max-height:400px; overflow-y:auto; background-color:#eff3f6; border:solid 1px #bcc7cf; z-index:99999999999; position: absolute; 
+				border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px; -webkit-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.2); -moz-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.2); 
+				box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.2); margin-left:-60px; display: none;}
+					.navOverlay a{display:block; padding:10px; border-bottom:solid 1px #bcc7cf; text-align:left; color:#87939B; overflow:hidden;}
+					.navOverlay a:hover{ color:#fdd106;}
+						.navOverlay a span.ui-theme{width:30px; height:27px; float:left; border:solid 1px #D7DCE0; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
+						.navOverlay a span.ui-text{ display:inline-block; margin-top:7px; margin-left:10px; font-size: 14px;}
+/* cursor */
+.cursorPointer{cursor:pointer;}
+	
+/* OTHERS */
+a{ text-decoration:none; outline:none;color: #25AAE1}
+.dispBlock{display:block !important;}
+.TextShadow{text-shadow: 0 1px 0 #ffffff}
+.TextShadowNone{text-shadow:none;}
+.underline{ text-decoration:underline;}
+.fontSize34{font-size:34px;}
+.fontSize30{font-size:30px;}
+.fontSize24{font-size:24px;}
+.fontSize21{font-size:21px;}
+.fontSize18{font-size:18px;}
+.fontSize14{font-size:14px;}
+.ContentX{width:95% !important; margin-bottom:30px; text-align:center; -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; -o-transition: all 0.5s ease; 
+		  transition: all 0.5s ease;}
+	.ContentX .defaultText{font-size:16px;}
+	.ContentX .defaultTopic{font-size:34px; line-height:36px; text-align:center;}
+	.ContentX .PropertyBox{height:220px;}
+	.ContentX .PropertyBox .PropertyTopic{font-size:14px;}
+	.ContentX .PropertyBox .PropertyText{font-size:12px;}
+.PFTopLinksCover{padding-top:130px !important; height:auto !important; min-height:60px !important; text-align:left !important;  -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; 
+				-ms-transition: all 0.5s ease; -o-transition: all 0.5s ease; transition: all 0.5s ease;}
+	.PFTopLinksCover .PFTopLinks{float:left !important; margin-top:0px;  -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; -o-transition: all 0.5s ease;
+								 transition: all 0.5s ease;}
+							
+.wid50{width:50px;}
+							
+.texAliCenter{text-align:center;}
+
+/* margins */
+.marginRight10{margin-right:10px;}
+.marginRight20{margin-right:20px;}
+.marginBottom20{margin-bottom:20px;}
+.marLefRigAuto{ margin-left:auto !important; margin-right:auto !important;}
+
+/*fonts*/
+.boldFont{font-family: 'exosemibold', "Trebuchet MS", Arial, Helvetica, sans-serif;}
+.boldItalicFont{font-family: 'exobolditalic', "Trebuchet MS", Arial, Helvetica, sans-serif;}
+.mediumFont{font-family: 'exomedium', "Trebuchet MS", Arial, Helvetica, sans-serif;}
+.regularFont{font-family: 'exoregular', "Trebuchet MS", Arial, Helvetica, sans-serif;}
+
+.bordersOfMenuSide{border-top:solid 1px #404a4e;}
+.hiddenIcons{opacity:0; filter:alpha(opacity=0);margin-left:-30px}
+.hiddenLogo{opacity:0; filter:alpha(opacity=0);margin-left:-62px}
+.emptyBox{display:block; height:121px;}
+
+/* display */
+.dispBlock{ display:block;}
+.dispTable{ display:table;}
+.overHidden{ overflow:hidden;}
+
+/* floating */
+.floatRight{float:right;}
+.floatLeft{float:left;}
+
+/* content boxes*/
+.Content33{width:33%; }
+.Content66{width:65%; background-position:left top; background-repeat:no-repeat;}
+.Content100{width:100%;}
+
+/* general text styles */
+.defaultText{font-size:18px; color:#84939f;}
+.defaultTopic{font-size:46px; color:#e26e60; line-height:46px; padding:10px 0px 10px 0px;}
+
+/* buttons */
+.BigButton{width:90%; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; display:table; font-size:18px; font-family: 'exobolditalic', "Trebuchet MS", Arial, Helvetica, sans-serif; color:#404c51; margin:10px 0px 10px 0px; cursor:pointer;
+padding:20px; border-radius:5px; border-right:solid 60px #404c51;}
+	.BigButton img{ margin-right:-60px; height:23px;}	
+
+.YellowBtn{background-color:#fdd106; -webkit-box-shadow: 0px 2px 0px 0px rgba(231,191,9,1); -moz-box-shadow: 0px 2px 0px 0px rgba(231,191,9,1); box-shadow: 0px 2px 0px 0px rgba(231,191,9,1);}
+.YellowBtn:hover{ background-color:#fcdb42;}
+.OrangeBtn{background-color:#fba751; -webkit-box-shadow: 0px 2px 0px 0px rgba(212,135,56,1); -moz-box-shadow: 0px 2px 0px 0px rgba(212,135,56,1); box-shadow: 0px 2px 0px 0px rgba(212,135,56,1);}
+.OrangeBtn:hover{ background-color:#feb66d;}
+	
+/* text colors */
+.orange{color:#fca752;}
+.gray{color:#84939f;}
+.pink{color:#e26e61;}
+.yellow{color:#fdd106;}
+.green{color:#39b54a;}
+.blue{color:#25aae1;}
+.subitem{color:#84939f;}
+
+.fixedTop{position:fixed !important; margin-top:0 !important;}
+.animated{-webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; -o-transition: all 0.5s ease; transition: all 0.5s ease;}
+
+input.searchInput {
+    padding-left: 30px;
+}
+
+.ui-tabs .ui-tabs-nav li.tab-doc {
+    float: right
+}
+
+/** ClearFix **/
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfix { display: inline-block; }
+/* required comment for clearfix to work in Opera \*/
+* html .clearfix { height:1%; }
+.clearfix { display:block; }
+
+/* override */
+.ui-widget {
+    font-size: 90%;
+}
+
+.Implementation {
+    background-color:#dfe4e6;
+}
+
+.Implementation h3 {
+    margin-top: 40px;
+}
+
+.SubSubMenu {
+    padding: 15px 30px;
+}
+.SubSubMenu ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.SubSubMenu ul li {
+    list-style: none;
+    width: 20%;
+    float: left;
+}
+
+.SubSubMenu ul li a:hover {
+    color: #fdd106
+}
+
+.Source h3 {
+    margin-top: 0px;
+}
+
+/* Tabs Source */
+.Source .ui-tabs {
+    background: none;
+    border: 0 none;
+}
+
+.Source .ui-tabs .ui-tabs-nav {
+    background: none;
+    margin-bottom: -1px;
+    padding: 0 !important;
+}
+
+.Source .ui-tabs .ui-tabs-nav li {
+    background: #DFE4E6;
+    border-color: #BCC7CF;
+    box-shadow: none !important;
+}
+
+.Source .ui-tabs .ui-tabs-nav li.tab-doc {
+    margin-right: 0;
+}
+
+.Source .ui-tabs .ui-tabs-nav li.ui-state-hover.ui-state-default a {
+    color: #5C666A;
+}
+
+.Source .ui-tabs .ui-tabs-nav li.ui-state-default a {
+    color: #84939F;
+    font-family: 'exoregular', "Trebuchet MS", Arial, Helvetica, sans-serif;
+    text-shadow: none;
+}
+
+.Source .ui-tabs .ui-tabs-nav li.ui-state-active a {
+    color: #5C666A;
+}
+
+.Source .ui-tabs .ui-tabs-nav li.ui-state-hover {
+    box-shadow: none; 
+}
+
+.Source .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+    background: #EFF3F6;
+}
+
+.Source .ui-tabs .ui-tabs-panels {
+    border-top: 1px solid #BCC7CF;
+}
